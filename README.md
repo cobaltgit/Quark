@@ -19,8 +19,8 @@ The following hotkeys will be usable within RetroArch:
 * SELECT + A: take screenshot (saves in `Saves/screenshots`)
 * SELECT + Y: toggle frame rate display
 * SELECT + X: open RA menu
-* SELECT + D-Pad Up: save state in current slot
-* SELECT + D-Pad Down: load state in current slot
+* SELECT + D-Pad Right: save state in current slot
+* SELECT + D-Pad Left: load state in current slot
 
 ## Credits
 
