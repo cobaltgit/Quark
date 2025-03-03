@@ -45,14 +45,8 @@ run_retroarch() {
     RA_DIR="/mnt/SDCARD/RetroArch"
     CORE_PATH="$RA_DIR/.retroarch/cores/${CORE}_libretro.so"
 
-    if $PCSX_SMOOTH; then
-        RA_BIN="ra32.trimui_sdl"
-    else
-        RA_BIN="ra32.trimui"
-    fi
-
     cd "$RA_DIR"
-    HOME="$RA_DIR/" "$RA_DIR/$RA_BIN" -v -L "$CORE_PATH" "$ROM_FILE"
+    HOME="$RA_DIR/" "$RA_DIR/ra32.trimui" -v -L "$CORE_PATH" "$ROM_FILE"
 }
 
 run_port() {
