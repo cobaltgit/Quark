@@ -4,7 +4,7 @@ EMU_DIR="/mnt/SDCARD/Emus"
 
 for EMU in "$EMU_DIR"/*; do
     if [ -d "$EMU" ]; then
-        EXTENSIONS="$(awk -F ':' '/extlist/ {print $2}' "$EMU/config.json" | sed 's/^ \"//;s/\",$//')" # no jq? no problem
+        EXTENSIONS="$(awk -F ':' '/extlist/ {print $2}' "$EMU/config.json" | sed 's/^ \"//;s/\",$//')" # no jq? no problem. might add it later down the line though
         ROM_DIR="$EMU/$(awk -F ':' '/rompath/ {print $2}' "$EMU/config.json" | sed 's/^ \"//;s/\",$//')"
         ROM_COUNT="$(find "$ROM_DIR" -type f -iname "*.*[$EXTENSIONS]" | wc -l)"
         
