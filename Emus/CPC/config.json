@@ -1,0 +1,25 @@
+{
+  "label": "AMSTRAD CPC",
+  "icon": "ic-CPC.png",
+  "launch": "../.emu_setup/launch_emu.sh",
+  "rompath": "../../Roms/CPC",
+  "imgpath": "../../Roms/CPC/Imgs",
+  "useswap": 1,
+  "shortname": 1,
+  "hidebios": 1,
+  "extlist": "dsk|sna|tap|cdt|voc|m3u|cpr|zip",
+  "launchlist": [
+    {
+      "name": "CPU Mode: (✓SMART)-Performance-Overclock",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/cpu_switch.sh"
+    },
+    {
+      "name": "Save per-game override",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/save_override.sh"
+    },
+    {
+      "name": "Remove per-game override",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/del_override.sh"
+    }
+  ]
+}

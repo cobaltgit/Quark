@@ -1,0 +1,25 @@
+{
+  "label": "X68000",
+  "icon": "ic-WSC.png",
+  "launch": "../.emu_setup/launch_emu.sh",
+  "rompath": "../../Roms/X68000",
+  "imgpath": "../../Roms/X68000/Imgs",
+  "useswap": 0,
+  "shortname": 0,
+  "hidebios": 0,
+  "extlist": "dim|img|d88|88d|hdm|dup|2hd|xdf|hdf|cmd|m3u|zip",
+  "launchlist": [
+    {
+      "name": "CPU Mode: (✓SMART)-Performance-Overclock",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/cpu_switch.sh"
+    },
+    {
+      "name": "Save per-game override",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/save_override.sh"
+    },
+    {
+      "name": "Remove per-game override",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/del_override.sh"
+    }
+  ]
+}

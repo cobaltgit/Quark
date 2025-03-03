@@ -1,0 +1,28 @@
+{
+  "label": "GAME BOY",
+  "icon": "ic-GB.png",
+  "iconsmall": "ic-GB-80-n.png",
+  "iconlist": "ic-GB-32-n.png",
+  "background": "bg.png",
+  "launch": "../.emu_setup/launch_emu.sh",
+  "rompath": "../../Roms/GB",
+  "imgpath": "../../Roms/GB/Imgs",
+  "extlist": "gb|gbc|dmg|zip",
+  "useswap": 0,
+  "shortname": 0,
+  "hidebios": 0,
+  "launchlist": [
+    {
+      "name": "CPU Mode: (✓SMART)-Performance-Overclock",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/cpu_switch.sh"
+    },
+    {
+      "name": "Save per-game override",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/save_override.sh"
+    },
+    {
+      "name": "Remove per-game override",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/del_override.sh"
+    }
+  ]
+}

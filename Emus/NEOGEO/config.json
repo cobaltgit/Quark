@@ -1,0 +1,26 @@
+{
+  "label": "NEO GEO",
+  "icon": "ic-NEOGEO.png",
+  "launch": "../.emu_setup/launch_emu.sh",
+  "rompath": "../../Roms/NEOGEO",
+  "imgpath": "../../Roms/NEOGEO/Imgs",
+  "gamelist": "../../Roms/NEOGEO/gamelist.xml",
+  "useswap": 1,
+  "shortname": 1,
+  "hidebios": 1,
+  "extlist": "zip",
+  "launchlist": [
+    {
+      "name": "CPU Mode: (✓SMART)-Performance-Overclock",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/cpu_switch.sh"
+    },
+    {
+      "name": "Save per-game override",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/save_override.sh"
+    },
+    {
+      "name": "Remove per-game override",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/del_override.sh"
+    }
+  ]
+}

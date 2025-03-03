@@ -1,0 +1,25 @@
+{
+  "label": "MAME 2003+",
+  "icon": "ic-mame-plus.png",
+  "launch": "../.emu_setup/launch_emu.sh",
+  "rompath": "../../Roms/MAME2003PLUS",
+  "imgpath": "../../Roms/MAME2003PLUS/Imgs",
+  "useswap": 1,
+  "shortname": 1,
+  "hidebios": 1,
+  "extlist": "zip",
+  "launchlist": [
+    {
+      "name": "CPU Mode: (✓SMART)-Performance-Overclock",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/cpu_switch.sh"
+    },
+    {
+      "name": "Save per-game override",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/save_override.sh"
+    },
+    {
+      "name": "Remove per-game override",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/del_override.sh"
+    }
+  ]
+}

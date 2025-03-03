@@ -1,0 +1,5 @@
+#!/bin/sh
+
+export CORE="fbalpha2012"
+export CPU_MODE="smart"
+export CPU_MIN_FREQ=816000

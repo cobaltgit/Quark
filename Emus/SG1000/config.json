@@ -1,0 +1,25 @@
+{
+  "label": "SG-1000",
+  "icon": "ic-SG1000.png",
+  "launch": "../.emu_setup/launch_emu.sh",
+  "rompath": "../../Roms/SG1000",
+  "imgpath": "../../Roms/SG1000/Imgs",
+  "useswap": 0,
+  "shortname": 0,
+  "hidebios": 0,
+  "extlist": "zip|sms|gg|sg|mv|bin|rom",
+  "launchlist": [
+    {
+      "name": "CPU Mode: (✓SMART)-Performance-Overclock",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/cpu_switch.sh"
+    },
+    {
+      "name": "Save per-game override",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/save_override.sh"
+    },
+    {
+      "name": "Remove per-game override",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/del_override.sh"
+    }
+  ]
+}

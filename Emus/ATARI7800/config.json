@@ -1,0 +1,25 @@
+{
+  "label": "ATARI7800",
+  "icon": "ic-atari7800.png",
+  "launch": "../.emu_setup/launch_emu.sh",
+  "rompath": "../../Roms/ATARI7800",
+  "imgpath": "../../Roms/ATARI7800/Imgs",
+  "extlist": "a78|bin|zip",
+  "useswap": 0,
+  "shortname": 0,
+  "hidebios": 0,
+  "launchlist": [
+    {
+      "name": "CPU Mode: (✓SMART)-Performance-Overclock",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/cpu_switch.sh"
+    },
+    {
+      "name": "Save per-game override",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/save_override.sh"
+    },
+    {
+      "name": "Remove per-game override",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/del_override.sh"
+    }
+  ]
+}

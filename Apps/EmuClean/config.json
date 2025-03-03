@@ -1,0 +1,7 @@
+{
+"label":"EmuClean",
+"icon":"icon.png",
+"iconsel":"icon.png",
+"launch":"launch.sh",
+"description":"Hide emulators without ROMs"
+}

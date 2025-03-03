@@ -1,0 +1,25 @@
+{
+  "label": "CPS II",
+  "icon": "ic-cps2.png",
+  "launch": "../.emu_setup/launch_emu.sh",
+  "rompath": "../../Roms/CPS2",
+  "imgpath": "../../Roms/CPS2/Imgs",
+  "useswap": 1,
+  "shortname": 1,
+  "hidebios": 1,
+  "extlist": "zip",
+  "launchlist": [
+    {
+      "name": "CPU Mode: (✓SMART)-Performance-Overclock",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/cpu_switch.sh"
+    },
+    {
+      "name": "Save per-game override",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/save_override.sh"
+    },
+    {
+      "name": "Remove per-game override",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/del_override.sh"
+    }
+  ]
+}
