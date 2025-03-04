@@ -26,4 +26,4 @@ The following hotkeys will be usable within RetroArch:
 ## Credits
 
 * **[spruce](https://github.com/spruceUI) team:** centralised emulator launch, smart CPU governor logic and inspiration
-* **Jutleys:** icons from [Tomato](https://github.com/Jutleys/Trimui-Smart-Tomato)
+* **Jutleys:** icons and Dingux Commander from [Tomato](https://github.com/Jutleys/Trimui-Smart-Tomato)
