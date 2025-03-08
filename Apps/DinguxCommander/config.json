@@ -1,5 +1,5 @@
 {
-    "label": "Dingux Commander",
+    "label": "File Browser",
     "icon": "icon.png",
     "launch": "launch.sh",
     "description": "Browse files on SD card"
