@@ -28,7 +28,7 @@ The following hotkeys will be usable within RetroArch:
 Below is a list of systems that Quark supports, along with the emulator core they use by default:
 
 * Commodore Amiga (UAE4ARM)
-* Arcade (FB Alpha 2012 / MAME 2003 Plus)
+* Arcade (MAME 2003 Plus)
 * Atari 8-bit computers (Atari800)
 * Atari 2600 (Stella 2014)
 * Atari 5200 (A5200)
@@ -76,5 +76,5 @@ Below is a list of systems that Quark supports, along with the emulator core the
 
 ## Credits
 
-* **[spruce](https://github.com/spruceUI) team:** centralised emulator launch, smart CPU governor logic, some emu icons and inspiration
-* **Jutleys:** icons and Dingux Commander from [Tomato](https://github.com/Jutleys/Trimui-Smart-Tomato)
+* **[spruce](https://github.com/spruceUI) team:** centralised emulator launch, smart CPU governor logic, system icons and inspiration
+* **Jutleys:** Dingux Commander from [Tomato](https://github.com/Jutleys/Trimui-Smart-Tomato)
