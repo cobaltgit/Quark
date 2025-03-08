@@ -39,6 +39,7 @@ Below is a list of systems that Quark supports, along with the emulator core the
 * Amstrad CPC (Caprice32)
 * CP System I/II/III (FB Alpha 2012)
 * Doom (PrBoom)
+* MS-DOS (DOSBox Pure)
 * EasyRPG
 * Nintendo Entertainment System (FCEUmm)
 * Nintendo Family Computer Disk System (FCEUmm)
@@ -57,7 +58,6 @@ Below is a list of systems that Quark supports, along with the emulator core the
 * OpenBOR (standalone emulator)
 * NEC PC Engine (Beetle SuperGrafx)
 * NEC PC Engine CD-ROM (Beetle SuperGrafx)
-* NEC PC Engine SuperGrafx (Beetle SuperGrafx)
 * IGS PolyGame Master (FB Alpha 2012)
 * Pico-8 (FAKE-08)
 * Pokémon Mini (PokeMini)
@@ -68,6 +68,7 @@ Below is a list of systems that Quark supports, along with the emulator core the
 * Sega Mega CD (PicoDrive)
 * Super Nintendo Entertainment System (Snes9x 2005 Plus)
 * Sega SG-1000 / SC-3000 (PicoDrive)
+* NEC PC Engine SuperGrafx (Beetle SuperGrafx)
 * Wolfenstein 3D (ECWolf)
 * Bandai WonderSwan / WonderSwan Color (Beetle Cygne)
 * Sharp X68000 (PX68K)

@@ -1,0 +1,25 @@
+{
+  "label": "MS-DOS",
+  "icon": "ic-DOS.png",
+  "launch": "../.emu_setup/launch_emu.sh",
+  "rompath": "../../Roms/DOS",
+  "imgpath": "../../Roms/DOS/Imgs",
+  "useswap": 1,
+  "shortname": 0,
+  "hidebios": 0,
+  "extlist": "zip|dosz|exe|com|bat|iso|chd|cue|ins|img|ima|vhd|jrc|tc|m3u|m3u8|conf",
+  "launchlist": [
+    {
+      "name": "CPU Mode: (✓SMART)-Performance-Overclock",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/cpu_switch.sh"
+    },
+    {
+      "name": "Save per-game override",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/save_override.sh"
+    },
+    {
+      "name": "Remove per-game override",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/del_override.sh"
+    }
+  ]
+}
