@@ -1,5 +1,5 @@
 #!/bin/sh
 
-export CORE="mednafen_pce_fast"
+export CORE="mednafen_supergrafx"
 export CPU_MODE="smart"
 export CPU_MIN_FREQ=648000
