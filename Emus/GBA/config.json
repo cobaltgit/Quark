@@ -1,7 +1,6 @@
 {
-  "label": "GAME BOY ADV.",
+  "label": "GAMEBOY ADV.",
   "icon": "ic-GBA.png",
-  "themecolor": "FF00FF",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/GBA",
   "imgpath": "../../Roms/GBA/Imgs",

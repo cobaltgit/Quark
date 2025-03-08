@@ -1,10 +1,6 @@
 {
   "label": "GAME GEAR",
   "icon": "ic-GG.png",
-  "iconsmall": "ic-gamegear-80-n.png",
-  "iconlist": "ic-gamegear-32-n.png",
-  "background": "bg.png",
-  "themecolor": "FFFFFF",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/GG",
   "imgpath": "../../Roms/GG/Imgs",

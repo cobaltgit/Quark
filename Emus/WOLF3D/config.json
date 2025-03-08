@@ -1,6 +1,6 @@
 {
   "label": "WOLFENSTEIN 3D",
-  "icon": "easyrpg.png",
+  "icon": "ic-WOLF3D.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/WOLF3D",
   "imgpath": "../../Roms/WOLF3D/Imgs",

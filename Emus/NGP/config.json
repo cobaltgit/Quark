@@ -1,9 +1,6 @@
 {
   "label": "NEO GEO POCKET",
   "icon": "ic-NGP.png",
-  "iconsmall": "ic-NGP-80-n.png",
-  "iconlist": "ic-NGP-32-n.png",
-  "background": "bg.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/NGP",
   "imgpath": "../../Roms/NGP/Imgs",

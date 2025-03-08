@@ -1,9 +1,6 @@
 {
   "label": "GAME BOY",
   "icon": "ic-GB.png",
-  "iconsmall": "ic-GB-80-n.png",
-  "iconlist": "ic-GB-32-n.png",
-  "background": "bg.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/GB",
   "imgpath": "../../Roms/GB/Imgs",

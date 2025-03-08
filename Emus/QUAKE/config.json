@@ -1,6 +1,6 @@
 {
     "label":"QUAKE",
-    "icon":"ic-DOOM.png",
+    "icon":"ic-QUAKE.png",
     "launch":"../.emu_setup/launch_emu.sh",
     "rompath":"../../Roms/QUAKE",
     "imgpath":"../../Roms/QUAKE/Imgs",

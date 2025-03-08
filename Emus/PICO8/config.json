@@ -1,7 +1,6 @@
 {
   "label": "PICO-8",
   "icon": "ic-PICO.png",
-  "themecolor": "00FF88",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/PICO8",
   "imgpath": "../../Roms/PICO8/Imgs",
