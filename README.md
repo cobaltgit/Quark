@@ -2,13 +2,13 @@
 
 **WORK-IN-PROGRESS: NONE OF THIS HAS BEEN TESTED AS OF YET**
 
-A trimmed down version of the TrimUI Smart's stock operating system with some added goodies, great for small SD cards!  
+A trimmed down (under 150MB) version of the TrimUI Smart's stock operating system with extra goodies, great for small SD cards!  
 Installation is as simple as extracting the [latest release](https://github.com/cobaltgit/Quark/releases/latest) into the root of a microSD card formatted with the FAT32 filesystem.
 
-* Decompresses to under 150MB, ideal for maximising games on smaller SD cards!
 * Many more systems to choose from than the stock base package, including home computers and ports
 * RetroArch cores updated to their latest versions from source
 * CPU profiles configured for best performance/battery life balance
+* Overlays for handheld systems
 
 ## Hotkeys
 
