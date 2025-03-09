@@ -78,3 +78,4 @@ Below is a list of systems that Quark supports, along with the emulator core the
 
 * **[spruce](https://github.com/spruceUI) team:** centralised emulator launch, smart CPU governor logic, some emu icons and inspiration
 * **Jutleys:** icons and Dingux Commander from [Tomato](https://github.com/Jutleys/Trimui-Smart-Tomato)
+* **[chrizzo-hb](https://github.com/chrizzo-hb/knulli-bezels):** overlays/bezels for handheld systems
