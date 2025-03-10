@@ -80,6 +80,6 @@ This project is licenced under [CC-BY-SA-4.0](https://creativecommons.org/licens
 
 ## Credits
 
-* **[spruce](https://github.com/spruceUI) team:** centralised emulator launch, smart CPU governor logic, some emu icons and inspiration
-* **Jutleys:** icons and Dingux Commander from [Tomato](https://github.com/Jutleys/Trimui-Smart-Tomato)
+* **[spruce](https://github.com/spruceUI) team:** centralised emulator launch, smart CPU governor logic, emu icons and inspiration
+* **Jutleys:** Dingux Commander from [Tomato](https://github.com/Jutleys/Trimui-Smart-Tomato)
 * **[chrizzo-hb](https://github.com/chrizzo-hb/knulli-bezels):** overlays/bezels for handheld systems
