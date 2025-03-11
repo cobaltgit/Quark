@@ -1,5 +1,5 @@
 {
-  "label": "LYNX",
+  "label": "ATARI LYNX",
   "icon": "ic-LYNX.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/LYNX",
