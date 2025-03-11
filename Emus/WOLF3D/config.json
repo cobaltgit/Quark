@@ -1,5 +1,5 @@
 {
-  "label": "WOLFENSTEIN 3D",
+  "label": "WOLF3D",
   "icon": "ic-WOLF3D.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/WOLF3D",

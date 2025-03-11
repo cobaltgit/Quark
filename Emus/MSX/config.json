@@ -1,5 +1,5 @@
 {
-  "label": "MSX / MSX2",
+  "label": "MSX/MSX2",
   "icon": "ic-MSX.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/MSX",
