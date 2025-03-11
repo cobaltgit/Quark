@@ -10,15 +10,15 @@
   "extlist": "tzx|tap|z80|rzx|scl|trd|dsk|dck|sna|szx|zip",
   "launchlist": [
     {
-      "name": "CPU Mode: (✓SMART)-Performance-Overclock",
+      "name": "CPU: Smart",
       "launch": "/mnt/SDCARD/Emus/.emu_setup/cpu_switch.sh"
     },
     {
-      "name": "Save per-game override",
+      "name": "Save override",
       "launch": "/mnt/SDCARD/Emus/.emu_setup/save_override.sh"
     },
     {
-      "name": "Remove per-game override",
+      "name": "Remove override",
       "launch": "/mnt/SDCARD/Emus/.emu_setup/del_override.sh"
     }
   ]
