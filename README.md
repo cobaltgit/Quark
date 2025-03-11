@@ -72,6 +72,12 @@ Below is a list of systems that Quark supports, along with the emulator core the
 * Sharp X68000 (PX68K)
 * Sinclair ZX Spectrum (FUSE)
 
+## Known Issues
+
+* Sega CD games have no CD audio playback
+* RACE (NGP/NGPC) has audio glitching when loading a save state
+* FPS display not showing when an overlay is applied
+
 ## Licence
 
 This project is licenced under [CC-BY-SA-4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.en), however, the Dingux Commander application is licenced under the [GNU General Public License, version 2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html) (a zip file containing the source code is bundled)
