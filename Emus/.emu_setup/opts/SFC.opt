@@ -1,5 +1,5 @@
 #!/bin/sh
 
-export CORE="snes9x2005_plus"
+export CORE="chimerasnes"
 export CPU_MODE="smart"
-export CPU_MIN_FREQ=816000
+export CPU_MIN_FREQ=720000
