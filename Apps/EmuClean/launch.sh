@@ -6,7 +6,7 @@ for EMU in "$EMU_DIR"/*; do
     if [ -d "$EMU" ]; then
         EXTENSIONS="$(awk -F ':' '/extlist/ {print $2}' "$EMU/config.json" | sed 's/^ \"//;s/\",$//')" # no jq? no problem. might add it later down the line though
         ROM_DIR="$EMU/$(awk -F ':' '/rompath/ {print $2}' "$EMU/config.json" | sed 's/^ \"//;s/\",$//')"
-        ROM_COUNT="$(find "$ROM_DIR" -type f -iname "*.*[$EXTENSIONS]" | wc -l)"
+        ROM_COUNT="$(find "$ROM_DIR" -type f -iname "*.*[$EXTENSIONS]" | grep -v "Imgs\/$" | wc -l)"
         
         if [ "$ROM_COUNT" -eq 0 ]; then
             echo "EmuClean: no roms, hiding $EMU"
