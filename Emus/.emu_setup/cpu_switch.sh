@@ -2,7 +2,7 @@
 
 EMU="$(echo "$1" | cut -d'/' -f5)"
 CONFIG="/mnt/SDCARD/Emus/${EMU}/config.json"
-OPT="/mnt/SDCARD/Emus/.emu/setup/opts/${EMU}.opt"
+OPT="/mnt/SDCARD/Emus/.emu_setup/opts/${EMU}.opt"
 
 . "$OPT"
 
