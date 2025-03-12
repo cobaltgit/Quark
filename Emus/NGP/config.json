@@ -1,5 +1,5 @@
 {
-  "label": "NEO GEO POCKET",
+  "label": "NEOGEO POCKET",
   "icon": "ic-NGP.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/NGP",
