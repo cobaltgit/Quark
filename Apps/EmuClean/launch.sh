@@ -1,4 +1,6 @@
 #!/bin/sh
+# Refresh icon by Icons8
+# https://icons8.com/icon/59872/refresh
 
 EMU_DIR="/mnt/SDCARD/Emus"
 
