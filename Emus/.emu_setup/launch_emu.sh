@@ -55,12 +55,12 @@ run_retroarch() {
 
     if [ "$EMU" = "PS" ]; then # alleviates stutter in some PSX games
         RA_BIN="ra32.trimui_sdl"
-        mount -o bind "retroarch.cfg" "retroarch_sdl.cfg" # config path is hard-coded, unfortunately
+        [ ! -f "retroarch_sdl.cfg" ] && cp retroarch.cfg retroarch_sdl.cfg # config path is hard-coded, unfortunately. attempting to use bind mount causes a segmentation fault when accessing the menu on first run
     fi
 
     HOME="$RA_DIR/" "$RA_DIR/$RA_BIN" -v -L "$CORE_PATH" "$ROM_FILE"
 
-    umount "retroarch_sdl.cfg"
+    [ "$RA_BIN" = "ra32.trimui_sdl" ] && cp retroarch_sdl.cfg retroarch.cfg # copy back
 }
 
 run_port() {
