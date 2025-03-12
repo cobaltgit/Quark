@@ -9,15 +9,15 @@ OPT="/mnt/SDCARD/Emus/.emu_setup/opts/${EMU}.opt"
 case "$CPU_MODE" in
     "smart")
         NEW_MODE="performance"
-        NEW_DISPLAY="CPU: Perf"
+        NEW_DISPLAY="Perf"
         ;;
     "performance")
         NEW_MODE="overclock"
-        NEW_DISPLAY="CPU: OC"
+        NEW_DISPLAY="Overclock"
         ;;
     "overclock")
         NEW_MODE="smart"
-		NEW_DISPLAY="CPU: Smart"
+		NEW_DISPLAY="Smart"
         ;;
 esac
 
