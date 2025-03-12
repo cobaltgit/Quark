@@ -43,6 +43,11 @@ set_cpuclock() {
 
 run_retroarch() {
     RA_DIR="/mnt/SDCARD/RetroArch"
+
+    if [ "$EMU" = "SEGACD" ] && [ "${ROM_FILE##*.}" = "chd" ]; then # picodrive doesn't seem to like playing CD audio with chds
+        CORE="genesis_plus_gx"
+    fi
+
     CORE_PATH="$RA_DIR/.retroarch/cores/${CORE}_libretro.so"
     RA_BIN="ra32.trimui"
 
