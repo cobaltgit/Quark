@@ -44,9 +44,18 @@ set_cpuclock() {
 run_retroarch() {
     RA_DIR="/mnt/SDCARD/RetroArch"
     CORE_PATH="$RA_DIR/.retroarch/cores/${CORE}_libretro.so"
+    RA_BIN="ra32.trimui"
 
     cd "$RA_DIR"
-    HOME="$RA_DIR/" "$RA_DIR/ra32.trimui" -v -L "$CORE_PATH" "$ROM_FILE"
+
+    if [ "$EMU" = "PS" ]; then # alleviates stutter in some PSX games
+        RA_BIN="ra32.trimui_sdl"
+        mount -o bind "retroarch.cfg" "retroarch_sdl.cfg" # config path is hard-coded, unfortunately
+    fi
+
+    HOME="$RA_DIR/" "$RA_DIR/$RA_BIN" -v -L "$CORE_PATH" "$ROM_FILE"
+
+    umount "retroarch_sdl.cfg"
 }
 
 run_port() {
