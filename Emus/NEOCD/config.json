@@ -22,7 +22,7 @@
       "launch": "/mnt/SDCARD/Emus/.emu_setup/save_override.sh"
     },
     {
-      "name": "Remove override",
+      "name": "Delete override",
       "launch": "/mnt/SDCARD/Emus/.emu_setup/del_override.sh"
     }
   ]
