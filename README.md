@@ -81,7 +81,6 @@ Below is a list of systems that Quark supports, along with the emulator core the
 ## Known Issues
 
 * Sega CD games have no CD audio playback when using `.chd` format games using the PicoDrive core. Launcher works around this by changing to the Genesis Plus GX core if needed.
-* RACE core (NGP/NGPC) has audio glitching when loading a save state
 * PSX cannot save states (crashes with segmentation fault)
 * FPS display not showing when an overlay is applied
 
