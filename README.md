@@ -10,13 +10,13 @@ Installation is as simple as extracting the [latest release](https://github.com/
 
 ## Hotkeys
 
-## Global
+### Global
 
 * SELECT + L/R: Volume control
 * START + L/R: Brightness control
 * MENU + L/R: L2/R2 (enable in Settings)
 
-## RetroArch
+### RetroArch
 
 * SELECT + L: slow-motion
 * SELECT + R: fast-forward
