@@ -18,8 +18,8 @@ set_cpuclock() {
     case "$CPU_MODE" in
         "smart")
             echo conservative > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-            echo 35 >/sys/devices/system/cpu/cpufreq/conservative/down_threshold
-            echo 70 >/sys/devices/system/cpu/cpufreq/conservative/up_threshold
+            echo 45 >/sys/devices/system/cpu/cpufreq/conservative/down_threshold
+            echo 80 >/sys/devices/system/cpu/cpufreq/conservative/up_threshold
             echo 3 >/sys/devices/system/cpu/cpufreq/conservative/freq_step
             echo 1 >/sys/devices/system/cpu/cpufreq/conservative/sampling_down_factor
             echo 400000 >/sys/devices/system/cpu/cpufreq/conservative/sampling_rate
