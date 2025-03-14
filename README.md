@@ -60,7 +60,7 @@ Below is a list of systems that Quark supports, along with the emulator core the
 * MSX / MSX2 (blueMSX)
 * Neo Geo (FB Alpha 2012)
 * Neo Geo CD (NeoCD)
-* Neo Geo Pocket / Neo Geo Pocket Color (Beetle NeoPop)
+* Neo Geo Pocket / Neo Geo Pocket Color (RACE)
 * OpenBOR (standalone emulator)
 * NEC PC Engine (Beetle SuperGrafx)
 * NEC PC Engine CD-ROM (Beetle SuperGrafx)
