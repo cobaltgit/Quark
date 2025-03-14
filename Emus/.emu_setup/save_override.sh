@@ -2,7 +2,7 @@
 
 EMU="$(echo "$1" | cut -d'/' -f5)"
 GAME="$(basename "$1")"
-SYS_OPT="/mnt/SDCARD/Emus/.emu/setup/opts/${EMU}.opt"
+SYS_OPT="/mnt/SDCARD/Emus/.emu_setup/opts/${EMU}.opt"
 
 OVERRIDE_FILE="/mnt/SDCARD/Emus/.emu_setup/overrides/${EMU}/${GAME}.opt"
 OVERRIDE_DIR="$(dirname "$OVERRIDE_FILE")"
