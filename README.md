@@ -61,7 +61,7 @@ Below is a list of systems that Quark supports, along with the emulator core the
 * Neo Geo (FB Alpha 2012)
 * Neo Geo CD (NeoCD)
 * Neo Geo Pocket / Neo Geo Pocket Color (RACE)
-* OpenBOR (standalone emulator)
+* OpenBOR (standalone app)
 * NEC PC Engine (Beetle SuperGrafx)
 * NEC PC Engine CD-ROM (Beetle SuperGrafx)
 * IGS PolyGame Master (FB Alpha 2012)
