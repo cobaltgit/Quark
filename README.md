@@ -72,7 +72,7 @@ Below is a list of systems that Quark supports, along with the emulator core the
 * Quake (TyrQuake)
 * Sega 32X (PicoDrive)
 * Sega Mega CD (PicoDrive / Genesis Plus GX)
-* Super Nintendo Entertainment System (Snes9x 2005 Plus)
+* Super Nintendo Entertainment System (ChimeraSNES)
 * Sega SG-1000 / SC-3000 (PicoDrive)
 * NEC PC Engine SuperGrafx (Beetle SuperGrafx)
 * Watara Supervision (Potator)
