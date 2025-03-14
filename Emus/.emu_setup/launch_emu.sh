@@ -5,7 +5,7 @@ export GAME="$(basename "$1")"
 export EMU_DIR="/mnt/SDCARD/Emus/${EMU}"
 export OPT_DIR="/mnt/SDCARD/Emus/.emu_setup/opts"
 
-OVERRIDE_FILE="/mnt/SDCARD/Emu/.emu_setup/overrides/$EMU/$GAME.opt"
+OVERRIDE_FILE="/mnt/SDCARD/Emus/.emu_setup/overrides/$EMU/$GAME.opt"
 
 [ -f "$OPT_DIR/$EMU.opt" ] && . "$OPT_DIR/$EMU.opt"
 [ -f "$OVERRIDE_FILE" ] && . "$OVERRIDE_FILE"
