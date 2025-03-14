@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ROMS_DIR="/mnt/SDCARD/Roms"
-DISC_EXTS="cue|gdi|chd|pbp|iso|dsk"
+DISC_EXTS="cue|chd|pbp|iso|dsk"
 SYSTEM="$(echo "$1" | cut -d'/' -f5)"
 
 generate_cues() {
