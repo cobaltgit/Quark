@@ -21,7 +21,7 @@ generate_cues() {
     INDEX 01 00:00:00" > "$cuepath"
     done
 
-    find $SYSTEM -maxdepth 1 -type f -iname "*_cache[6-7].db" -exec rm -f {} +
+    find $SYSTEM -maxdepth 1 -type f -iname "*_cache7.db" -exec rm -f {} +
 }
 
 generate_cues # generate any missing cue sheets
@@ -73,5 +73,5 @@ else
 fi
 
 cd "$ROMS_DIR"
-find $SYSTEM -maxdepth 1 -type f -iname "*_cache[6-7].db" -exec rm -f {} +
+find $SYSTEM -maxdepth 1 -type f -iname "*_cache7.db" -exec rm -f {} +
 sync
