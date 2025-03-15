@@ -6,9 +6,9 @@ EMU_DIR="/mnt/SDCARD/Emus"
 
 for EMU in "$EMU_DIR"/*; do
     if [ -d "$EMU" ]; then
-        EXTENSIONS="$(awk -F ':' '/extlist/ {print $2}' "$EMU/config.json" | sed 's/^ \"//;s/\",$//')" # no jq? no problem. might add it later down the line though
-        ROM_DIR="$EMU/$(awk -F ':' '/rompath/ {print $2}' "$EMU/config.json" | sed 's/^ \"//;s/\",$//')"
-        ROM_COUNT="$(find "$ROM_DIR" -type f -iname "*.*[$EXTENSIONS]" | grep -v "Imgs\/$" | wc -l)"
+        EXTENSIONS="$(awk -F ':' '/extlist/ {print $2}' "$EMU/config.json" | sed 's/[",]//g')" # no jq? no problem. might add it later down the line though
+        ROM_DIR="$EMU/$(awk -F ':' '/rompath/ {print $2}' "$EMU/config.json" | sed 's/[",]//g')"
+        ROM_COUNT="$(find "$ROM_DIR" -type f ! -path "*/Imgs/*" ! -name *.xml ! -name *.txt ! -name ".gitkeep" ! -name "*cache7.db" | sed '/^\s*$/d' | grep -icE "\.($EXTENSIONS)$")"
         
         if [ "$ROM_COUNT" -eq 0 ]; then
             echo "EmuClean: no roms, hiding $EMU"
