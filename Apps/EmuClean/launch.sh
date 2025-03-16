@@ -2,7 +2,11 @@
 # Refresh icon by Icons8
 # https://icons8.com/icon/59872/refresh
 
+. /mnt/SDCARD/System/bin/helpers.sh
+
 EMU_DIR="/mnt/SDCARD/Emus"
+
+set_cpuclock "performance"
 
 for EMU in "$EMU_DIR"/*; do
     if [ -d "$EMU" ]; then
@@ -19,3 +23,5 @@ for EMU in "$EMU_DIR"/*; do
         fi
     fi
 done
+
+CPU_MIN_FREQ=816000 set_cpuclock "smart" # reset cpu clock
