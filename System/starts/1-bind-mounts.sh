@@ -1,6 +1,6 @@
 #!/bin/sh
 
-SRC_DIR="/mnt/SDCARD/System/trimui/"
+SRC_DIR="/mnt/SDCARD/System/trimui"
 DEST_DIR="/usr/trimui"
 
 {
