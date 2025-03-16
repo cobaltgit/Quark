@@ -1,5 +1,7 @@
 #!/bin/sh
 
+. /mnt/SDCARD/System/bin/helpers.sh
+
 export EMU="$(echo "$1" | cut -d'/' -f5)"
 export GAME="$(basename "$1")"
 export EMU_DIR="/mnt/SDCARD/Emus/${EMU}"
@@ -9,37 +11,6 @@ OVERRIDE_FILE="/mnt/SDCARD/Emus/.emu_setup/overrides/$EMU/$GAME.opt"
 
 [ -f "$OPT_DIR/$EMU.opt" ] && . "$OPT_DIR/$EMU.opt"
 [ -f "$OVERRIDE_FILE" ] && . "$OVERRIDE_FILE"
-
-set_cpuclock() {
-    chmod a+w /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-    chmod a+w /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
-    chmod a+w /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
-
-    case "$CPU_MODE" in
-        "smart")
-            echo conservative > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-            echo 45 >/sys/devices/system/cpu/cpufreq/conservative/down_threshold
-            echo 80 >/sys/devices/system/cpu/cpufreq/conservative/up_threshold
-            echo 3 >/sys/devices/system/cpu/cpufreq/conservative/freq_step
-            echo 1 >/sys/devices/system/cpu/cpufreq/conservative/sampling_down_factor
-            echo 400000 >/sys/devices/system/cpu/cpufreq/conservative/sampling_rate
-            echo "$CPU_MIN_FREQ" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
-            echo 1344000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
-            ;;
-        "performance")
-            echo performance > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-            echo 1344000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
-            ;;
-        "overclock")
-            echo performance > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-            echo 1536000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
-            ;;
-    esac
-
-    chmod a-w /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-    chmod a-w /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
-    chmod a-w /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
-}
 
 run_retroarch() {
     RA_DIR="/mnt/SDCARD/RetroArch"
@@ -77,10 +48,20 @@ run_openbor() {
 
 ROM_FILE="$(readlink -f "$1")"
 
-set_cpuclock
+if [ "$CPU_MODE" = "smart" ]; then
+    { # speed up game launch
+        set_cpuclock "performance"
+        sleep 5
+        set_cpuclock "smart"
+    } &
+else
+    set_cpuclock "$CPU_MODE"
+fi
 
 case "$EMU" in
     "OPENBOR") run_openbor ;;
     "PORTS") run_port ;;
     *) run_retroarch ;;
 esac
+
+CPU_MIN_FREQ=816000 set_cpuclock "smart" # reset cpu clock
