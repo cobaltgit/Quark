@@ -6,7 +6,7 @@
 
 EMU_DIR="/mnt/SDCARD/Emus"
 
-set_cpuclock "performance"
+set_cpuclock --mode performance
 
 for EMU in "$EMU_DIR"/*; do
     if [ -d "$EMU" ]; then
@@ -24,4 +24,4 @@ for EMU in "$EMU_DIR"/*; do
     fi
 done
 
-CPU_MIN_FREQ=816000 set_cpuclock "smart" # reset cpu clock
+set_cpuclock --mode smart # reset cpu clock

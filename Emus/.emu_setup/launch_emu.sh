@@ -50,12 +50,12 @@ ROM_FILE="$(readlink -f "$1")"
 
 if [ "$CPU_MODE" = "smart" ]; then
     { # speed up game launch
-        set_cpuclock "performance"
+        set_cpuclock --mode performance
         sleep 5
-        set_cpuclock "smart"
+        set_cpuclock --mode smart --min-freq $CPU_MIN_FREQ
     } &
 else
-    set_cpuclock "$CPU_MODE"
+    set_cpuclock --mode "$CPU_MODE"
 fi
 
 case "$EMU" in
@@ -64,4 +64,4 @@ case "$EMU" in
     *) run_retroarch ;;
 esac
 
-CPU_MIN_FREQ=816000 set_cpuclock "smart" # reset cpu clock
+set_cpuclock --mode smart # reset cpu clock
