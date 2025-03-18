@@ -7,7 +7,7 @@
   "useswap": 0,
   "shortname": 0,
   "hidebios": 0,
-  "extlist": "cue|chd|ccd|iso",
+  "extlist": "cue|chd|ccd|m3u|iso",
   "launchlist": [
     {
       "name": "CPU: Smart",
