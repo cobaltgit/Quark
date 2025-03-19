@@ -4,7 +4,7 @@
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/SEGACD",
   "imgpath": "../../Roms/SEGACD/Imgs",
-  "useswap": 0,
+  "useswap": 1,
   "shortname": 0,
   "hidebios": 0,
   "extlist": "cue|chd|ccd|m3u|iso",
