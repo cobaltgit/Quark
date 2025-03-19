@@ -10,6 +10,6 @@ find "$ARCHIVES_FOLDER" -type f -iname "*.zip" | while read archive; do
         echo "Failed to unpack archive $basename"
     else
         echo "Archive $basename unpacked successfully"
-        rm "$archive"
+        rm -f "$archive"
     fi
 done > "$ARCHIVE_UNPACK_LOG" 2>&1
