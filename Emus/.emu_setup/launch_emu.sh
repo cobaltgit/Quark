@@ -26,12 +26,12 @@ run_retroarch() {
 
     if [ "$EMU" = "PS" ] || [ "$EMU" = "SFC" ]; then # Improved SNES/PSX performance
         RA_BIN="ra32.trimui_sdl"
-        [ ! -f "retroarch_sdl.cfg" ] && cp retroarch.cfg retroarch_sdl.cfg # config path is hard-coded, unfortunately. attempting to use bind mount causes a segmentation fault when accessing the menu on first run
+        cp -f retroarch.cfg retroarch_sdl.cfg # config path is hard-coded, unfortunately. attempting to use bind mount causes a segmentation fault when accessing the menu on first run
     fi
 
     HOME="$RA_DIR/" "$RA_DIR/$RA_BIN" -v -L "$CORE_PATH" "$ROM_FILE"
 
-    [ "$RA_BIN" = "ra32.trimui_sdl" ] && cp retroarch_sdl.cfg retroarch.cfg # copy back
+    [ "$RA_BIN" = "ra32.trimui_sdl" ] && cp -f retroarch_sdl.cfg retroarch.cfg # copy back
 }
 
 run_port() {
