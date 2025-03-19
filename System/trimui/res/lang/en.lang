@@ -135,7 +135,7 @@
 	"132":  "Input SSID",
 	"133":  "Input Password",
 	"134":  "Search",
-	"135":  "Failed to connect to WiFi.\Please check your password\nor reboot your router",
+	"135":  "Failed to connect to WiFi.\nPlease check your password\nor reboot your router",
     "136":  "Store",
 	"137":  "Install",
 	"138":  "Uninstall",
