@@ -41,6 +41,7 @@ Below is a list of systems that Quark supports, along with the emulator core the
 * Atari 7800 (ProSystem)
 * Atari ST (Hatari)
 * Commodore 64 (VICE x64)
+* Fairchild Channel F (FreeChaF)
 * ColecoVision (blueMSX)
 * Amstrad CPC (Caprice32)
 * CP System I/II/III (FB Alpha 2012)

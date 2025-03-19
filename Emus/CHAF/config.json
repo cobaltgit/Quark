@@ -1,0 +1,25 @@
+{
+  "label": "FAIRCHILD CHANNEL-F",
+  "icon": "ic-CHAF.png",
+  "launch": "../.emu_setup/launch_emu.sh",
+  "rompath": "../../Roms/CHAF",
+  "imgpath": "../../Roms/CHAF/Imgs",
+  "extlist": "chf|bin|rom|zip",
+  "useswap": 0,
+  "shortname": 0,
+  "hidebios": 0,
+  "launchlist": [
+    {
+      "name": "CPU: Smart",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/cpu_switch.sh"
+    },
+    {
+      "name": "Save override",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/save_override.sh"
+    },
+    {
+      "name": "Delete override",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/del_override.sh"
+    }
+  ]
+}
