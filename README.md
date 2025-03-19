@@ -35,6 +35,7 @@ Below is a list of systems that Quark supports, along with the emulator core the
 
 * Commodore Amiga (UAE4ARM)
 * Arcade (FB Alpha 2012 / MAME 2003 Plus)
+* Arduboy (Ardens)
 * Atari 8-bit computers (Atari800)
 * Atari 2600 (Stella 2014)
 * Atari 5200 (A5200)
@@ -77,6 +78,7 @@ Below is a list of systems that Quark supports, along with the emulator core the
 * Sega SG-1000 / SC-3000 (PicoDrive)
 * NEC PC Engine SuperGrafx (Beetle SuperGrafx)
 * Watara Supervision (Potator)
+* Commodore VIC-20 (VICE XVIC)
 * Wolfenstein 3D (ECWolf)
 * Bandai WonderSwan / WonderSwan Color (Beetle Cygne)
 * Sharp X68000 (PX68K)
