@@ -78,6 +78,7 @@ Below is a list of systems that Quark supports, along with the emulator core the
 * Sega SG-1000 / SC-3000 (PicoDrive)
 * NEC PC Engine SuperGrafx (Beetle SuperGrafx)
 * Watara Supervision (Potator)
+* TIC-80
 * Commodore VIC-20 (VICE XVIC)
 * Wolfenstein 3D (ECWolf)
 * Bandai WonderSwan / WonderSwan Color (Beetle Cygne)
