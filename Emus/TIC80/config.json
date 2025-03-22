@@ -1,0 +1,25 @@
+{
+  "label": "TIC-80",
+  "icon": "ic-TIC80.png",
+  "launch": "../.emu_setup/launch_emu.sh",
+  "rompath": "../../Roms/TIC80",
+  "imgpath": "../../Roms/TIC80/Imgs",
+  "useswap": 1,
+  "shortname": 0,
+  "hidebios": 1,
+  "extlist": "tic",
+  "launchlist": [
+    {
+      "name": "CPU: Smart",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/cpu_switch.sh"
+    },
+    {
+      "name": "Save override",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/save_override.sh"
+    },
+    {
+      "name": "Delete override",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/del_override.sh"
+    }
+  ]
+}
