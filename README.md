@@ -20,12 +20,12 @@ Installation is as simple as extracting the [latest release](https://github.com/
 
 ### RetroArch
 
-* SELECT + L: slow-motion
-* SELECT + R: fast-forward
 * SELECT + B: exit to MainUI
 * SELECT + A: take screenshot (saves in `Saves/screenshots`)
 * SELECT + Y: toggle frame rate display
 * SELECT + X: open RA menu
+* SELECT + D-Pad Down: slow-motion
+* SELECT + D-Pad Up: fast-forward
 * SELECT + D-Pad Right: save state in current slot
 * SELECT + D-Pad Left: load state in current slot
 
