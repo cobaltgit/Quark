@@ -1,13 +1,13 @@
 {
-  "label": "POLYGAME MASTER",
-  "icon": "ic-pgm.png",
+  "label": "TIC-80",
+  "icon": "ic-TIC80.png",
   "launch": "../.emu_setup/launch_emu.sh",
-  "rompath": "../../Roms/PGM",
-  "imgpath": "../../Roms/PGM/Imgs",
+  "rompath": "../../Roms/TIC80",
+  "imgpath": "../../Roms/TIC80/Imgs",
   "useswap": 1,
-  "shortname": 1,
+  "shortname": 0,
   "hidebios": 1,
-  "extlist": "zip",
+  "extlist": "tic",
   "launchlist": [
     {
       "name": "CPU: Smart",
