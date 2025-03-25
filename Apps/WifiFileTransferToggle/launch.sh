@@ -1,0 +1,24 @@
+#!/bin/sh
+
+. /mnt/SDCARD/System/bin/networkHelpers.sh
+
+QUARK_CONFIG="/mnt/SDCARD/System/etc/quark.json"
+DUFS_ENABLED="$(/mnt/SDCARD/System/bin/jq '.network.dufs' "$QUARK_CONFIG")"
+IP="$(ip addr show wlan0 | awk '/inet/ {print $2}' | cut -f1 -d '/')"
+
+if "$DUFS_ENABLED"; then
+    DUFS_ENABLED=false
+    echo -E "$(jq '.description = "Turned off"' "$DUFS_CONFIG")" > "$DUFS_CONFIG"
+    stop_dufs_process
+else
+    DUFS_ENABLED=true
+    if [ -z "$IP" ]; then
+        DESCRIPTION="Turned on - Not connected"
+    else
+        DESCRIPTION="Turned on - IP: $IP:5000"
+    fi 
+    echo -E "$(jq --arg DESCRIPTION "$DESCRIPTION" '.description = $DESCRIPTION' "$DUFS_CONFIG")" > "$DUFS_CONFIG"
+    start_dufs_process
+fi
+
+echo -E "$(jq ".network.dufs = $DUFS_ENABLED" "$QUARK_CONFIG")" > "$QUARK_CONFIG"
