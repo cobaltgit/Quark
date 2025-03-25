@@ -7,7 +7,7 @@
         exit 0
     fi
 
-    IP="$(ip addr show wlan0 | awk '/inet/ {print $2}' | cut -f1 -d '/')"
+    IP="$(ip addr show wlan0 | awk '/inet[^6]/ {split($2, a, "/"); print a[1]}')"
     DUFS_CONFIG="/mnt/SDCARD/Apps/WifiFileTransferToggle/config.json"
     DUFS_ENABLED="$(/mnt/SDCARD/System/bin/jq '.network.dufs' "/mnt/SDCARD/System/etc/quark.json")"
 
@@ -19,7 +19,7 @@
 
     while ! ( [ -n "$IP" ] && ping -c 1 -W 3 1.1.1.1 ); do # we wait for a network connection
         sleep 1
-        IP="$(ip addr show wlan0 | awk '/inet/ {print $2}' | cut -f1 -d '/')"
+        IP="$(ip addr show wlan0 | awk '/inet[^6]/ {split($2, a, "/"); print a[1]}')"
     done
 
     if $DUFS_ENABLED; then
