@@ -13,7 +13,7 @@
 
     if [ -z "$IP" ]; then
         if $DUFS_ENABLED; then
-            echo -E "$(/mnt/SDCARD/System/bin/jq '.description = "Turned on - Not connected"' "$DUFS_CONFIG")" > "$DUFS_CONFIG"
+            echo -E "$(/mnt/SDCARD/System/bin/jq '.description = "Not connected"' "$DUFS_CONFIG")" > "$DUFS_CONFIG"
         fi
     fi
 
@@ -23,7 +23,7 @@
     done
 
     if $DUFS_ENABLED; then
-        DESCRIPTION="Turned on - IP: $IP:5000"
+        DESCRIPTION="IP: $IP:5000"
         echo -E "$(/mnt/SDCARD/System/bin/jq --arg DESCRIPTION "$DESCRIPTION" '.description = $DESCRIPTION' "$DUFS_CONFIG")" > "$DUFS_CONFIG"
         start_dufs_process
     fi
