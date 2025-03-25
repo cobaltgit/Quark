@@ -4,6 +4,7 @@
 
 QUARK_CONFIG="/mnt/SDCARD/System/etc/quark.json"
 DUFS_ENABLED="$(/mnt/SDCARD/System/bin/jq '.network.dufs' "$QUARK_CONFIG")"
+DUFS_CONFIG="/mnt/SDCARD/Apps/WifiFileTransferToggle/config.json"
 IP="$(ip addr show wlan0 | awk '/inet/ {print $2}' | cut -f1 -d '/')"
 
 if "$DUFS_ENABLED"; then
