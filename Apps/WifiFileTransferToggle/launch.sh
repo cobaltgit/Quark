@@ -8,7 +8,7 @@ IP="$(ip addr show wlan0 | awk '/inet/ {print $2}' | cut -f1 -d '/')"
 
 if "$DUFS_ENABLED"; then
     DUFS_ENABLED=false
-    echo -E "$(jq '.description = "Turned off"' "$DUFS_CONFIG")" > "$DUFS_CONFIG"
+    echo -E "$(/mnt/SDCARD/System/bin/jq '.description = "Turned off"' "$DUFS_CONFIG")" > "$DUFS_CONFIG"
     stop_dufs_process
 else
     DUFS_ENABLED=true
@@ -17,8 +17,8 @@ else
     else
         DESCRIPTION="Turned on - IP: $IP:5000"
     fi 
-    echo -E "$(jq --arg DESCRIPTION "$DESCRIPTION" '.description = $DESCRIPTION' "$DUFS_CONFIG")" > "$DUFS_CONFIG"
+    echo -E "$(/mnt/SDCARD/System/bin/jq --arg DESCRIPTION "$DESCRIPTION" '.description = $DESCRIPTION' "$DUFS_CONFIG")" > "$DUFS_CONFIG"
     start_dufs_process
 fi
 
-echo -E "$(jq ".network.dufs = $DUFS_ENABLED" "$QUARK_CONFIG")" > "$QUARK_CONFIG"
+echo -E "$(/mnt/SDCARD/System/bin/jq ".network.dufs = $DUFS_ENABLED" "$QUARK_CONFIG")" > "$QUARK_CONFIG"

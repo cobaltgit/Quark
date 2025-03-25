@@ -3,17 +3,17 @@
 . /mnt/SDCARD/System/bin/networkHelpers.sh
 
 {
-    if [ "$(jq '.wifi' "/mnt/UDISK/system.json")" -eq 0 ]; then # exit if wifi is disabled system-wide
+    if [ "$(/mnt/SDCARD/System/bin/jq '.wifi' "/mnt/UDISK/system.json")" -eq 0 ]; then # exit if wifi is disabled system-wide
         exit 0
     fi
 
     IP="$(ip addr show wlan0 | awk '/inet/ {print $2}' | cut -f1 -d '/')"
     DUFS_CONFIG="/mnt/SDCARD/Apps/WifiFileTransferToggle/config.json"
-    DUFS_ENABLED="$(jq '.network.dufs' "/mnt/SDCARD/System/etc/quark.json")"
+    DUFS_ENABLED="$(/mnt/SDCARD/System/bin/jq '.network.dufs' "/mnt/SDCARD/System/etc/quark.json")"
 
     if [ -z "$IP" ]; then
         if $DUFS_ENABLED; then
-            echo -E "$(jq '.description = "Turned on - Not connected"' "$DUFS_CONFIG")" > "$DUFS_CONFIG"
+            echo -E "$(/mnt/SDCARD/System/bin/jq '.description = "Turned on - Not connected"' "$DUFS_CONFIG")" > "$DUFS_CONFIG"
         fi
     fi
 
@@ -24,7 +24,7 @@
 
     if $DUFS_ENABLED; then
         DESCRIPTION="Turned on - IP: $IP:5000"
-        echo -E "$(jq --arg DESCRIPTION "$DESCRIPTION" '.description = $DESCRIPTION' "$DUFS_CONFIG")" > "$DUFS_CONFIG"
+        echo -E "$(/mnt/SDCARD/System/bin/jq --arg DESCRIPTION "$DESCRIPTION" '.description = $DESCRIPTION' "$DUFS_CONFIG")" > "$DUFS_CONFIG"
         start_dufs_process
     fi
 } &
