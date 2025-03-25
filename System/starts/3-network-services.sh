@@ -19,6 +19,7 @@
 
     while ! ( [ -n "$IP" ] && ping -c 1 -W 3 1.1.1.1 ); do # we wait for a network connection
         sleep 1
+        IP="$(ip addr show wlan0 | awk '/inet/ {print $2}' | cut -f1 -d '/')"
     done
 
     if $DUFS_ENABLED; then
