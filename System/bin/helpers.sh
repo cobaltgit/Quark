@@ -24,7 +24,7 @@ set_cpuclock() {
             [ -z "$MIN_FREQ" ] && MIN_FREQ=816000 # default minimum frequency
             echo conservative > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
             echo 50 >/sys/devices/system/cpu/cpufreq/conservative/down_threshold
-            echo 80 >/sys/devices/system/cpu/cpufreq/conservative/up_threshold
+            echo 75 >/sys/devices/system/cpu/cpufreq/conservative/up_threshold
             echo 3 >/sys/devices/system/cpu/cpufreq/conservative/freq_step
             echo 1 >/sys/devices/system/cpu/cpufreq/conservative/sampling_down_factor
             echo 400000 >/sys/devices/system/cpu/cpufreq/conservative/sampling_rate
