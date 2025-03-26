@@ -4,11 +4,9 @@ A trimmed down (under 150MB) version of the TrimUI Smart's stock operating syste
 Installation is as simple as extracting the [latest release](https://github.com/cobaltgit/Quark/releases/latest) into the root of a microSD card formatted with the FAT32 filesystem.
 
 * Many more systems to choose from than the stock base package, including home computers and ports
-* RetroArch cores updated to their latest versions from source*
+* RetroArch cores updated to their latest versions from source
 * CPU profiles configured for best performance/battery life balance
 * Overlays for handheld systems
-
-*pcsx_rearmed is on a slightly older version as the latest crashes when trying to make a save state
 
 ## Hotkeys
 
