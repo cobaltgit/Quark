@@ -45,3 +45,25 @@ set_cpuclock() {
     chmod a-w /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
     chmod a-w /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
 }
+
+# get_setting: gets a setting from quark.ini.
+# Args:
+# 1. the section to look underneath
+# 2. the key to lookup
+get_setting() {
+    SECTION="$1"
+    KEY="$2"
+    sed -n "/\[$SECTION\]/,/\[.*\]/p" "/mnt/SDCARD/System/etc/quark.ini" | awk -v key=$KEY -F "=" '$0 ~ key {print $2}'
+}
+
+# update_setting: updates a setting in quark.ini.
+# Args:
+# 1. the section to look underneath for the key
+# 2. the key to be updated
+# 3. the new value of the specified key
+update_setting() {
+    SECTION="$1"
+    KEY="$2"
+    NEW_VALUE="$3"
+    sed -i "/\[$SECTION\]/,/^\[/{s/^\($KEY *=\).*/\1$NEW_VALUE/;}" "/mnt/SDCARD/System/etc/quark.ini"
+}

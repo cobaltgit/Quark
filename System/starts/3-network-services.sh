@@ -1,5 +1,6 @@
 #!/bin/sh
 
+. /mnt/SDCARD/System/bin/helpers.sh
 . /mnt/SDCARD/System/bin/networkHelpers.sh
 
 {
@@ -9,7 +10,7 @@
 
     IP="$(ip addr show wlan0 | awk '/inet[^6]/ {split($2, a, "/"); print a[1]}')"
     DUFS_CONFIG="/mnt/SDCARD/Apps/WifiFileTransferToggle/config.json"
-    DUFS_ENABLED="$(/mnt/SDCARD/System/bin/jq '.network.dufs' "/mnt/SDCARD/System/etc/quark.json")"
+    DUFS_ENABLED="$(get_setting "network" "dufs")"
 
     if [ -z "$IP" ]; then
         if $DUFS_ENABLED; then

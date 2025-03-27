@@ -1,9 +1,10 @@
 #!/bin/sh
 
+. /mnt/SDCARD/System/bin/helpers.sh
 . /mnt/SDCARD/System/bin/networkHelpers.sh
 
-QUARK_CONFIG="/mnt/SDCARD/System/etc/quark.json"
-DUFS_ENABLED="$(/mnt/SDCARD/System/bin/jq '.network.dufs' "$QUARK_CONFIG")"
+QUARK_CONFIG="/mnt/SDCARD/System/etc/quark.ini"
+DUFS_ENABLED="$(get_setting "network" "dufs")"
 DUFS_CONFIG="/mnt/SDCARD/Apps/WifiFileTransferToggle/config.json"
 IP="$(ip addr show wlan0 | awk '/inet[^6]/ {split($2, a, "/"); print a[1]}')"
 
@@ -22,4 +23,4 @@ else
     start_dufs_process
 fi
 
-echo -E "$(/mnt/SDCARD/System/bin/jq ".network.dufs = $DUFS_ENABLED" "$QUARK_CONFIG")" > "$QUARK_CONFIG"
+update_setting "network" "dufs" "$DUFS_ENABLED"
