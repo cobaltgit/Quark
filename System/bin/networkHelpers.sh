@@ -14,7 +14,11 @@ setup_syncthing() {
         sleep 1
         ifconfig lo up
         sleep 1
-        /mnt/SDCARD/System/bin/syncthing generate --no-default-folder --home="$SYNCTHING_CONF_DIR" > "$SYNCTHING_LOG_DIR/generate.log" 2>&1 &
+        /mnt/SDCARD/System/bin/syncthing generate \
+            --gui-user=quark \
+            --gui-password=quark \
+            --no-default-folder \
+            --home="$SYNCTHING_CONF_DIR" > "$SYNCTHING_LOG_DIR/generate.log" 2>&1 &
         sleep 5
 
         if grep -q "<listenAddress>dynamic+https://relays.syncthing.net/endpoint</listenAddress>" "$SYNCTHING_CONF_DIR/config.xml"; then
@@ -46,6 +50,7 @@ start_syncthing_process() {
 start_dufs_process() {
     if ! pgrep dufs >/dev/null 2>&1; then
         nice -2 /mnt/SDCARD/System/bin/dufs \
+            --auth quark:quark@/:rw \
             --allow-upload \
             --allow-delete \
             --allow-search \
