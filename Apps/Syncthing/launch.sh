@@ -5,7 +5,7 @@
 
 QUARK_CONFIG="/mnt/SDCARD/System/etc/quark.ini"
 SYNCTHING_ENABLED="$(get_setting "network" "syncthing")"
-SYNCTHING_APP_CONFIG="/mnt/SDCARD/Apps/syncthing/config.json"
+SYNCTHING_APP_CONFIG="/mnt/SDCARD/Apps/Syncthing/config.json"
 IP="$(ip addr show wlan0 | awk '/inet[^6]/ {split($2, a, "/"); print a[1]}')"
 
 if $SYNCTHING_ENABLED; then
