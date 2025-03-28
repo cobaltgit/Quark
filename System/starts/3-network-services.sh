@@ -9,12 +9,18 @@
     fi
 
     IP="$(ip addr show wlan0 | awk '/inet[^6]/ {split($2, a, "/"); print a[1]}')"
-    DUFS_CONFIG="/mnt/SDCARD/Apps/WifiFileTransferToggle/config.json"
+    DUFS_APP_CONFIG="/mnt/SDCARD/Apps/WifiFileTransferToggle/config.json"
+    SYNCTHING_APP_CONFIG="/mnt/SDCARD/Apps/Syncthing/config.json"
     DUFS_ENABLED="$(get_setting "network" "dufs")"
+    SYNCTHING_ENABLED="$(get_setting "network" "syncthing")"
 
     if [ -z "$IP" ]; then
         if $DUFS_ENABLED; then
-            echo -E "$(/mnt/SDCARD/System/bin/jq '.description = "Not connected"' "$DUFS_CONFIG")" > "$DUFS_CONFIG"
+            echo -E "$(/mnt/SDCARD/System/bin/jq '.description = "Not connected"' "$DUFS_APP_CONFIG")" > "$DUFS_APP_CONFIG"
+        fi
+
+        if $SYNCTHING_ENABLED; then
+            echo -E "$(/mnt/SDCARD/System/bin/jq '.description = "Not connected"' "$SYNCTHING_APP_CONFIG")" > "$SYNCTHING_APP_CONFIG"
         fi
     fi
 
@@ -25,7 +31,13 @@
 
     if $DUFS_ENABLED; then
         DESCRIPTION="IP: $IP:5000"
-        echo -E "$(/mnt/SDCARD/System/bin/jq --arg DESCRIPTION "$DESCRIPTION" '.description = $DESCRIPTION' "$DUFS_CONFIG")" > "$DUFS_CONFIG"
+        echo -E "$(/mnt/SDCARD/System/bin/jq --arg DESCRIPTION "$DESCRIPTION" '.description = $DESCRIPTION' "$DUFS_APP_CONFIG")" > "$DUFS_APP_CONFIG"
         start_dufs_process
+    fi
+
+    if $SYNCTHING_ENABLED; then
+        DESCRIPTION="IP: $IP:8384"
+        echo -E "$(/mnt/SDCARD/System/bin/jq --arg DESCRIPTION "$DESCRIPTION" '.description = $DESCRIPTION' "$SYNCTHING_APP_CONFIG")" > "$SYNCTHING_APP_CONFIG"
+        start_syncthing_process
     fi
 } &
