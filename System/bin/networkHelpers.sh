@@ -31,8 +31,8 @@ setup_syncthing() {
         pkill syncthing
     fi
     sync
-    if [ $(grep -c "<address>0.0.0.0:8384</address>") -eq 0 ]; then
-        sed -i "s|<address>127.0.0.1:8384</address>|<address>0.0.0.0:8384</address>|g" $SYNCTHING_DIR/config/config.xml
+    if [ $(grep -c "<address>0.0.0.0:8384</address>" "$SYNCTHING_CONF_DIR/config.xml") -eq 0 ]; then
+        sed -i "s|<address>127.0.0.1:8384</address>|<address>0.0.0.0:8384</address>|g" $SYNCTHING_CONF_DIR/config.xml
     fi
 }
 
