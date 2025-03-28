@@ -8,9 +8,9 @@ setup_syncthing() {
     [ ! -d "$SYNCTHING_LOG_DIR" ] && mkdir -p "$SYNCTHING_LOG_DIR"
     if ! [ -f "$SYNCTHING_CONF_DIR/config.xml" ]; then
         ifconfig lo down
-        sleep 2
+        sleep 1
         ifconfig lo up
-        sleep 2
+        sleep 1
         /mnt/SDCARD/System/bin/syncthing generate --no-default-folder --home="$SYNCTHING_CONF_DIR" > "$SYNCTHING_LOG_DIR/generate.log" 2>&1 &
         sleep 5
 
@@ -39,7 +39,7 @@ setup_syncthing() {
 start_syncthing_process() {
     setup_syncthing
     if ! pgrep syncthing >/dev/null 2>&1; then
-        /mnt/SDCARD/System/bin/syncthing serve --home="$SYNCTHING_CONF_DIR" > "$SYNCTHING_LOG_DIR/serve.log" 2>&1 &
+        HOME="/mnt/SDCARD" /mnt/SDCARD/System/bin/syncthing serve --home="$SYNCTHING_CONF_DIR" > "$SYNCTHING_LOG_DIR/serve.log" 2>&1 &
     fi
 }
 
