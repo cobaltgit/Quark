@@ -6,6 +6,7 @@ SYNCTHING_CONF_DIR="/mnt/SDCARD/System/etc/syncthing"
 
 setup_syncthing() {
     [ ! -d "$SYNCTHING_LOG_DIR" ] && mkdir -p "$SYNCTHING_LOG_DIR"
+    [ ! -d "$SYNCTHING_CONF_DIR" ] && mkdir -p "$SYNCTHING_CONF_DIR"
     if ! [ -f "$SYNCTHING_CONF_DIR/config.xml" ]; then
         ifconfig lo down
         sleep 1
