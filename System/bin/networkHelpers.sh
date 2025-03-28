@@ -12,7 +12,7 @@ setup_syncthing() {
         ifconfig lo up
         sleep 2
         /mnt/SDCARD/System/bin/syncthing generate --no-default-folder --home="$SYNCTHING_CONF_DIR" > "$SYNCTHING_LOG_DIR/generate.log" 2>&1 &
-        sleep 2
+        sleep 5
 
 
         if grep -q "<listenAddress>dynamic+https://relays.syncthing.net/endpoint</listenAddress>" "$SYNCTHING_CONF_DIR/config.xml"; then
