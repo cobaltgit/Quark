@@ -39,7 +39,11 @@ setup_syncthing() {
 start_syncthing_process() {
     setup_syncthing
     if ! pgrep syncthing >/dev/null 2>&1; then
-        HOME="/mnt/SDCARD" /mnt/SDCARD/System/bin/syncthing serve --home="$SYNCTHING_CONF_DIR" > "$SYNCTHING_LOG_DIR/serve.log" 2>&1 &
+        HOME="/mnt/SDCARD" /mnt/SDCARD/System/bin/syncthing serve \
+            --no-restart \
+            --no-upgrade \
+            --home="$SYNCTHING_CONF_DIR" \
+            > "$SYNCTHING_LOG_DIR/serve.log" 2>&1 &
     fi
 }
 
