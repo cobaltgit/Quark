@@ -1,5 +1,7 @@
 #!/bin/sh
 
+export SSL_CERT_FILE="/mnt/SDCARD/System/etc/ca-certificates.crt"
+
 LOG_DIR="/mnt/SDCARD/System/log"
 SYNCTHING_LOG_DIR="$LOG_DIR/syncthing"
 SYNCTHING_CONF_DIR="/mnt/SDCARD/System/etc/syncthing"
