@@ -14,7 +14,7 @@
     SSH_APP_CONFIG="/mnt/SDCARD/Apps/SSH/config.json"
     DUFS_ENABLED="$(get_setting "network" "dufs")"
     SYNCTHING_ENABLED="$(get_setting "network" "syncthing")"
-    SYNCTHING_ENABLED="$(get_setting "network" "ssh")"
+    SSH_ENABLED="$(get_setting "network" "ssh")"
 
     if [ -z "$IP" ]; then
         if $DUFS_ENABLED; then
