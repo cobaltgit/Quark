@@ -1,7 +1,7 @@
 #!/bin/sh
 
-. /mnt/SDCARD/System/bin/helpers.sh
-. /mnt/SDCARD/System/bin/networkHelpers.sh
+. /mnt/SDCARD/System/scripts/helpers.sh
+. /mnt/SDCARD/System/scripts/networkHelpers.sh
 
 QUARK_CONFIG="/mnt/SDCARD/System/etc/quark.ini"
 SYNCTHING_ENABLED="$(get_setting "network" "syncthing")"

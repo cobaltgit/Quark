@@ -1,7 +1,7 @@
 #!/bin/sh
 
-. /mnt/SDCARD/System/bin/helpers.sh
-. /mnt/SDCARD/System/bin/networkHelpers.sh
+. /mnt/SDCARD/System/scripts/helpers.sh
+. /mnt/SDCARD/System/scripts/networkHelpers.sh
 
 {
     if [ "$(/mnt/SDCARD/System/bin/jq '.wifi' "/mnt/UDISK/system.json")" -eq 0 ]; then # exit if wifi is disabled system-wide
