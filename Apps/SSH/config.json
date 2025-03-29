@@ -1,5 +1,5 @@
 {
-    "label":"SSH",
+    "label":"SSH Access",
     "icon":"icon.png",
     "launch":"launch.sh",
     "description":"Turned off"
