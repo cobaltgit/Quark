@@ -9,7 +9,7 @@
     fi
 
     IP="$(ip addr show wlan0 | awk '/inet[^6]/ {split($2, a, "/"); print a[1]}')"
-    DUFS_APP_CONFIG="/mnt/SDCARD/Apps/WifiFileTransferToggle/config.json"
+    DUFS_APP_CONFIG="/mnt/SDCARD/Apps/Dufs/config.json"
     SYNCTHING_APP_CONFIG="/mnt/SDCARD/Apps/Syncthing/config.json"
     SSH_APP_CONFIG="/mnt/SDCARD/Apps/SSH/config.json"
     DUFS_ENABLED="$(get_setting "network" "dufs")"
