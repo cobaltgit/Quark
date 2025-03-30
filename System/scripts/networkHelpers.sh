@@ -74,7 +74,7 @@ start_dropbear_process() {
         /mnt/SDCARD/System/bin/dropbearmulti dropbear \
             -r "$DROPBEAR_KEY_DIR/dropbear_rsa_host_key" \
             -r "$DROPBEAR_KEY_DIR/dropbear_dss_host_key" \
-            -c "/mnt/SDCARD/System/bin/ssh_wrapper.sh"
+            -c "/mnt/SDCARD/System/scripts/ssh_wrapper.sh"
     fi
 }
 
