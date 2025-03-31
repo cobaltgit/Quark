@@ -1,6 +1,6 @@
 {
   "label": "X68000",
-  "icon": "ic-WSC.png",
+  "icon": "ic-X68000.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/X68000",
   "imgpath": "../../Roms/X68000/Imgs",
