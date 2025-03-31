@@ -11,15 +11,15 @@
     SYNCTHING_ENABLED="$(get_setting "network" "syncthing")"
     SSH_ENABLED="$(get_setting "network" "ssh")"
 
-    if ! $DUFS_ENABLED && [ "$(/mnt/SDCARD/System/bin/jq -r '.description' "$DUFS_APP_CONFIG")" != "Turned off" ]; then
+    if ( ! $DUFS_ENABLED ) && [ "$(/mnt/SDCARD/System/bin/jq -r '.description' "$DUFS_APP_CONFIG")" != "Turned off" ]; then
         echo -E "$(/mnt/SDCARD/System/bin/jq '.description = "Turned off"' "$DUFS_APP_CONFIG")" > "$DUFS_APP_CONFIG"
     fi
 
-    if ! $SYNCTHING_ENABLED && [ "$(/mnt/SDCARD/System/bin/jq -r '.description' "$SYNCTHING_APP_CONFIG")" != "Turned off" ]; then
+    if ( ! $SYNCTHING_ENABLED ) && [ "$(/mnt/SDCARD/System/bin/jq -r '.description' "$SYNCTHING_APP_CONFIG")" != "Turned off" ]; then
         echo -E "$(/mnt/SDCARD/System/bin/jq '.description = "Turned off"' "$SYNCTHING_APP_CONFIG")" > "$SYNCTHING_APP_CONFIG"
     fi
 
-    if ! $SSH_ENABLED && [ "$(/mnt/SDCARD/System/bin/jq -r '.description' "$SSH_APP_CONFIG")" != "Turned off" ]; then
+    if ( ! $SSH_ENABLED ) && [ "$(/mnt/SDCARD/System/bin/jq -r '.description' "$SSH_APP_CONFIG")" != "Turned off" ]; then
         echo -E "$(/mnt/SDCARD/System/bin/jq '.description = "Turned off"' "$SSH_APP_CONFIG")" > "$SSH_APP_CONFIG"
     fi
 
