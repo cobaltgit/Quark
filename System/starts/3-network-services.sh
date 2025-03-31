@@ -4,17 +4,30 @@
 . /mnt/SDCARD/System/scripts/networkHelpers.sh
 
 {
-    if [ "$(/mnt/SDCARD/System/bin/jq '.wifi' "/mnt/UDISK/system.json")" -eq 0 ]; then # exit if wifi is disabled system-wide
-        exit 0
-    fi
-
-    IP="$(ip addr show wlan0 | awk '/inet[^6]/ {split($2, a, "/"); print a[1]}')"
     DUFS_APP_CONFIG="/mnt/SDCARD/Apps/WifiFileTransferToggle/config.json"
     SYNCTHING_APP_CONFIG="/mnt/SDCARD/Apps/Syncthing/config.json"
     SSH_APP_CONFIG="/mnt/SDCARD/Apps/SSH/config.json"
     DUFS_ENABLED="$(get_setting "network" "dufs")"
     SYNCTHING_ENABLED="$(get_setting "network" "syncthing")"
     SSH_ENABLED="$(get_setting "network" "ssh")"
+
+    if ! $DUFS_ENABLED; then
+        echo -E "$(/mnt/SDCARD/System/bin/jq '.description = "Turned off"' "$DUFS_APP_CONFIG")" > "$DUFS_APP_CONFIG"
+    fi
+
+    if ! $SYNCTHING_ENABLED; then
+        echo -E "$(/mnt/SDCARD/System/bin/jq '.description = "Turned off"' "$SYNCTHING_APP_CONFIG")" > "$SYNCTHING_APP_CONFIG"
+    fi
+
+    if ! $SSH_ENABLED; then
+        echo -E "$(/mnt/SDCARD/System/bin/jq '.description = "Turned off"' "$SSH_APP_CONFIG")" > "$SSH_APP_CONFIG"
+    fi
+
+    if [ "$(/mnt/SDCARD/System/bin/jq '.wifi' "/mnt/UDISK/system.json")" -eq 0 ]; then # exit if wifi is disabled system-wide
+        exit 0
+    fi
+
+    IP="$(ip addr show wlan0 | awk '/inet[^6]/ {split($2, a, "/"); print a[1]}')"
 
     if [ -z "$IP" ]; then
         if $DUFS_ENABLED; then
