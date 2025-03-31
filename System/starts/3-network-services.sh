@@ -23,7 +23,7 @@
         echo -E "$(/mnt/SDCARD/System/bin/jq '.description = "Turned off"' "$SSH_APP_CONFIG")" > "$SSH_APP_CONFIG"
     fi
 
-    if [ "$(/mnt/SDCARD/System/bin/jq '.wifi' "/mnt/UDISK/system.json")" -eq 0 ]; then # exit if wifi is disabled system-wide
+    if [ "$(/mnt/SDCARD/System/bin/jq '.wifi' "/mnt/UDISK/system.json")" -eq 0 ] || ! [ $DUFS_ENABLED || $SYNCTHING_ENABLED || $SSH_ENABLED ]; then # exit if wifi is disabled system-wide or all network services are disabled
         exit 0
     fi
 
