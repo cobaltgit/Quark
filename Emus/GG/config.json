@@ -1,13 +1,15 @@
 {
   "label": "GAME GEAR",
   "icon": "ic-GG.png",
+  "iconsmall": "ic-GG-72.png",
+  "iconlist": "ic-GG-32.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/GG",
   "imgpath": "../../Roms/GG/Imgs",
+  "extlist": "gg|bin|zip",
   "useswap": 1,
   "shortname": 0,
   "hidebios": 1,
-  "extlist": "gg|bin|zip",
   "launchlist": [
     {
       "name": "CPU: Smart",

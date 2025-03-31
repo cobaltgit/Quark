@@ -1,13 +1,15 @@
 {
   "label": "PORTS",
   "icon": "ic-PORTS.png",
+  "iconsmall": "ic-PORTS-72.png",
+  "iconlist": "ic-PORTS-32.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/PORTS",
   "imgpath": "../../Roms/PORTS/Imgs",
+  "extlist": "sh",
   "useswap": 1,
   "shortname": 0,
   "hidebios": 0,
-  "extlist": "sh",
   "launchlist": [
     {
       "name": "CPU: Smart",

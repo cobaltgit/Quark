@@ -1,6 +1,8 @@
 {
   "label": "AMIGA",
   "icon": "ic-AMIGA.png",
+  "iconsmall": "ic-AMIGA-72.png",
+  "iconlist": "ic-AMIGA-32.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/AMIGA",
   "imgpath": "../../Roms/AMIGA/Imgs",

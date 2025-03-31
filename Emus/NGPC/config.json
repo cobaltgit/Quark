@@ -1,13 +1,15 @@
 {
   "label": "NGP COLOR",
   "icon": "ic-NGPC.png",
+  "iconsmall": "ic-NGPC-72.png",
+  "iconlist": "ic-NGPC-32.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/NGPC",
   "imgpath": "../../Roms/NGPC/Imgs",
+  "extlist": "ngc|ngp|zip",
   "useswap": 0,
   "shortname": 0,
   "hidebios": 0,
-  "extlist": "ngc|ngp|zip",
   "launchlist": [
     {
       "name": "CPU: Smart",

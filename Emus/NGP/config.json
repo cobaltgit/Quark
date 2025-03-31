@@ -1,13 +1,15 @@
 {
   "label": "NEOGEO POCKET",
   "icon": "ic-NGP.png",
+  "iconsmall": "ic-NGP-72.png",
+  "iconlist": "ic-NGP-32.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/NGP",
   "imgpath": "../../Roms/NGP/Imgs",
+  "extlist": "ngc|ngp|zip",
   "useswap": 0,
   "shortname": 0,
   "hidebios": 0,
-  "extlist": "ngc|ngp|zip",
   "launchlist": [
     {
       "name": "CPU: Smart",

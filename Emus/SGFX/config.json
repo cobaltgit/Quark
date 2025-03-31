@@ -1,13 +1,15 @@
 {
   "label": "SUPERGRAFX",
   "icon": "ic-SGFX.png",
+  "iconsmall": "ic-SGFX-72.png",
+  "iconlist": "ic-SGFX-32.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/SGFX",
   "imgpath": "../../Roms/SGFX/Imgs",
+  "extlist": "pce|sgx|cue|iso|chd|ccd|zip",
   "useswap": 0,
   "shortname": 0,
   "hidebios": 0,
-  "extlist": "pce|sgx|cue|iso|chd|ccd|zip",
   "launchlist": [
     {
       "name": "CPU: Smart",

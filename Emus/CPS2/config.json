@@ -1,13 +1,15 @@
 {
   "label": "CPS II",
   "icon": "ic-cps2.png",
+  "iconsmall": "ic-cps2-72.png",
+  "iconlist": "ic-cps2-32.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/CPS2",
   "imgpath": "../../Roms/CPS2/Imgs",
+  "extlist": "zip",
   "useswap": 1,
   "shortname": 1,
   "hidebios": 1,
-  "extlist": "zip",
   "launchlist": [
     {
       "name": "CPU: Smart",

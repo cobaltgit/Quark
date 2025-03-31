@@ -1,13 +1,15 @@
 {
   "label": "SG-1000",
   "icon": "ic-SG1000.png",
+  "iconsmall": "ic-SG1000-72.png",
+  "iconlist": "ic-SG1000-32.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/SG1000",
   "imgpath": "../../Roms/SG1000/Imgs",
+  "extlist": "zip|sms|gg|sg|mv|bin|rom",
   "useswap": 0,
   "shortname": 0,
   "hidebios": 0,
-  "extlist": "zip|sms|gg|sg|mv|bin|rom",
   "launchlist": [
     {
       "name": "CPU: Smart",

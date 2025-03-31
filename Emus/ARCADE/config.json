@@ -1,13 +1,15 @@
 {
   "label": "ARCADE",
   "icon": "ic-ARCADE.png",
+  "iconsmall": "ic-ARCADE-72.png",
+  "iconlist": "ic-ARCADE-32.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/ARCADE",
   "imgpath": "../../Roms/ARCADE/Imgs",
+  "extlist": "zip",
   "useswap": 1,
   "shortname": 1,
   "hidebios": 1,
-  "extlist": "zip",
   "launchlist": [
     {
       "name": "CPU: Smart",

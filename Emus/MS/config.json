@@ -1,13 +1,15 @@
 {
   "label": "MASTER SYSTEM",
   "icon": "ic-SMS.png",
+  "iconsmall": "ic-SMS-72.png",
+  "iconlist": "ic-SMS-32.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/MS",
   "imgpath": "../../Roms/MS/Imgs",
+  "extlist": "sms|rom|gg|sg|zip",
   "useswap": 0,
   "shortname": 0,
   "hidebios": 0,
-  "extlist": "sms|rom|gg|sg|zip",
   "launchlist": [
     {
       "name": "CPU: Smart",
