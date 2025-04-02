@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. /mnt/SDCARD/System/bin/helpers.sh
+. /mnt/SDCARD/System/scripts/helpers.sh
 
 cd "$(dirname "$0")"
 
@@ -9,14 +9,14 @@ BOOTLOGO="bootlogo.bmp"
 LOG_FILE="/mnt/SDCARD/System/log/bootlogo.log"
 
 if [ $(wc -c <$BOOTLOGO) -gt $BOOTLOGO_MAX_BYTES ]; then
-    display -d 2000 "Boot logo must be 512KiB or smaller. Exiting..."
+    display -d 2000 -t "Boot logo must be 512KiB or smaller. Exiting..." >> "$LOG_FILE" 2>&1
     exit 1
 fi
 
 display "Updating boot logo..."
-dd if=$BOOTLOGO of=/dev/by-name/bootlogo bs=65536 > "$LOG_FILE" 2>&1
+dd if=$BOOTLOGO of=/dev/by-name/bootlogo bs=65536 >> "$LOG_FILE" 2>&1
 if [ $? -eq 0 ]; then
-    display -d 2000 "Boot logo update success."
+    display -d 2000 -t "Boot logo update success." >> "$LOG_FILE" 2>&1
 else
-    display -d 2000 "Boot logo update failed. Check the log for more details."
+    display -d 2000 -t "Boot logo update failed. Check the log for more details." >> "$LOG_FILE" 2>&1
 fi

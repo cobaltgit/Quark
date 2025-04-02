@@ -75,10 +75,12 @@ display() {
 
     while [ "$#" -gt 0 ]; do
         case $1 in
-            "-b|--bg") DISPLAY_BG="$2"; shift ;;
-            "-f|--font") DISPLAY_FONT="$2"; shift ;;
-            "-d|--duration") DISPLAY_DURATION=$2; shift ;;
+            "-b"|"--bg") DISPLAY_BG="$2"; shift ;;
+            "-f"|"--font") DISPLAY_FONT="$2"; shift ;;
+            "-d"|"--duration") DISPLAY_DURATION=$2; shift ;;
+            "-t"|"--text") DISPLAY_TEXT=$2; shift ;;
         esac
+        echo "$0 $@"
         shift
     done
 
@@ -94,5 +96,6 @@ display() {
         DISPLAY_CLI="$DISPLAY_CLI -d $DISPLAY_DURATION"
     fi
 
-    /mnt/SDCARD/System/bin/display.elf "$DISPLAY_CLI" "$@"
+    echo "$@"
+    /mnt/SDCARD/System/bin/display.elf "$DISPLAY_CLI" "$DISPLAY_TEXT"
 }
