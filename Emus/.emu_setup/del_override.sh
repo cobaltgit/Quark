@@ -8,4 +8,4 @@ OVERRIDE_FILE="/mnt/SDCARD/Emus/.emu_setup/overrides/${EMU}/${GAME}.opt"
 
 rm -f "$SYS_OPT" "$OVERRIDE_FILE"
 
-display -d 1500 -t "Deleted CPU override for game $GAME"
+display -d 1000 -t "Deleted CPU override for game $GAME"

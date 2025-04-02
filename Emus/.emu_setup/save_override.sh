@@ -13,4 +13,4 @@ OVERRIDE_DIR="$(dirname "$OVERRIDE_FILE")"
 
 cp -f "$SYS_OPT" "$OVERRIDE_FILE"
 
-display -d 1500 -t "Saved CPU override for game $GAME"
+display -d 1000 -t "Saved CPU override for game $GAME"
