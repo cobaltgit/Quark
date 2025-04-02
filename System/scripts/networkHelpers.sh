@@ -40,7 +40,8 @@ setup_syncthing() {
 setup_dropbear() {
     [ ! -d "$DROPBEAR_KEY_DIR" ] && mkdir -p "$DROPBEAR_KEY_DIR"
     [ ! -f "$DROPBEAR_KEY_DIR/dropbear_rsa_host_key" ] && /mnt/SDCARD/System/bin/dropbearmulti dropbearkey -t rsa -f "$DROPBEAR_KEY_DIR/dropbear_rsa_host_key"
-    [ ! -f "$DROPBEAR_KEY_DIR/dropbear_dss_host_key" ] && /mnt/SDCARD/System/bin/dropbearmulti dropbearkey -t dss -f "$DROPBEAR_KEY_DIR/dropbear_dss_host_key"
+    [ ! -f "$DROPBEAR_KEY_DIR/dropbear_ecdsa_host_key" ] && /mnt/SDCARD/System/bin/dropbearmulti dropbearkey -t ecdsa -f "$DROPBEAR_KEY_DIR/dropbear_ecdsa_host_key"
+    [ ! -f "$DROPBEAR_KEY_DIR/dropbear_ed25519_host_key" ] && /mnt/SDCARD/System/bin/dropbearmulti dropbearkey -t ed25519 -f "$DROPBEAR_KEY_DIR/dropbear_ed25519_host_key"
     [ "$(awk -F ":" '/root/ {print $2}' "/etc/shadow")" = "!" ] && echo -e "quark\nquark" | passwd root # set default root password
 }
 
@@ -73,7 +74,8 @@ start_dropbear_process() {
     if ! pgrep dropbearmulti >/dev/null 2>&1; then
         /mnt/SDCARD/System/bin/dropbearmulti dropbear \
             -r "$DROPBEAR_KEY_DIR/dropbear_rsa_host_key" \
-            -r "$DROPBEAR_KEY_DIR/dropbear_dss_host_key" \
+            -r "$DROPBEAR_KEY_DIR/dropbear_ecdsa_host_key" \
+            -r "$DROPBEAR_KEY_DIR/dropbear_ed25519_host_key" \
             -c "/mnt/SDCARD/System/scripts/ssh_wrapper.sh"
     fi
 }
