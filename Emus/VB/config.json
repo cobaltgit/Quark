@@ -1,0 +1,25 @@
+{
+  "label": "VIRTUAL BOY",
+  "icon": "ic-VB.png",
+  "launch": "../.emu_setup/launch_emu.sh",
+  "rompath": "../../Roms/VB",
+  "imgpath": "../../Roms/VB/Imgs",
+  "extlist": "vb|vboy|bin|zip",
+  "useswap": 1,
+  "shortname": 0,
+  "hidebios": 0,
+  "launchlist": [
+    {
+      "name": "CPU: Smart",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/cpu_switch.sh"
+    },
+    {
+      "name": "Save override",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/save_override.sh"
+    },
+    {
+      "name": "Delete override",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/del_override.sh"
+    }
+  ]
+}

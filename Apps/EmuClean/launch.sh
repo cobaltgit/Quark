@@ -2,7 +2,7 @@
 # Refresh icon by Icons8
 # https://icons8.com/icon/59872/refresh
 
-. /mnt/SDCARD/System/bin/helpers.sh
+. /mnt/SDCARD/System/scripts/helpers.sh
 
 EMU_DIR="/mnt/SDCARD/Emus"
 

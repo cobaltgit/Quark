@@ -1,14 +1,13 @@
 # Quark
 
-A trimmed down (under 150MB) version of the TrimUI Smart's stock operating system with extra goodies, great for small SD cards!  
+A trimmed down version of the TrimUI Smart's stock operating system with extra goodies, great for small SD cards!  
 Installation is as simple as extracting the [latest release](https://github.com/cobaltgit/Quark/releases/latest) into the root of a microSD card formatted with the FAT32 filesystem.
 
 * Many more systems to choose from than the stock base package, including home computers and ports
-* RetroArch cores updated to their latest versions from source*
+* RetroArch cores updated to their latest versions from source
 * CPU profiles configured for best performance/battery life balance
 * Overlays for handheld systems
-
-*pcsx_rearmed is on a slightly older version as the latest crashes when trying to make a save state
+* Support for network services, including Syncthing, SSH and file transfer over SFTP or HTTP!
 
 ## Hotkeys
 
@@ -20,12 +19,12 @@ Installation is as simple as extracting the [latest release](https://github.com/
 
 ### RetroArch
 
-* SELECT + L: slow-motion
-* SELECT + R: fast-forward
 * SELECT + B: exit to MainUI
 * SELECT + A: take screenshot (saves in `Saves/screenshots`)
 * SELECT + Y: toggle frame rate display
 * SELECT + X: open RA menu
+* SELECT + D-Pad Down: slow-motion
+* SELECT + D-Pad Up: fast-forward
 * SELECT + D-Pad Right: save state in current slot
 * SELECT + D-Pad Left: load state in current slot
 
@@ -78,6 +77,8 @@ Below is a list of systems that Quark supports, along with the emulator core the
 * Sega SG-1000 / SC-3000 (PicoDrive)
 * NEC PC Engine SuperGrafx (Beetle SuperGrafx)
 * Watara Supervision (Potator)
+* TIC-80
+* Nintendo Virtual Boy (Beetle VB)
 * Commodore VIC-20 (VICE XVIC)
 * Wolfenstein 3D (ECWolf)
 * Bandai WonderSwan / WonderSwan Color (Beetle Cygne)
@@ -88,6 +89,7 @@ Below is a list of systems that Quark supports, along with the emulator core the
 
 * Sega CD games have no CD audio playback when using `.chd` format games using the PicoDrive core. Launcher works around this by changing to the Genesis Plus GX core if needed.
 * RACE (NGP/NGPC emulator) audio freezes when using auto save state. Manually save state before exiting and load state when launching game
+* Audio stretching when using auto save/load state for Sega CD games with Picodrive. Manually save state before exiting and load state when launching game
 * FPS display not showing when an overlay is applied
 
 ## Licence

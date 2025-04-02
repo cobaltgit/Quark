@@ -1,5 +1,5 @@
 {
-  "label": "PGM",
+  "label": "POLYGAME MASTER",
   "icon": "ic-pgm.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/PGM",

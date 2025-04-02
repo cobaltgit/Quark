@@ -1,6 +1,6 @@
 #!/bin/sh
 
-. /mnt/SDCARD/System/bin/helpers.sh
+. /mnt/SDCARD/System/scripts/helpers.sh
 
 export EMU="$(echo "$1" | cut -d'/' -f5)"
 export GAME="$(basename "$1")"
