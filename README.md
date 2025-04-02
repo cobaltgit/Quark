@@ -7,6 +7,7 @@ Installation is as simple as extracting the [latest release](https://github.com/
 * RetroArch cores updated to their latest versions from source
 * CPU profiles configured for best performance/battery life balance
 * Overlays for handheld systems
+* Support for network services, including Syncthing, SSH and file transfer over SFTP or HTTP!
 
 ## Hotkeys
 
