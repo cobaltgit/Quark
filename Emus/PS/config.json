@@ -15,7 +15,7 @@
     },
     {
       "name": "Generate M3Us",
-      "launch": "/mnt/SDCARD/Emu/.emu_setup/m3u_generator.sh"
+      "launch": "/mnt/SDCARD/Emu/.emu_setup/generate_m3u.sh"
     },
     {
       "name": "Save override",
