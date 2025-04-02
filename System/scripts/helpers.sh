@@ -67,3 +67,32 @@ update_setting() {
     NEW_VALUE="$3"
     sed -i "/\[$SECTION\]/,/^\[/{s/^\($KEY *=\).*/\1$NEW_VALUE/;}" "/mnt/SDCARD/System/etc/quark.ini"
 }
+
+# display: displays text on screen for a (optional) set duration with a (optional) background image
+display() {
+    DEFAULT_BG="/mnt/SDCARD/System/res/quarkbg.png"
+    DEFAULT_FONT="/mnt/SDCARD/System/res/TwCenMT.ttf"
+
+    while [ "$#" -gt 0 ]; do
+        case $1 in
+            "-b|--bg") DISPLAY_BG="$2"; shift ;;
+            "-f|--font") DISPLAY_FONT="$2"; shift ;;
+            "-d|--duration") DISPLAY_DURATION=$2; shift ;;
+        esac
+        shift
+    done
+
+    [ -z "$DISPLAY_BG" ] && DISPLAY_BG=$DEFAULT_BG
+    [ -z "$DISPLAY_FONT" ] && DISPLAY_FONT=$DEFAULT_FONT
+
+    if pgrep display.elf 2>&1; then # we kill the previous instance of display
+        killall -9 display.elf
+    fi
+
+    DISPLAY_CLI="-b \"$DISPLAY_BG\" -f \"$DISPLAY_FONT\""
+    if [ -n "$DISPLAY_DURATION" ]; then
+        DISPLAY_CLI="$DISPLAY_CLI -d $DISPLAY_DURATION"
+    fi
+
+    /mnt/SDCARD/System/bin/display.elf "$DISPLAY_CLI" "$@"
+}
