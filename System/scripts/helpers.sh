@@ -68,6 +68,11 @@ update_setting() {
     sed -i "/\[$SECTION\]/,/^\[/{s/^\($KEY *=\).*/\1$NEW_VALUE/;}" "/mnt/SDCARD/System/etc/quark.ini"
 }
 
+# kill_display: kill any instances of display.elf, should be used before starting another display.
+kill_display() {
+    killall -9 display.elf
+}
+
 # display: displays text on screen for a (optional) set duration with a (optional) background image
 display() {
     DEFAULT_BG="/mnt/SDCARD/System/res/quarkbg.png"
@@ -80,22 +85,19 @@ display() {
             "-d"|"--duration") DISPLAY_DURATION=$2; shift ;;
             "-t"|"--text") DISPLAY_TEXT=$2; shift ;;
         esac
-        echo "$0 $@"
         shift
     done
 
     [ -z "$DISPLAY_BG" ] && DISPLAY_BG=$DEFAULT_BG
     [ -z "$DISPLAY_FONT" ] && DISPLAY_FONT=$DEFAULT_FONT
+    [ -z "$DISPLAY_DURATION" ] && DISPLAY_DURATION=0
 
-    if pgrep display.elf 2>&1; then # we kill the previous instance of display
-        killall -9 display.elf
+    kill_display
+
+    DISPLAY_CMD="/mnt/SDCARD/System/bin/display.elf -d $DISPLAY_DURATION -b \"$DISPLAY_BG\" -f \"$DISPLAY_FONT\" \"$DISPLAY_TEXT\""
+    if [ $DISPLAY_DURATION -eq 0 ]; then
+        eval "$DISPLAY_CMD" &
+    else
+        eval "$DISPLAY_CMD"
     fi
-
-    DISPLAY_CLI="-b \"$DISPLAY_BG\" -f \"$DISPLAY_FONT\""
-    if [ -n "$DISPLAY_DURATION" ]; then
-        DISPLAY_CLI="$DISPLAY_CLI -d $DISPLAY_DURATION"
-    fi
-
-    echo "$@"
-    /mnt/SDCARD/System/bin/display.elf "$DISPLAY_CLI" "$DISPLAY_TEXT"
 }

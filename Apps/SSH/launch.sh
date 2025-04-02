@@ -9,10 +9,12 @@ SSH_APP_CONFIG="/mnt/SDCARD/Apps/SSH/config.json"
 IP="$(ip addr show wlan0 | awk '/inet[^6]/ {split($2, a, "/"); print a[1]}')"
 
 if $SSH_ENABLED; then
+    display -d 1000 -t "Disabling SSH..."
     SSH_ENABLED=false
     echo -E "$(/mnt/SDCARD/System/bin/jq '.description = "Turned off"' "$SSH_APP_CONFIG")" > "$SSH_APP_CONFIG"
     stop_dropbear_process
 else
+    display -d 1000 -t "Enabling SSH..."
     SSH_ENABLED=true
     if [ -z "$IP" ]; then
         DESCRIPTION="Not connected"
@@ -24,3 +26,5 @@ else
 fi
 
 update_setting "network" "ssh" "$SSH_ENABLED"
+
+kill_display

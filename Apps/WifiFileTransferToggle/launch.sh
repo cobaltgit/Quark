@@ -1,5 +1,7 @@
 #!/bin/sh
 
+set -x
+
 . /mnt/SDCARD/System/scripts/helpers.sh
 . /mnt/SDCARD/System/scripts/networkHelpers.sh
 
@@ -9,10 +11,12 @@ DUFS_APP_CONFIG="/mnt/SDCARD/Apps/WifiFileTransferToggle/config.json"
 IP="$(ip addr show wlan0 | awk '/inet[^6]/ {split($2, a, "/"); print a[1]}')"
 
 if $DUFS_ENABLED; then
+    display -d 1000 -t "Disabling dufs..."
     DUFS_ENABLED=false
     echo -E "$(/mnt/SDCARD/System/bin/jq '.description = "Turned off"' "$DUFS_APP_CONFIG")" > "$DUFS_APP_CONFIG"
     stop_dufs_process
 else
+    display -d 1000 -t "Enabling dufs..."
     DUFS_ENABLED=true
     if [ -z "$IP" ]; then
         DESCRIPTION="Not connected"
@@ -24,3 +28,5 @@ else
 fi
 
 update_setting "network" "dufs" "$DUFS_ENABLED"
+
+kill_display
