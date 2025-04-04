@@ -58,7 +58,7 @@ setup_dropbear() {
 start_syncthing_process() {
     setup_syncthing
     if ! pgrep syncthing >/dev/null 2>&1; then
-        HOME="/mnt/SDCARD" /mnt/SDCARD/System/bin/syncthing serve \
+        HOME="/mnt/SDCARD" nice -2 /mnt/SDCARD/System/bin/syncthing serve \
             --no-restart \
             --no-upgrade \
             --home="$SYNCTHING_CONF_DIR" \
@@ -82,7 +82,7 @@ start_dufs_process() {
 start_dropbear_process() {
     setup_dropbear
     if ! pgrep dropbearmulti >/dev/null 2>&1; then
-        /mnt/SDCARD/System/bin/dropbearmulti dropbear \
+        nice -2 /mnt/SDCARD/System/bin/dropbearmulti dropbear \
             -r "$DROPBEAR_KEY_DIR/dropbear_rsa_host_key" \
             -r "$DROPBEAR_KEY_DIR/dropbear_ecdsa_host_key" \
             -r "$DROPBEAR_KEY_DIR/dropbear_ed25519_host_key" \
