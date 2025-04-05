@@ -19,6 +19,7 @@ run_retroarch() {
         CORE="genesis_plus_gx"
     fi
 
+    RA_BIN="ra32.trimui"
     if [ "$EMU" = "PS" ] || [ "$EMU" = "SFC" ]; then # Improved SNES/PSX performance
         RA_BIN="ra32.trimui_sdl"
         cp -f retroarch.cfg retroarch_sdl.cfg # config path is hard-coded, unfortunately. attempting to use bind mount causes a segmentation fault when accessing the menu on first run
@@ -29,7 +30,6 @@ run_retroarch() {
     fi
 
     CORE_PATH="$RA_DIR/.retroarch/cores/${CORE}_libretro.so"
-    RA_BIN="ra32.trimui"
 
     cd "$RA_DIR"
 
