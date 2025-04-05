@@ -19,15 +19,19 @@ run_retroarch() {
         CORE="genesis_plus_gx"
     fi
 
-    CORE_PATH="$RA_DIR/.retroarch/cores/${CORE}_libretro.so"
-    RA_BIN="ra32.trimui"
-
-    cd "$RA_DIR"
-
     if [ "$EMU" = "PS" ] || [ "$EMU" = "SFC" ]; then # Improved SNES/PSX performance
         RA_BIN="ra32.trimui_sdl"
         cp -f retroarch.cfg retroarch_sdl.cfg # config path is hard-coded, unfortunately. attempting to use bind mount causes a segmentation fault when accessing the menu on first run
     fi
+
+        if [ "$EMU" = "PS" ] || [ "$EMU" = "CPS3" ]; then # Games launch to a black screen with netplay enabled
+        NET_PARAM=
+    fi
+
+    CORE_PATH="$RA_DIR/.retroarch/cores/${CORE}_libretro.so"
+    RA_BIN="ra32.trimui"
+
+    cd "$RA_DIR"
 
     HOME="$RA_DIR/" "$RA_DIR/$RA_BIN" -v $NET_PARAM -L "$CORE_PATH" "$ROM_FILE"
 

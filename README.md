@@ -91,6 +91,7 @@ Below is a list of systems that Quark supports, along with the emulator core the
 * RACE (NGP/NGPC emulator) audio freezes when using auto save state. Manually save state before exiting and load state when launching game
 * Audio stretching when using auto save/load state for Sega CD games with Picodrive. Manually save state before exiting and load state when launching game
 * FPS display not showing when an overlay is applied
+* PSX and Capcom CPS3 games launch to a black screen when netplay is enabled (thank you @Marcoosio101 for pointing this out)
 
 ## Licence
 
@@ -102,3 +103,4 @@ This project is licenced under [CC-BY-SA-4.0](https://creativecommons.org/licens
 * **[libretro](https://www.retroarch.com/):** icons from Systematic/Retroactive RetroArch XMB themes
 * **Jutleys:** Dingux Commander from [Tomato](https://github.com/Jutleys/Trimui-Smart-Tomato), as well as some system icons
 * **[chrizzo-hb](https://github.com/chrizzo-hb/knulli-bezels):** overlays/bezels for handheld systems
+* **[Marcoosio101](https://github.com/Marcoosio101):** testing and issue reporting
