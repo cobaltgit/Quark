@@ -25,7 +25,8 @@ run_retroarch() {
         cp -f retroarch.cfg retroarch_sdl.cfg # config path is hard-coded, unfortunately. attempting to use bind mount causes a segmentation fault when accessing the menu on first run
     fi
 
-    if [ "$EMU" = "PS" ] || [ "$EMU" = "CPS3" ]; then # Games launch to a black screen with netplay enabled
+    if [ "$EMU" = "PS" ] || [ "$EMU" = "CPS3" ] || [ "$EMU" = "PICO8" ]; then
+        # PS1 and CPS3 games launch with a black screen. Pico-8 (Fake08) games have severely poor performance
         NET_PARAM=
     fi
 
