@@ -25,9 +25,15 @@ run_retroarch() {
         cp -f retroarch.cfg retroarch_sdl.cfg # config path is hard-coded, unfortunately. attempting to use bind mount causes a segmentation fault when accessing the menu on first run
     fi
 
-    if [ "$EMU" = "PS" ] || [ "$EMU" = "CPS3" ] || [ "$EMU" = "PICO8" ]; then
-        # PS1 and CPS3 games launch with a black screen. Pico-8 (Fake08) games have severely poor performance
-        NET_PARAM=
+    if [ -n "$NET_PARAM" ]; then
+        for NETPLAY_UNSUPPORTED_CORE in a5200 ardens atari800 bluemsx dosbox_pure easyrpg ecwolf fake08 fbalpha2012_cps3 freechaf \
+             freeintv fuse gw hatari neocd pcsx_rearmed pokemini potator prboom prosystem \
+             px68k tic80 tyrquake uae4arm vice_x64 vice_xvic; do
+            if [ "$CORE" = "$NETPLAY_UNSUPPORTED_CORE" ]; then
+                NET_PARAM=
+                break
+            fi
+        done
     fi
 
     CORE_PATH="$RA_DIR/.retroarch/cores/${CORE}_libretro.so"
