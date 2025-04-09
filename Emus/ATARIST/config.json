@@ -1,5 +1,5 @@
 {
-  "label": "ATARI ST",
+  "label": "ATARI-ST",
   "icon": "ic-atarist.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/ATARIST",

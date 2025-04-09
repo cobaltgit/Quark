@@ -1,5 +1,5 @@
 {
-  "label": "CPS III",
+  "label": "CPS-III",
   "icon": "ic-cps3.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/CPS3",

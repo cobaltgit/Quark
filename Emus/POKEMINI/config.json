@@ -1,5 +1,5 @@
 {
-  "label": "POKEMON MINI",
+  "label": "POKE-MINI",
   "icon": "ic-POKEMINI.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/POKEMINI",

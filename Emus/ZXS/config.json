@@ -1,5 +1,5 @@
 {
-  "label": "ZX SPECTRUM",
+  "label": "ZXS",
   "icon": "ic-ZXS.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/ZXS",

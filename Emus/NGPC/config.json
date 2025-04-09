@@ -1,5 +1,5 @@
 {
-  "label": "NGP COLOR",
+  "label": "NGPC",
   "icon": "ic-NGPC.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/NGPC",

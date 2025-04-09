@@ -1,5 +1,5 @@
 {
-  "label": "SEGA 32X",
+  "label": "SEGA-32X",
   "icon": "ic-32X.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/SEGA32X",

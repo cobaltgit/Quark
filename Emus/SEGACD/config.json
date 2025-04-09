@@ -1,5 +1,5 @@
 {
-  "label": "SEGA CD",
+  "label": "SEGA-CD",
   "icon": "ic-SEGACD.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/SEGACD",

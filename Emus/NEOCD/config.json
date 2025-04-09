@@ -1,5 +1,5 @@
 {
-  "label": "NEOGEO CD",
+  "label": "NEOGEO-CD",
   "icon": "ic-NEOCD.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/NEOCD",

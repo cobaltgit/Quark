@@ -1,5 +1,5 @@
 {
-  "label": "PCE CD-ROM",
+  "label": "PCE-CD-ROM",
   "icon": "ic-PCECD.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/PCECD",

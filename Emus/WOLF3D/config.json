@@ -1,5 +1,5 @@
 {
-  "label": "WOLF3D",
+  "label": "WOLF-3D",
   "icon": "ic-WOLF3D.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/WOLF3D",

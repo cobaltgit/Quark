@@ -1,5 +1,5 @@
 {
-  "label": "GAMEBOY COLOR",
+  "label": "GB-COLOR",
   "icon": "ic-GBC.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/GBC",

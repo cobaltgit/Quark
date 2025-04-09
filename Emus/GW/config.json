@@ -1,5 +1,5 @@
 {
-  "label": "GAME&WATCH",
+  "label": "G&W",
   "icon": "ic-GW.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/GW",
