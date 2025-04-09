@@ -104,4 +104,4 @@ This project is licenced under [CC-BY-SA-4.0](https://creativecommons.org/licens
 * **[libretro](https://www.retroarch.com/):** icons from Systematic/Retroactive RetroArch XMB themes
 * **Jutleys:** Dingux Commander from [Tomato](https://github.com/Jutleys/Trimui-Smart-Tomato), as well as some system icons
 * **[chrizzo-hb](https://github.com/chrizzo-hb/knulli-bezels):** overlays/bezels for handheld systems
-* **[Marcoosio101](https://github.com/Marcoosio101):** testing and issue reporting
+* **[Marcoosio101](https://github.com/Marcoosio101):** testing and issue reporting, default theme design
