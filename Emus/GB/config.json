@@ -1,5 +1,5 @@
 {
-  "label": "GAMEBOY",
+  "label": "GAME BOY",
   "icon": "ic-GB.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/GB",

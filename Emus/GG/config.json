@@ -1,5 +1,5 @@
 {
-  "label": "GAMEGEAR",
+  "label": "GAME GEAR",
   "icon": "ic-GG.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/GG",

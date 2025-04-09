@@ -1,5 +1,5 @@
 {
-  "label": "AMST.CPC",
+  "label": "AMSTRAD CPC",
   "icon": "ic-CPC.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/CPC",

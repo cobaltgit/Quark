@@ -1,5 +1,5 @@
 {
-  "label": "WS-COLOR",
+  "label": "WSWAN COLOR",
   "icon": "ic-WSC.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/WSC",

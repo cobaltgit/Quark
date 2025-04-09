@@ -1,5 +1,5 @@
 {
-  "label": "INTV",
+  "label": "INTELLIVISION",
   "icon": "ic-INTV.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/INTV",

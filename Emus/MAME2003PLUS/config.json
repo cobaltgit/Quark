@@ -1,5 +1,5 @@
 {
-  "label": "MAME-2003+",
+  "label": "MAME 2003+",
   "icon": "ic-mame-plus.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/MAME2003PLUS",

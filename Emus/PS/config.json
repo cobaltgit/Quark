@@ -1,5 +1,5 @@
 {
-  "label": "PSX",
+  "label": "PLAYSTATION",
   "icon": "ic-PS.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/PS",

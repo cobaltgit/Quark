@@ -1,5 +1,5 @@
 {
-  "label": "CHANNEL-F",
+  "label": "FAIRCHILD CHANNEL-F",
   "icon": "ic-CHAF.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/CHAF",

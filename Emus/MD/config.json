@@ -1,5 +1,5 @@
 {
-  "label": "GENESIS",
+  "label": "MEGA DRIVE",
   "icon": "ic-MD.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/MD",

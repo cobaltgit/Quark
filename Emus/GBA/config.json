@@ -1,5 +1,5 @@
 {
-  "label": "GB-ADVANCE",
+  "label": "GAMEBOY ADVANCE",
   "icon": "ic-GBA.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/GBA",

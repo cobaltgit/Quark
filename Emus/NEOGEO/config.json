@@ -1,5 +1,5 @@
 {
-  "label": "NEO-GEO",
+  "label": "NEO GEO",
   "icon": "ic-NEOGEO.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/NEOGEO",

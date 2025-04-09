@@ -1,5 +1,5 @@
 {
-  "label": "SEGA-MS",
+  "label": "MASTER SYSTEM",
   "icon": "ic-SMS.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/MS",
