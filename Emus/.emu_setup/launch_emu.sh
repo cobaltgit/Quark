@@ -14,6 +14,7 @@ OVERRIDE_FILE="/mnt/SDCARD/Emus/.emu_setup/overrides/$EMU/$GAME.opt"
 
 run_retroarch() {
     RA_DIR="/mnt/SDCARD/RetroArch"
+    cd "$RA_DIR"
 
     if [ "$EMU" = "SEGACD" ] && [ "${ROM_FILE##*.}" = "chd" ]; then # picodrive doesn't seem to like playing CD audio with chds
         CORE="genesis_plus_gx"
@@ -37,8 +38,6 @@ run_retroarch() {
     fi
 
     CORE_PATH="$RA_DIR/.retroarch/cores/${CORE}_libretro.so"
-
-    cd "$RA_DIR"
 
     HOME="$RA_DIR/" "$RA_DIR/$RA_BIN" -v $NET_PARAM -L "$CORE_PATH" "$ROM_FILE"
 
