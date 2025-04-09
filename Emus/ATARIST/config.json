@@ -1,7 +1,6 @@
 {
   "label": "ATARI ST",
-  "icon": "ic-atarist-unfocused.png",
-  "iconsel": "ic-atarist.png",
+  "icon": "ic-atarist.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/ATARIST",
   "imgpath": "../../Roms/ATARIST/Imgs",

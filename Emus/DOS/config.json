@@ -1,14 +1,13 @@
 {
   "label": "MS-DOS",
-  "icon": "ic-DOS-unfocused.png",
-  "iconsel": "ic-DOS.png",
+  "icon": "ic-DOS.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/DOS",
   "imgpath": "../../Roms/DOS/Imgs",
-  "extlist": "zip|dosz|exe|com|bat|iso|chd|cue|ins|img|ima|vhd|jrc|tc|m3u|m3u8|conf",
   "useswap": 1,
   "shortname": 0,
   "hidebios": 0,
+  "extlist": "zip|dosz|exe|com|bat|iso|chd|cue|ins|img|ima|vhd|jrc|tc|m3u|m3u8|conf",
   "launchlist": [
     {
       "name": "CPU: Smart",

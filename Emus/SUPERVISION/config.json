@@ -1,7 +1,6 @@
 {
   "label": "SUPERVISION",
-  "icon": "ic-SUPERVISION-unfocused.png",
-  "iconsel": "ic-SUPERVISION.png",
+  "icon": "ic-SUPERVISION.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/SUPERVISION",
   "imgpath": "../../Roms/SUPERVISION/Imgs",

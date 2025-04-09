@@ -1,14 +1,13 @@
 {
   "label": "WOLF3D",
-  "icon": "ic-WOLF3D-unfocused.png",
-  "iconsel": "ic-WOLF3D.png",
+  "icon": "ic-WOLF3D.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/WOLF3D",
   "imgpath": "../../Roms/WOLF3D/Imgs",
-  "extlist": "wl6|n3d|sod|sdm|wl1|pk3|exe|zip",
   "useswap": 0,
   "shortname": 0,
   "hidebios": 0,
+  "extlist": "wl6|n3d|sod|sdm|wl1|pk3|exe|zip",
   "launchlist": [
     {
       "name": "CPU: Smart",

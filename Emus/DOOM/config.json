@@ -1,26 +1,25 @@
 {
-  "label": "DOOM",
-  "icon": "ic-DOOM-unfocused.png",
-  "iconsel": "ic-DOOM.png",
-  "launch": "../.emu_setup/launch_emu.sh",
-  "rompath": "../../Roms/DOOM",
-  "imgpath": "../../Roms/DOOM/Imgs",
-  "extlist": "wad",
-  "useswap": 0,
-  "shortname": 0,
-  "hidebios": 0,
-  "launchlist": [
-    {
-      "name": "CPU: Smart",
-      "launch": "/mnt/SDCARD/Emus/.emu_setup/cpu_switch.sh"
-    },
-    {
-      "name": "Save override",
-      "launch": "/mnt/SDCARD/Emus/.emu_setup/save_override.sh"
-    },
-    {
-      "name": "Delete override",
-      "launch": "/mnt/SDCARD/Emus/.emu_setup/del_override.sh"
-    }
-  ]
+    "label":"DOOM",
+    "icon":"ic-DOOM.png",
+    "launch":"../.emu_setup/launch_emu.sh",
+    "rompath":"../../Roms/DOOM",
+    "imgpath":"../../Roms/DOOM/Imgs",
+    "useswap":0,
+    "shortname":0,
+    "hidebios":0,
+    "extlist":"wad",
+    "launchlist": [
+        {
+            "name": "CPU: Smart",
+            "launch": "/mnt/SDCARD/Emus/.emu_setup/cpu_switch.sh"
+        },
+        {
+            "name": "Save override",
+            "launch": "/mnt/SDCARD/Emus/.emu_setup/save_override.sh"
+        },
+        {
+            "name": "Delete override",
+            "launch": "/mnt/SDCARD/Emus/.emu_setup/del_override.sh"
+        }
+    ]
 }

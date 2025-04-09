@@ -1,14 +1,13 @@
 {
   "label": "SEGA CD",
-  "icon": "ic-SEGACD-unfocused.png",
-  "iconsel": "ic-SEGACD.png",
+  "icon": "ic-SEGACD.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/SEGACD",
   "imgpath": "../../Roms/SEGACD/Imgs",
-  "extlist": "cue|chd|ccd|m3u|iso",
   "useswap": 1,
   "shortname": 0,
   "hidebios": 0,
+  "extlist": "cue|chd|ccd|m3u|iso",
   "launchlist": [
     {
       "name": "CPU: Smart",

@@ -1,14 +1,13 @@
 {
   "label": "C64",
-  "icon": "ic-C64-unfocused.png",
-  "iconsel": "ic-C64.png",
+  "icon": "ic-C64.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/C64",
   "imgpath": "../../Roms/C64/Imgs",
-  "extlist": "d64|d71|d80|d81|d82|g64|g41|x64|t64|tap|prg|p00|crt|bin|zip|gz|d6z|d7z|d8z|g6z|g4z|x6z|cmd|m3u|vfl|vsf|nib|nbz|d2m|d4m|zip",
   "useswap": 1,
   "shortname": 1,
   "hidebios": 1,
+  "extlist": "d64|d71|d80|d81|d82|g64|g41|x64|t64|tap|prg|p00|crt|bin|zip|gz|d6z|d7z|d8z|g6z|g4z|x6z|cmd|m3u|vfl|vsf|nib|nbz|d2m|d4m|zip",
   "launchlist": [
     {
       "name": "CPU: Smart",

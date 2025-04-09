@@ -1,7 +1,6 @@
 {
   "label": "ATARI 2600",
-  "icon": "ic-atari2600-unfocused.png",
-  "iconsel": "ic-atari2600.png",
+  "icon": "ic-atari2600.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/ATARI2600",
   "imgpath": "../../Roms/ATARI2600/Imgs",

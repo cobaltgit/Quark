@@ -1,14 +1,13 @@
 {
   "label": "INTELLIVISION",
-  "icon": "ic-INTV-unfocused.png",
-  "iconsel": "ic-INTV.png",
+  "icon": "ic-INTV.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/INTV",
   "imgpath": "../../Roms/INTV/Imgs",
-  "extlist": "int|rom|bin|zip",
   "useswap": 0,
   "shortname": 0,
   "hidebios": 0,
+  "extlist": "int|rom|bin|zip",
   "launchlist": [
     {
       "name": "CPU: Smart",

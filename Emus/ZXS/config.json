@@ -1,14 +1,13 @@
 {
   "label": "ZX SPECTRUM",
-  "icon": "ic-ZXS-unfocused.png",
-  "iconsel": "ic-ZXS.png",
+  "icon": "ic-ZXS.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/ZXS",
   "imgpath": "../../Roms/ZXS/Imgs",
-  "extlist": "tzx|tap|z80|rzx|scl|trd|dsk|dck|sna|szx|zip",
   "useswap": 0,
   "shortname": 0,
   "hidebios": 0,
+  "extlist": "tzx|tap|z80|rzx|scl|trd|dsk|dck|sna|szx|zip",
   "launchlist": [
     {
       "name": "CPU: Smart",

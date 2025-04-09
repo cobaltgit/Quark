@@ -1,14 +1,13 @@
 {
   "label": "TIC-80",
-  "icon": "ic-TIC80-unfocused.png",
-  "iconsel": "ic-TIC80.png",
+  "icon": "ic-TIC80.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/TIC80",
   "imgpath": "../../Roms/TIC80/Imgs",
-  "extlist": "tic",
   "useswap": 1,
   "shortname": 0,
   "hidebios": 1,
+  "extlist": "tic",
   "launchlist": [
     {
       "name": "CPU: Smart",

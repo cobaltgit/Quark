@@ -1,14 +1,13 @@
 {
   "label": "GAMEBOY ADVANCE",
-  "icon": "ic-GBA-unfocused.png",
-  "iconsel": "ic-GBA.png",
+  "icon": "ic-GBA.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/GBA",
   "imgpath": "../../Roms/GBA/Imgs",
-  "extlist": "gba|agb|gbz|zip",
   "useswap": 0,
   "shortname": 0,
   "hidebios": 1,
+  "extlist": "gba|agb|gbz|zip",
   "launchlist": [
     {
       "name": "CPU: Smart",

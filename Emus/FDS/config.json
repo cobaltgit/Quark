@@ -1,14 +1,13 @@
 {
   "label": "FDS",
-  "icon": "ic-FDS-unfocused.png",
-  "iconsel": "ic-FDS.png",
+  "icon": "ic-FDS.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/FDS",
   "imgpath": "../../Roms/FDS/Imgs",
-  "extlist": "nes|fds|unf|unif|zip",
   "useswap": 0,
   "shortname": 0,
   "hidebios": 0,
+  "extlist": "nes|fds|unf|unif|zip",
   "launchlist": [
     {
       "name": "CPU: Smart",

@@ -1,14 +1,13 @@
 {
   "label": "PLAYSTATION",
-  "icon": "ic-PS-unfocused.png",
-  "iconsel": "ic-PS.png",
+  "icon": "ic-PS.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/PS",
   "imgpath": "../../Roms/PS/Imgs",
-  "extlist": "cue|img|mdf|pbp|toc|cbn|m3u|chd",
   "useswap": 1,
   "shortname": 0,
   "hidebios": 1,
+  "extlist": "cue|img|mdf|pbp|toc|cbn|m3u|chd",
   "launchlist": [
     {
       "name": "CPU: Smart",

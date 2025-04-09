@@ -1,7 +1,6 @@
 {
   "label": "ARDUBOY",
-  "icon": "ic-ARDUBOY-unfocused.png",
-  "iconsel": "ic-ARDUBOY.png",
+  "icon": "ic-ARDUBOY.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/ARDUBOY",
   "imgpath": "../../Roms/ARDUBOY/Imgs",

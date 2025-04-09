@@ -1,14 +1,13 @@
 {
   "label": "CPS III",
-  "icon": "ic-cps3-unfocused.png",
-  "iconsel": "ic-cps3.png",
+  "icon": "ic-cps3.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/CPS3",
   "imgpath": "../../Roms/CPS3/Imgs",
-  "extlist": "zip",
   "useswap": 1,
   "shortname": 1,
   "hidebios": 1,
+  "extlist": "zip",
   "launchlist": [
     {
       "name": "CPU: Smart",

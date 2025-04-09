@@ -1,14 +1,13 @@
 {
   "label": "PICO-8",
-  "icon": "ic-PICO-unfocused.png",
-  "iconsel": "ic-PICO.png",
+  "icon": "ic-PICO.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/PICO8",
   "imgpath": "../../Roms/PICO8/Imgs",
-  "extlist": "p8",
   "useswap": 1,
   "shortname": 0,
   "hidebios": 1,
+  "extlist": "p8",
   "launchlist": [
     {
       "name": "CPU: Smart",

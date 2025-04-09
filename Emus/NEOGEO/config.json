@@ -1,14 +1,14 @@
 {
   "label": "NEO GEO",
-  "icon": "ic-NEOGEO-unfocused.png",
-  "iconsel": "ic-NEOGEO.png",
+  "icon": "ic-NEOGEO.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/NEOGEO",
   "imgpath": "../../Roms/NEOGEO/Imgs",
-  "extlist": "zip",
+  "gamelist": "../../Roms/NEOGEO/gamelist.xml",
   "useswap": 1,
   "shortname": 1,
   "hidebios": 1,
+  "extlist": "zip",
   "launchlist": [
     {
       "name": "CPU: Smart",

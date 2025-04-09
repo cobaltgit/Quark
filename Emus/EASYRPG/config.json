@@ -1,14 +1,13 @@
 {
   "label": "EASYRPG",
-  "icon": "easyrpg-unfocused.png",
-  "iconsel": "easyrpg.png",
+  "icon": "easyrpg.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/EASYRPG",
   "imgpath": "../../Roms/EASYRPG/Imgs",
-  "extlist": "ldb|zip|easyrpg",
   "useswap": 0,
   "shortname": 0,
   "hidebios": 0,
+  "extlist": "ldb|zip|easyrpg",
   "launchlist": [
     {
       "name": "CPU: Smart",
