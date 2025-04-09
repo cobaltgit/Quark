@@ -1,13 +1,14 @@
 {
   "label": "SEGA 32X",
-  "icon": "ic-32X.png",
+  "icon": "ic-32X-unfocused.png",
+  "iconsel": "ic-32X.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/SEGA32X",
   "imgpath": "../../Roms/SEGA32X/Imgs",
+  "extlist": "bin|gen|md|smd|32x|zip",
   "useswap": 0,
   "shortname": 0,
   "hidebios": 0,
-  "extlist": "bin|gen|md|smd|32x|zip",
   "launchlist": [
     {
       "name": "CPU: Smart",

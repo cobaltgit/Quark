@@ -1,13 +1,14 @@
 {
   "label": "ATARI LYNX",
-  "icon": "ic-LYNX.png",
+  "icon": "ic-LYNX-unfocused.png",
+  "iconsel": "ic-LYNX.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/LYNX",
   "imgpath": "../../Roms/LYNX/Imgs",
+  "extlist": "lnx|zip",
   "useswap": 1,
   "shortname": 0,
   "hidebios": 1,
-  "extlist": "lnx|zip",
   "launchlist": [
     {
       "name": "CPU: Smart",

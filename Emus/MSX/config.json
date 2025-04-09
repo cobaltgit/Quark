@@ -1,13 +1,14 @@
 {
   "label": "MSX/MSX2",
-  "icon": "ic-MSX.png",
+  "icon": "ic-MSX-unfocused.png",
+  "iconsel": "ic-MSX.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/MSX",
   "imgpath": "../../Roms/MSX/Imgs",
+  "extlist": "cas|dsk|rom|mx1|mx2|zip",
   "useswap": 0,
   "shortname": 0,
   "hidebios": 1,
-  "extlist": "cas|dsk|rom|mx1|mx2|zip",
   "launchlist": [
     {
       "name": "CPU: Smart",

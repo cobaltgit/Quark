@@ -1,13 +1,14 @@
 {
   "label": "OPENBOR",
-  "icon": "openbor.png",
+  "icon": "openbor-unfocused.png",
+  "iconsel": "openbor.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/OPENBOR",
   "imgpath": "../../Roms/OPENBOR/Imgs",
+  "extlist": "pak|Pak|PAK",
   "useswap": 1,
   "shortname": 0,
   "hidebios": 0,
-  "extlist": "pak|Pak|PAK",
   "launchlist": [
     {
       "name": "CPU: Smart",

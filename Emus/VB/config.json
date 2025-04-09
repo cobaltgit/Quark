@@ -1,6 +1,7 @@
 {
   "label": "VIRTUAL BOY",
-  "icon": "ic-VB.png",
+  "icon": "ic-VB-unfocused.png",
+  "iconsel": "ic-VB.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/VB",
   "imgpath": "../../Roms/VB/Imgs",

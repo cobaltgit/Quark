@@ -1,6 +1,7 @@
 {
   "label": "COLECOVISION",
-  "icon": "ic-COLECO.png",
+  "icon": "ic-COLECO-unfocused.png",
+  "iconsel": "ic-COLECO.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/COLECO",
   "imgpath": "../../Roms/COLECO/Imgs",

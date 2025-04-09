@@ -1,13 +1,14 @@
 {
   "label": "POKEMON MINI",
-  "icon": "ic-POKEMINI.png",
+  "icon": "ic-POKEMINI-unfocused.png",
+  "iconsel": "ic-POKEMINI.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/POKEMINI",
   "imgpath": "../../Roms/POKEMINI/Imgs",
+  "extlist": "min|zip",
   "useswap": 0,
   "shortname": 0,
   "hidebios": 1,
-  "extlist": "min|zip",
   "launchlist": [
     {
       "name": "CPU: Smart",

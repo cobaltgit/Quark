@@ -1,13 +1,14 @@
 {
   "label": "X68000",
-  "icon": "ic-X68000.png",
+  "icon": "ic-X68000-unfocused.png",
+  "iconsel": "ic-X68000.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/X68000",
   "imgpath": "../../Roms/X68000/Imgs",
+  "extlist": "dim|img|d88|88d|hdm|dup|2hd|xdf|hdf|cmd|m3u|zip",
   "useswap": 0,
   "shortname": 0,
   "hidebios": 0,
-  "extlist": "dim|img|d88|88d|hdm|dup|2hd|xdf|hdf|cmd|m3u|zip",
   "launchlist": [
     {
       "name": "CPU: Smart",

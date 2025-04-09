@@ -1,13 +1,14 @@
 {
   "label": "GAME&WATCH",
-  "icon": "ic-GW.png",
+  "icon": "ic-GW-unfocused.png",
+  "iconsel": "ic-GW.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/GW",
   "imgpath": "../../Roms/GW/Imgs",
+  "extlist": "mgw|zip",
   "useswap": 1,
   "shortname": 0,
   "hidebios": 1,
-  "extlist": "mgw|zip",
   "launchlist": [
     {
       "name": "CPU: Smart",

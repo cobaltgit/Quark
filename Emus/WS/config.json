@@ -1,13 +1,14 @@
 {
   "label": "WONDER SWAN",
-  "icon": "ic-WS.png",
+  "icon": "ic-WS-unfocused.png",
+  "iconsel": "ic-WS.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/WS",
   "imgpath": "../../Roms/WS/Imgs",
+  "extlist": "wsc|ws|zip",
   "useswap": 0,
   "shortname": 0,
   "hidebios": 0,
-  "extlist": "wsc|ws|zip",
   "launchlist": [
     {
       "name": "CPU: Smart",

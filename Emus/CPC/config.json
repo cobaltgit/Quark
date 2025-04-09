@@ -1,13 +1,14 @@
 {
   "label": "AMSTRAD CPC",
-  "icon": "ic-CPC.png",
+  "icon": "ic-CPC-unfocused.png",
+  "iconsel": "ic-CPC.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/CPC",
   "imgpath": "../../Roms/CPC/Imgs",
+  "extlist": "dsk|sna|tap|cdt|voc|m3u|cpr|zip",
   "useswap": 1,
   "shortname": 1,
   "hidebios": 1,
-  "extlist": "dsk|sna|tap|cdt|voc|m3u|cpr|zip",
   "launchlist": [
     {
       "name": "CPU: Smart",

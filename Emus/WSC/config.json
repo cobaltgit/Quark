@@ -1,13 +1,14 @@
 {
   "label": "WSWAN COLOR",
-  "icon": "ic-WSC.png",
+  "icon": "ic-WSC-unfocused.png",
+  "iconsel": "ic-WSC.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/WSC",
   "imgpath": "../../Roms/WSC/Imgs",
+  "extlist": "wsc|ws|zip",
   "useswap": 0,
   "shortname": 0,
   "hidebios": 0,
-  "extlist": "wsc|ws|zip",
   "launchlist": [
     {
       "name": "CPU: Smart",

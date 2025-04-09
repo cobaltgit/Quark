@@ -1,25 +1,26 @@
 {
-    "label":"QUAKE",
-    "icon":"ic-QUAKE.png",
-    "launch":"../.emu_setup/launch_emu.sh",
-    "rompath":"../../Roms/QUAKE",
-    "imgpath":"../../Roms/QUAKE/Imgs",
-    "useswap":0,
-    "shortname":0,
-    "hidebios":0,
-    "extlist":"pak",
-    "launchlist": [
-        {
-            "name": "CPU: Smart",
-            "launch": "/mnt/SDCARD/Emus/.emu_setup/cpu_switch.sh"
-        },
-        {
-            "name": "Save override",
-            "launch": "/mnt/SDCARD/Emus/.emu_setup/save_override.sh"
-        },
-        {
-            "name": "Delete override",
-            "launch": "/mnt/SDCARD/Emus/.emu_setup/del_override.sh"
-        }
-    ]
+  "label": "QUAKE",
+  "icon": "ic-QUAKE-unfocused.png",
+  "iconsel": "ic-QUAKE.png",
+  "launch": "../.emu_setup/launch_emu.sh",
+  "rompath": "../../Roms/QUAKE",
+  "imgpath": "../../Roms/QUAKE/Imgs",
+  "extlist": "pak",
+  "useswap": 0,
+  "shortname": 0,
+  "hidebios": 0,
+  "launchlist": [
+    {
+      "name": "CPU: Smart",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/cpu_switch.sh"
+    },
+    {
+      "name": "Save override",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/save_override.sh"
+    },
+    {
+      "name": "Delete override",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/del_override.sh"
+    }
+  ]
 }

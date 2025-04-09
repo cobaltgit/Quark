@@ -1,13 +1,14 @@
 {
   "label": "NES",
-  "icon": "ic-FC.png",
+  "icon": "ic-FC-unfocused.png",
+  "iconsel": "ic-FC.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/FC",
   "imgpath": "../../Roms/FC/Imgs",
+  "extlist": "nes|fds|unf|unif|zip",
   "useswap": 0,
   "shortname": 0,
   "hidebios": 0,
-  "extlist": "nes|fds|unf|unif|zip",
   "launchlist": [
     {
       "name": "CPU: Smart",

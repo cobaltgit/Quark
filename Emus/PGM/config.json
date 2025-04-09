@@ -1,13 +1,14 @@
 {
   "label": "POLYGAME MASTER",
-  "icon": "ic-pgm.png",
+  "icon": "ic-pgm-unfocused.png",
+  "iconsel": "ic-pgm.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/PGM",
   "imgpath": "../../Roms/PGM/Imgs",
+  "extlist": "zip",
   "useswap": 1,
   "shortname": 1,
   "hidebios": 1,
-  "extlist": "zip",
   "launchlist": [
     {
       "name": "CPU: Smart",
