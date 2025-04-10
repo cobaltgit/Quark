@@ -9,16 +9,16 @@
     },
     "fontcolor":{
         "title":"#FFFFFF",
-        "shadow":"#800000",
+        "shadow":"#FF8080",
         "statbar":"#FFFFFF",
         "list":"#FFFFFF",
         "listsel":"#000000",
         "iconlist":"#FFFFFF",
-        "iconlistsel":"#800000",
+        "iconlistsel":"#FF8080",
         "notify":"#00FF00",
         "popup":"#FF0000",
         "popupsel":"#0000FF",
-        "highlight":"#800000",
+        "highlight":"#FF8080",
         "subtext":"#7f7f7f"
     }
 } 
