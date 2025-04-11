@@ -1,8 +1,12 @@
 #!/bin/sh
 
+. /mnt/SDCARD/System/scripts/helpers.sh
+
 ROMS_DIR="/mnt/SDCARD/Roms"
 DISC_EXTS="cue|chd|pbp|iso|dsk"
 SYSTEM="$(echo "$1" | cut -d'/' -f5)"
+
+display -t "Generating M3Us for system $SYSTEM, this shouldn't take a minute"
 
 generate_cues() {
     cd "$ROMS_DIR"
@@ -75,3 +79,5 @@ fi
 cd "$ROMS_DIR"
 find $SYSTEM -maxdepth 1 -type f -iname "*_cache7.db" -exec rm -f {} +
 sync
+
+kill_display
