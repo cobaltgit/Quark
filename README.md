@@ -68,7 +68,7 @@ Below is a list of systems that Quark supports, along with the emulator core the
 * IGS PolyGame Master (FB Alpha 2012)
 * Pico-8 (FAKE-08)
 * Pokémon Mini (PokeMini)
-* [Ported games](https://github.com/cobaltgit/Quark-Ports)
+* [Ported games](https://github.com/cobaltgit/Quark-Gluons/releases/tag/ports)
 * Sony PlayStation (PCSX-ReARMed)
 * Quake (TyrQuake)
 * Sega 32X (PicoDrive)
