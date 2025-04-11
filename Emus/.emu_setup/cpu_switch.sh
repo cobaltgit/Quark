@@ -1,7 +1,5 @@
 #!/bin/sh
 
-. /mnt/SDCARD/System/scripts/helpers.sh
-
 EMU="$(echo "$1" | cut -d'/' -f5)"
 CONFIG="/mnt/SDCARD/Emus/${EMU}/config.json"
 OPT="/mnt/SDCARD/Emus/.emu_setup/opts/${EMU}.opt"
@@ -25,5 +23,3 @@ esac
 
 sed -i "s|\"CPU:.*\"|\"CPU: $NEW_DISPLAY\"|g" "$CONFIG"
 sed -i "s|CPU_MODE=.*|CPU_MODE=\"$NEW_MODE\"|g" "$OPT"
-
-display -d 1000 -t "CPU mode for $EMU set to $NEW_MODE."

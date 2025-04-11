@@ -10,15 +10,15 @@
   "extlist": "gb|gbc|dmg|zip",
   "launchlist": [
     {
-      "name": "CPU: Smart",
+      "name": "CPU Mode: (✓SMART)-Performance-Overclock",
       "launch": "/mnt/SDCARD/Emus/.emu_setup/cpu_switch.sh"
     },
     {
-      "name": "Save override",
+      "name": "Save per-game override",
       "launch": "/mnt/SDCARD/Emus/.emu_setup/save_override.sh"
     },
     {
-      "name": "Delete override",
+      "name": "Remove per-game override",
       "launch": "/mnt/SDCARD/Emus/.emu_setup/del_override.sh"
     }
   ]

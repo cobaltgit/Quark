@@ -5,12 +5,8 @@
 . /mnt/SDCARD/System/scripts/helpers.sh
 
 EMU_DIR="/mnt/SDCARD/Emus"
-SHOWN_COUNT=0
-HIDDEN_COUNT=0
 
 set_cpuclock --mode performance
-
-display -t "Refreshing displayed emulators..."
 
 for EMU in "$EMU_DIR"/*; do
     if [ -d "$EMU" ]; then
@@ -21,15 +17,11 @@ for EMU in "$EMU_DIR"/*; do
         if [ "$ROM_COUNT" -eq 0 ]; then
             echo "EmuClean: no roms, hiding $EMU"
             sed -i 's/^{*$/{{/' "$EMU/config.json" # break config.json so emulator doesn't show
-            HIDDEN_COUNT=$((HIDDEN_COUNT + 1))
         elif [ "$ROM_COUNT" -gt 0 ]; then
             echo "EmuClean: $ROM_COUNT roms detected in system $EMU, showing"
             sed -i 's/^{{*$/{/' "$EMU/config.json" # fix config.json to show emulator
-            SHOWN_COUNT=$((SHOWN_COUNT + 1))
         fi
     fi
 done
-
-display -d 2000 -t "Done! $SHOWN_COUNT systems shown, $HIDDEN_COUNT systems hidden"
 
 set_cpuclock --mode smart # reset cpu clock

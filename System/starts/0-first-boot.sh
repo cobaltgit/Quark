@@ -7,8 +7,6 @@ if [ ! -f "$FIRST_BOOT_COMPLETE_FLAG" ]; then
 
     find "/mnt/SDCARD" -type f -name ".gitkeep" -exec rm -f {} +
 
-    cp /mnt/SDCARD/System/etc/system.json /mnt/UDISK/system.json
-
     /mnt/SDCARD/Apps/EmuClean/launch.sh
 
     touch "$FIRST_BOOT_COMPLETE_FLAG"
