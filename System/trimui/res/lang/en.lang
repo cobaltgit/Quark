@@ -148,7 +148,7 @@
 	"145":  "Remove device?",
 	"146":  "Connect to device?",
 	"147":  "Scan devices failed\nPlease turn off Bluetooth headphone\nand try again",
-	"148":  "MENU+L/R",
+	"148":  "MENU+L/R -> L2/R2",
 	"149":  "Bluetooth is initializing",
     "150":  "Kernel Version",
     "151":  "UI Version",
