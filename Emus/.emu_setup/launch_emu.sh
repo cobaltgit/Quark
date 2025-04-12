@@ -56,6 +56,11 @@ run_openbor() {
     ./OpenBOR.trimui "$ROM_FILE"
 }
 
+run_mp3() {
+    cd "$EMU_DIR"
+    ./mp3player.elf "$ROM_FILE"
+}
+
 ROM_FILE="$(readlink -f "$1")"
 
 if [ "$CPU_MODE" = "smart" ]; then
@@ -69,6 +74,7 @@ else
 fi
 
 case "$EMU" in
+    "MP3") run_mp3 ;;
     "OPENBOR") run_openbor ;;
     "PORTS") run_port ;;
     *) run_retroarch ;;
