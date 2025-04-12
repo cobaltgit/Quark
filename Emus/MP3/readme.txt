@@ -6,3 +6,4 @@ Controls:
 - A: pause
 - Left/Right D-Pad: Seek +/- 10 seconds
 - Up/Down D-Pad: Seek +/- 20 seconds
+- Select + L/R: volume up/down (global hotkey)
