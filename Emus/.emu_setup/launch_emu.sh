@@ -58,7 +58,12 @@ run_openbor() {
 
 run_mp3() {
     cd "$EMU_DIR"
+
+    echo 1 > /tmp/stay_awake
+
     ./mp3player.elf "$ROM_FILE"
+
+    rm /tmp/stay_awake
 }
 
 ROM_FILE="$(readlink -f "$1")"
