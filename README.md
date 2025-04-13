@@ -58,6 +58,7 @@ Below is a list of systems that Quark supports, along with the emulator core the
 * Atari Lynx (Handy)
 * Sega Mega Drive (PicoDrive)
 * Sega Master System (PicoDrive)
+* MP3 player
 * MSX / MSX2 (blueMSX)
 * Neo Geo (FB Alpha 2012)
 * Neo Geo CD (NeoCD)
