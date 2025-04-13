@@ -1,14 +1,7 @@
 #!/bin/sh
-echo $0 $*
-progdir=`dirname "$0"`
-cd $progdir
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$progdir
 
-echo "=============================================="
-echo "================== reboot  ==================="
-echo "=============================================="
+. /mnt/SDCARD/System/scripts/helpers.sh
 
-chmod 777 reboot_wait
-./reboot_wait&
-sleep 1
+display -d 2000 -t "Rebooting your Smart..."
+
 reboot

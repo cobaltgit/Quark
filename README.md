@@ -58,6 +58,7 @@ Below is a list of systems that Quark supports, along with the emulator core the
 * Atari Lynx (Handy)
 * Sega Mega Drive (PicoDrive)
 * Sega Master System (PicoDrive)
+* MP3 player
 * MSX / MSX2 (blueMSX)
 * Neo Geo (FB Alpha 2012)
 * Neo Geo CD (NeoCD)
@@ -68,7 +69,7 @@ Below is a list of systems that Quark supports, along with the emulator core the
 * IGS PolyGame Master (FB Alpha 2012)
 * Pico-8 (FAKE-08)
 * Pokémon Mini (PokeMini)
-* [Ported games](https://github.com/cobaltgit/Quark-Ports)
+* [Ported games](https://github.com/cobaltgit/Quark-Gluons/releases/tag/ports)
 * Sony PlayStation (PCSX-ReARMed)
 * Quake (TyrQuake)
 * Sega 32X (PicoDrive)
@@ -102,3 +103,4 @@ This project is licenced under [CC-BY-SA-4.0](https://creativecommons.org/licens
 * **[libretro](https://www.retroarch.com/):** icons from Systematic/Retroactive RetroArch XMB themes
 * **Jutleys:** Dingux Commander from [Tomato](https://github.com/Jutleys/Trimui-Smart-Tomato), as well as some system icons
 * **[chrizzo-hb](https://github.com/chrizzo-hb/knulli-bezels):** overlays/bezels for handheld systems
+* **[Marcoosio101](https://github.com/Marcoosio101):** testing and issue reporting, default theme design
