@@ -101,3 +101,15 @@ display() {
         eval "$DISPLAY_CMD"
     fi
 }
+
+# log_message: logs a message to a file
+log_message() {
+    MESSAGE="$1"
+    LOGFILE="$2"
+
+    if [ -z "$LOGFILE" ]; then # print to stdout
+        printf '[%s] %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$MESSAGE"
+    else # append to log
+        printf '[%s] %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$MESSAGE" >> "$LOGFILE"
+    fi
+}
