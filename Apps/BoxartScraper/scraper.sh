@@ -139,7 +139,6 @@ while true; do
         if [ $? = 10 ]; then
             log_message "Scraper: user requested exit" "$SCRAPER_LOG"
             display -d 2000 -t "Exiting scraper..."
-            display_kill
             killall scraper.sh # suicide
         fi
     fi
@@ -221,7 +220,6 @@ for SYSTEM in "$ROMS_DIR"/*/; do
             NOT_FOUND_COUNT=$((NOT_FOUND_COUNT + 1))
         fi
     done
-    display_kill
     log_message "Scraper: $SYS_NAME - Scraped: $SCRAPED_COUNT, Skipped: $SKIP_COUNT, Not found: $NOT_FOUND_COUNT" "$SCRAPER_LOG"
 done
 
