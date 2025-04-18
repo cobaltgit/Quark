@@ -11,7 +11,7 @@ THEME_PATH="$(awk -F'"' '/"theme":/ {print $4}' "$SYSTEM_JSON" | sed 's:/*$:/:')
      while true; do
         /mnt/SDCARD/System/bin/inotifywait -e modify "$SYSTEM_JSON"
 
-        NEW_THEME_PATH=$(awk -F'"' '/"theme":/ {print $4}' "$SYSTEM_JSON" | sed 's:/*$:/:')
+        NEW_THEME_PATH="$(awk -F'"' '/"theme":/ {print $4}' "$SYSTEM_JSON" | sed 's:/*$:/:')"
 
         if [ "$NEW_THEME_PATH" != "$THEME_PATH" ]; then
             killall -9 MainUI
