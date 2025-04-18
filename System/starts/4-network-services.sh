@@ -44,7 +44,7 @@
         fi
     fi
 
-    while ! { [ -n "$IP" ] && ping -c 1 -W 3 1.1.1.1; }; do # we wait for a network connection
+    while [ -z "$IP" ] || ! ping -c 1 -W 3 1.1.1.1; do # we wait for a network connection
         sleep 1
         IP="$(ip addr show wlan0 | awk '/inet[^6]/ {split($2, a, "/"); print a[1]}')"
     done
