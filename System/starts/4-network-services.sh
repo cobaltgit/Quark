@@ -30,7 +30,7 @@
 
     IP="$(ip addr show wlan0 | awk '/inet[^6]/ {split($2, a, "/"); print a[1]}')"
 
-    if [ -z "$IP" ]; then
+    if [ -z "$IP" ] || ! ping -c 1 -W 3 1.1.1.1; then
         if $DUFS_ENABLED; then
             echo -E "$(/mnt/SDCARD/System/bin/jq '.description = "Not connected"' "$DUFS_APP_CONFIG")" > "$DUFS_APP_CONFIG"
         fi
