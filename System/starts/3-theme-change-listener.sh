@@ -8,7 +8,7 @@ SYSTEM_JSON="/mnt/UDISK/system.json"
 THEME_PATH="$(awk -F'"' '/"theme":/ {print $4}' "$SYSTEM_JSON" | sed 's:/*$:/:')"
 
 {
-     while true; do
+    while true; do
         /mnt/SDCARD/System/bin/inotifywait -e modify "$SYSTEM_JSON"
 
         NEW_THEME_PATH="$(awk -F'"' '/"theme":/ {print $4}' "$SYSTEM_JSON" | sed 's:/*$:/:')"
