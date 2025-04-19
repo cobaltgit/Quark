@@ -37,6 +37,7 @@ else
     zip -r -@<<EOF "$BACKUP_LOCATION" > "$BACKUP_LOG" 2>&1
 /mnt/UDISK/system.json
 /mnt/SDCARD/System/etc/quark.ini
+/mnt/SDCARD/System/etc/.post_first_install
 /mnt/SDCARD/Emus/.emu_setup/overrides/
 /mnt/SDCARD/Emus/NDS/backup
 /mnt/SDCARD/Emus/NDS/config
