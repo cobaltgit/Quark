@@ -9,7 +9,7 @@ fi
 . "$HELPERS_PATH"
 . /mnt/SDCARD/Updater/updateHelpers.sh
 
-UPDATER_APP_CONFIG="/mnt/SDCARD/Apps/Updater/config.json"
+UPDATER_APP_CONFIG="/mnt/SDCARD/Apps/QuarkUpdater/config.json"
 UPDATE_PKG="$(ls -t /mnt/SDCARD/Quark_Update_*.zip | head -1)" # get most recent update file
 LOG_FILE="/mnt/SDCARD/Updater/updater.log"
 SDCARD_TEST_FILE="/mnt/SDCARD/.test_$$"
