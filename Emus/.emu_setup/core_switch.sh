@@ -39,6 +39,6 @@ case "$EMU" in
 esac
 
 sed -i "s|CORE=.*|CORE=\"$NEW_CORE\"|" "$OPT"
-sed -i "s|\"Core:.*\"|\"$NEW_DISPLAY\"|g" "$CONFIG"
+sed -i "s|\"Core:.*\"|\"$DISPLAY\"|g" "$CONFIG"
 
 display -d 1000 -t "Core for $EMU changed to $NEW_CORE."
