@@ -36,8 +36,6 @@ else
 
     zip -r -@<<EOF "$BACKUP_LOCATION" > "$BACKUP_LOG" 2>&1
 /mnt/UDISK/system.json
-/mnt/SDCARD/System/etc/quark.ini
-/mnt/SDCARD/System/etc/.post_new_install
 /mnt/SDCARD/Emus/.emu_setup/overrides/
 /mnt/SDCARD/Emus/NDS/backup
 /mnt/SDCARD/Emus/NDS/config
@@ -46,6 +44,7 @@ else
 /mnt/SDCARD/RetroArch/retroarch.cfg
 /mnt/SDCARD/RetroArch/.retroarch/config/
 /mnt/SDCARD/RetroArch/.retroarch/overlay/
+/mnt/SDCARD/System/etc/.post_new_install
 /mnt/SDCARD/System/etc/quark.ini
 /mnt/SDCARD/System/etc/ssh/
 /mnt/SDCARD/System/etc/syncthing/

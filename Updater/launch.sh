@@ -1,4 +1,4 @@
-#!/bin/sh -x
+#!/bin/sh
 
 if [ -f "/mnt/SDCARD/System/bin/helpers.sh" ] && [ ! -d "/mnt/SDCARD/System/scripts" ]; then # Quark v1.0.x Angstrom
     HELPERS_PATH="/mnt/SDCARD/System/bin/helpers.sh"
