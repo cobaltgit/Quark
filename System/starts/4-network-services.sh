@@ -41,13 +41,9 @@
         if $SSH_ENABLED; then
             echo -E "$(/mnt/SDCARD/System/bin/jq '.description = "Not connected"' "$SSH_APP_CONFIG")" > "$SSH_APP_CONFIG"
         fi
-    
-    
-    if [ "$(awk -F ':' '/wifi/ {print $2}' "/mnt/UDISK/system.json" | sed 's/^[[:space:]]*//; s/[",]//g')" -eq 0 ]; then
-        exit 0
-    fi
 
-    while [ -z "$IP" ] || ! ping -c 1 -W 3 1.1.1.1; do # we wait for a network connection
+    while [ "$(awk -F ':' '/wifi/ {print $2}' "/mnt/UDISK/system.json" | sed 's/^[[:space:]]*//; s/[",]//g')" -eq 0 ] || \
+        [ -z "$IP" ] || ! ping -c 1 -W 3 1.1.1.1; do # we wait for a network connection
         sleep 1
         IP="$(ip addr show wlan0 | awk '/inet[^6]/ {split($2, a, "/"); print a[1]}')"
     done
