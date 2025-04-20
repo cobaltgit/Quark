@@ -23,14 +23,13 @@
         echo -E "$(/mnt/SDCARD/System/bin/jq '.description = "Turned off"' "$SSH_APP_CONFIG")" > "$SSH_APP_CONFIG"
     fi
 
-    if [ "$(/mnt/SDCARD/System/bin/jq '.wifi' "/mnt/UDISK/system.json")" -eq 0 ] || \
-        ! { $DUFS_ENABLED || $SYNCTHING_ENABLED || $SSH_ENABLED; }; then # exit if wifi is disabled system-wide or all network services are disabled
+    if ! { $DUFS_ENABLED || $SYNCTHING_ENABLED || $SSH_ENABLED; }; then # exit if wifi is disabled system-wide or all network services are disabled
         exit 0
     fi
 
     IP="$(ip addr show wlan0 | awk '/inet[^6]/ {split($2, a, "/"); print a[1]}')"
 
-    if [ -z "$IP" ]; then
+    if [ -z "$IP" ] || ! ping -c 1 -W 3 1.1.1.1; then
         if $DUFS_ENABLED; then
             echo -E "$(/mnt/SDCARD/System/bin/jq '.description = "Not connected"' "$DUFS_APP_CONFIG")" > "$DUFS_APP_CONFIG"
         fi
@@ -44,7 +43,8 @@
         fi
     fi
 
-    while ! { [ -n "$IP" ] && ping -c 1 -W 3 1.1.1.1; }; do # we wait for a network connection
+    while [ "$(awk -F ':' '/wifi/ {print $2}' "/mnt/UDISK/system.json" | sed 's/^[[:space:]]*//; s/[",]//g')" -eq 0 ] || \
+        [ -z "$IP" ] || ! ping -c 1 -W 3 1.1.1.1; do # we wait for a network connection
         sleep 1
         IP="$(ip addr show wlan0 | awk '/inet[^6]/ {split($2, a, "/"); print a[1]}')"
     done

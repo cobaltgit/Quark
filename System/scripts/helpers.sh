@@ -58,14 +58,25 @@ get_setting() {
 
 # update_setting: updates a setting in quark.ini.
 # Args:
-# 1. the section to look underneath for the key
-# 2. the key to be updated
+# 1. the section to look underneath for the key. Will be created if non-existent
+# 2. the key to be updated. Will be created if non-existent.
 # 3. the new value of the specified key
 update_setting() {
     SECTION="$1"
     KEY="$2"
     NEW_VALUE="$3"
-    sed -i "/\[$SECTION\]/,/^\[/{s/^\($KEY *=\).*/\1$NEW_VALUE/;}" "/mnt/SDCARD/System/etc/quark.ini"
+    INI_FILE="/mnt/SDCARD/System/etc/quark.ini"
+    
+    if ! grep -q "^\[$SECTION\]" "$INI_FILE"; then # create section if non-existent
+        echo "" >> "$INI_FILE"
+        echo "[$SECTION]" >> "$INI_FILE"
+    fi
+    
+    if grep -q "^\[$SECTION\]" "$INI_FILE" && ! sed -n "/\[$SECTION\]/,/^\[/p" "$INI_FILE" | grep -q "^$KEY *="; then
+        sed -i "/\[$SECTION\]/a\\$KEY=$NEW_VALUE" "$INI_FILE"
+    else
+        sed -i "/\[$SECTION\]/,/^\[/{s/^\($KEY *=\).*/\1$NEW_VALUE/;}" "$INI_FILE"
+    fi
 }
 
 # kill_display: kill any instances of display.elf, should be used before starting another display.
@@ -99,5 +110,17 @@ display() {
         eval "$DISPLAY_CMD" &
     else
         eval "$DISPLAY_CMD"
+    fi
+}
+
+# log_message: logs a message to a file
+log_message() {
+    MESSAGE="$1"
+    LOGFILE="$2"
+
+    if [ -z "$LOGFILE" ]; then # print to stdout
+        printf '[%s] %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$MESSAGE"
+    else # append to log
+        printf '[%s] %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$MESSAGE" >> "$LOGFILE"
     fi
 }

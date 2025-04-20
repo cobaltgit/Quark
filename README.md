@@ -95,7 +95,7 @@ Below is a list of systems that Quark supports, along with the emulator core the
 
 ## Licence
 
-This project is licenced under [CC-BY-SA-4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.en), however, the Dingux Commander application is licenced under the [GNU General Public License, version 2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html) (a zip file containing the source code is bundled)
+This project is licenced under [CC-BY-SA-4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.en)
 
 ## Credits
 

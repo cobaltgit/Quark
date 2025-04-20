@@ -1,0 +1,6 @@
+{
+    "label": "Boxart Scraper",
+    "icon": "icon.png",
+    "launch": "launch.sh",
+    "description": "Scrape boxarts for your games"
+}

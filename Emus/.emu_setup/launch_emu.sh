@@ -16,10 +16,6 @@ run_retroarch() {
     RA_DIR="/mnt/SDCARD/RetroArch"
     cd "$RA_DIR"
 
-    if [ "$EMU" = "SEGACD" ] && [ "${ROM_FILE##*.}" = "chd" ]; then # picodrive doesn't seem to like playing CD audio with chds
-        CORE="genesis_plus_gx"
-    fi
-
     RA_BIN="ra32.trimui"
     if [ "$EMU" = "PS" ] || [ "$EMU" = "SFC" ]; then # Improved SNES/PSX performance
         RA_BIN="ra32.trimui_sdl"

@@ -1,0 +1,6 @@
+{{
+    "label":"Quark Updater",
+    "icon":"icon.png",
+    "launch":"../../Updater/launch.sh",
+    "description":"Update your Quark installation"
+}
