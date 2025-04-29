@@ -3,7 +3,7 @@
 . /mnt/SDCARD/System/scripts/helpers.sh
 
 ARCHIVES_FOLDER="/mnt/SDCARD/System/archives"
-ARCHIVE_COUNT="$(ls -1 "$ARCHIVES_FOLDER/*.zip" | wc -l)"
+ARCHIVE_COUNT="$(ls -1 $ARCHIVES_FOLDER/*.zip | wc -l)"
 ARCHIVE_UNPACK_LOG="/mnt/SDCARD/System/log/archive_unpack.log"
 
 log_message "Unpacker: $ARCHIVE_COUNT archives found" "$ARCHIVE_UNPACK_LOG"
