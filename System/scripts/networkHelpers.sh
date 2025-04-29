@@ -46,11 +46,14 @@ setup_syncthing() {
 setup_dropbear() {
     display -t "Setting up SSH..."
 
+    ROOT_SHADOW="$(awk -F ":" '/root/ {print $2}' "/etc/shadow")"
+
     [ ! -d "$DROPBEAR_KEY_DIR" ] && mkdir -p "$DROPBEAR_KEY_DIR"
     [ ! -f "$DROPBEAR_KEY_DIR/dropbear_rsa_host_key" ] && /mnt/SDCARD/System/bin/dropbearmulti dropbearkey -t rsa -f "$DROPBEAR_KEY_DIR/dropbear_rsa_host_key"
     [ ! -f "$DROPBEAR_KEY_DIR/dropbear_ecdsa_host_key" ] && /mnt/SDCARD/System/bin/dropbearmulti dropbearkey -t ecdsa -f "$DROPBEAR_KEY_DIR/dropbear_ecdsa_host_key"
     [ ! -f "$DROPBEAR_KEY_DIR/dropbear_ed25519_host_key" ] && /mnt/SDCARD/System/bin/dropbearmulti dropbearkey -t ed25519 -f "$DROPBEAR_KEY_DIR/dropbear_ed25519_host_key"
-    [ "$(awk -F ":" '/root/ {print $2}' "/etc/shadow")" = "!" ] && echo -e "quark\nquark" | passwd root # set default root password
+    [ "$ROOT_SHADOW" = "!" ] || [ "$ROOT_SHADOW" = "" ] \
+        && echo -e "quark\nquark" | passwd root # set default root password
 
     kill_display
 }
