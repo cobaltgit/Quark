@@ -14,6 +14,10 @@
       "launch": "/mnt/SDCARD/Emus/.emu_setup/cpu_switch.sh"
     },
     {
+      "name": "Core: Plus",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/core_switch.sh"
+    },
+    {
       "name": "Save override",
       "launch": "/mnt/SDCARD/Emus/.emu_setup/save_override.sh"
     },

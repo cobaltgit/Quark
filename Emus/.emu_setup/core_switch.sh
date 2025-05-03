@@ -18,6 +18,15 @@ case "$EMU" in
             DISPLAY="Core: gpSP"
         fi
         ;;
+    "MAME2003PLUS")
+        if [ "$CORE" = "mame2003_plus" ]; then
+            NEW_CORE="km_mame2003_xtreme_amped"
+            DISPLAY="Core: Xtreme"
+        else
+            NEW_CORE="mame2003_plus"
+            DISPLAY="Core: Plus"
+        fi
+        ;;
     "SFC")
         if [ "$CORE" = "chimerasnes" ]; then
             NEW_CORE="snes9x2005_plus"
