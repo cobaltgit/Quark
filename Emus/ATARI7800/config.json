@@ -1,6 +1,6 @@
 {
   "label": "ATARI 7800",
-  "icon": "ic-atari7800.png",
+  "icon": "icon.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/ATARI7800",
   "imgpath": "../../Roms/ATARI7800/Imgs",

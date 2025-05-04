@@ -1,6 +1,6 @@
 {
   "label": "C64",
-  "icon": "ic-C64.png",
+  "icon": "icon.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/C64",
   "imgpath": "../../Roms/C64/Imgs",

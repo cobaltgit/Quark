@@ -1,6 +1,6 @@
 {
   "label": "PC ENGINE",
-  "icon": "ic-PCE.png",
+  "icon": "icon.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/PCE",
   "imgpath": "../../Roms/PCE/Imgs",

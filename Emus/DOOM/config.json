@@ -1,6 +1,6 @@
 {
     "label":"DOOM",
-    "icon":"ic-DOOM.png",
+    "icon": "icon.png",
     "launch":"../.emu_setup/launch_emu.sh",
     "rompath":"../../Roms/DOOM",
     "imgpath":"../../Roms/DOOM/Imgs",

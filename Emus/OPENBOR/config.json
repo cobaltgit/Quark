@@ -1,6 +1,6 @@
 {
   "label": "OPENBOR",
-  "icon": "openbor.png",
+  "icon": "icon.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/OPENBOR",
   "imgpath": "../../Roms/OPENBOR/Imgs",

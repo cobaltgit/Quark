@@ -1,6 +1,6 @@
 {
   "label": "PLAYSTATION",
-  "icon": "ic-PS.png",
+  "icon": "icon.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/PS",
   "imgpath": "../../Roms/PS/Imgs",

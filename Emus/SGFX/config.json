@@ -1,6 +1,6 @@
 {
   "label": "SUPERGRAFX",
-  "icon": "ic-SGFX.png",
+  "icon": "icon.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/SGFX",
   "imgpath": "../../Roms/SGFX/Imgs",

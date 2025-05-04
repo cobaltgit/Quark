@@ -1,6 +1,6 @@
 {
   "label": "EASYRPG",
-  "icon": "easyrpg.png",
+  "icon": "icon.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/EASYRPG",
   "imgpath": "../../Roms/EASYRPG/Imgs",

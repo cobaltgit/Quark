@@ -1,6 +1,6 @@
 {
   "label": "VIC-20",
-  "icon": "ic-VIC20.png",
+  "icon": "icon.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/VIC20",
   "imgpath": "../../Roms/VIC20/Imgs",
