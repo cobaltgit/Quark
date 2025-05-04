@@ -2,7 +2,7 @@
 
 . /mnt/SDCARD/Updater/updateHelpers.sh
 
-BACKUP_LOCATION="/mnt/SDCARD/Saves/QuarkBackup_$(date +%Y%m%d).zip"
+BACKUP_LOCATION="/mnt/SDCARD/Saves/QuarkBackup_$(date +%Y%m%d).tar.zst"
 BACKUP_LOG="/mnt/SDCARD/Updater/updater.log"
 
 export PATH="$(dirname "$0")/bin:$PATH"
@@ -10,9 +10,9 @@ export PATH="$(dirname "$0")/bin:$PATH"
 if [ "$1" = "--restore" ]; then
     display -t "Restoring user data..."
 
-    BACKUP_TO_RESTORE="$(ls -t /mnt/SDCARD/Saves/QuarkBackup_*.zip | head -1)"
+    BACKUP_TO_RESTORE="$(ls -t /mnt/SDCARD/Saves/QuarkBackup_*.tar.zst | head -1)"
     log_message "Updater: restoring backup $BACKUP_TO_RESTORE..."
-    if unzip -o -d / "$BACKUP_TO_RESTORE" >> "$BACKUP_LOG" 2>&1; then
+    if /mnt/SDCARD/System/bin/zstd -d --stdout "$BACKUP_TO_RESTORE" | tar xv -C / >> "$BACKUP_LOG" 2>&1; then
         log_message "Updater: successfully restored backup"
         display_msg -d 1500 -t "Successfully restored user data"
     else
@@ -34,23 +34,7 @@ else
     log_message "Creating backup of user data - $BACKUP_LOCATION"
     display_msg -t "Backing up user data..."
 
-    zip -r -@<<EOF "$BACKUP_LOCATION" > "$BACKUP_LOG" 2>&1
-/mnt/UDISK/system.json
-/mnt/SDCARD/Emus/.emu_setup/overrides/
-/mnt/SDCARD/Emus/NDS/backup
-/mnt/SDCARD/Emus/NDS/config
-/mnt/SDCARD/Emus/NDS/savestates
-/mnt/SDCARD/Emus/NDS/resources/settings.json
-/mnt/SDCARD/RetroArch/retroarch.cfg
-/mnt/SDCARD/RetroArch/.retroarch/config/
-/mnt/SDCARD/RetroArch/.retroarch/overlay/
-/mnt/SDCARD/System/etc/.post_new_install
-/mnt/SDCARD/System/etc/quark.ini
-/mnt/SDCARD/System/etc/ssh/
-/mnt/SDCARD/System/etc/syncthing/
-EOF
-
-    if [ $? -eq 0 ]; then
+    if ( tar cvT backup_list.txt | zstd -9 > "$BACKUP_LOCATION" ) >> "$BACKUP_LOG" 2>&1; then
         log_message "Updater: successfully backed up files" "$BACKUP_LOG"
         display_msg -d 1500 -t "Successfully backed up user data"
     else
