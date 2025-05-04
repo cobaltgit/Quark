@@ -48,8 +48,8 @@ Below is a list of systems that Quark supports, along with the emulator core the
 * Doom (PrBoom)
 * MS-DOS (DOSBox Pure)
 * EasyRPG
-* Nintendo Entertainment System (FCEUmm)
-* Nintendo Family Computer Disk System (FCEUmm)
+* Nintendo Entertainment System (FCEUmm / Nestopia)
+* Nintendo Family Computer Disk System (FCEUmm / Nestopia)
 * Nintendo Game Boy / Game Boy Color (Gambatte)
 * Nintendo Game Boy Advance (gpSP / mGBA)
 * Sega Game Gear (PicoDrive / Genesis Plus GX)

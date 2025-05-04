@@ -9,6 +9,15 @@ OPT="/mnt/SDCARD/Emus/.emu_setup/opts/${EMU}.opt"
 . "$OPT"
 
 case "$EMU" in
+    "FC"|"FDS")
+        if [ "$CORE" = "fceumm" ]; then
+            NEW_CORE="nestopia"
+            DISPLAY="Core: Nestopia"
+        else
+            NEW_CORE="fceumm"
+            DISPLAY="Core: FCEUmm"
+        fi
+        ;;
     "GBA")
         if [ "$CORE" = "gpsp" ]; then
             NEW_CORE="mgba"
