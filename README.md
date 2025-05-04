@@ -33,7 +33,7 @@ Installation is as simple as extracting the [latest release](https://github.com/
 Below is a list of systems that Quark supports, along with the emulator core they use by default:
 
 * Commodore Amiga (UAE4ARM)
-* Arcade (FB Alpha 2012 / MAME 2003 Plus)
+* Arcade (FB Alpha 2012 / MAME 2003 Plus / MAME 2003 Xtreme Amped)
 * Arduboy (Ardens)
 * Atari 8-bit computers (Atari800)
 * Atari 2600 (Stella 2014)
