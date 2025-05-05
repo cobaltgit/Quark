@@ -76,8 +76,7 @@ else
     echo "Directory $FULLPATH does not exist."
 fi
 
-cd "$ROMS_DIR"
-find $SYSTEM -maxdepth 1 -type f -iname "*_cache7.db" -exec rm -f {} +
+rm -f "$ROMS_DIR/$SYSTEM/${SYSTEM}_cache7.db"
 sync
 
 kill_display
