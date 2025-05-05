@@ -23,14 +23,18 @@ run_retroarch() {
     fi
 
     if [ -n "$NET_PARAM" ]; then
-        for NETPLAY_UNSUPPORTED_CORE in a5200 ardens atari800 bluemsx dosbox_pure easyrpg ecwolf fake08 fbalpha2012_cps3 freechaf \
-             freeintv fuse gw hatari neocd pcsx_rearmed pokemini potator prboom prosystem \
-             px68k tic80 tyrquake uae4arm vice_x64 vice_xvic; do
-            if [ "$CORE" = "$NETPLAY_UNSUPPORTED_CORE" ]; then
-                NET_PARAM=
-                break
-            fi
-        done
+        if [ "$(awk -F ':' '/wifi/ {print $2}' "/mnt/UDISK/system.json" | sed 's/^[[:space:]]*//; s/[",]//g')" -eq 0 ]; then
+            NET_PARAM=
+        else
+            for NETPLAY_UNSUPPORTED_CORE in a5200 ardens atari800 bluemsx dosbox_pure easyrpg ecwolf fake08 fbalpha2012_cps3 freechaf \
+                freeintv fuse gw hatari neocd pcsx_rearmed pokemini potator prboom prosystem \
+                px68k tic80 tyrquake uae4arm vice_x64 vice_xvic; do
+                if [ "$CORE" = "$NETPLAY_UNSUPPORTED_CORE" ]; then
+                    NET_PARAM=
+                    break
+                fi
+            done
+        fi
     fi
 
     CORE_PATH="$RA_DIR/.retroarch/cores/${CORE}_libretro.so"
