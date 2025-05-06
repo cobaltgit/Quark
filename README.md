@@ -17,6 +17,7 @@ Installation is as simple as extracting the [latest release](https://github.com/
 * START + L/R: Brightness control
 * MENU + L/R: L2/R2
 * SELECT + MENU + R: screenshot (does not work in RetroArch, use SELECT + A instead in this case)
+* SELECT + START held for 10 seconds: reboot
 
 ### RetroArch
 
