@@ -15,7 +15,8 @@ Installation is as simple as extracting the [latest release](https://github.com/
 
 * SELECT + L/R: Volume control
 * START + L/R: Brightness control
-* MENU + L/R: L2/R2 (enable in Settings)
+* MENU + L/R: L2/R2
+* SELECT + MENU + R: screenshot (does not work in RetroArch, use SELECT + A instead in this case)
 
 ### RetroArch
 
