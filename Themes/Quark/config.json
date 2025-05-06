@@ -9,7 +9,7 @@
     },
     "fontcolor":{
         "title":"#FFFFFF",
-        "shadow":"#FF8080",
+        "shadow":"#000000",
         "statbar":"#FFFFFF",
         "list":"#FFFFFF",
         "listsel":"#000000",
