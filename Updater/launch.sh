@@ -69,7 +69,7 @@ if [ $SD_FREE_SPACE -lt $UPDATE_SPACE_REQUIRED ]; then
     exit 1
 fi
 
-set_cpuclock --mode performance
+set_cpuclock --mode overclock
 
 /mnt/SDCARD/Updater/backup.sh
 
@@ -99,6 +99,8 @@ else
     log_message "Updater: update package extracted successfully" "$LOG_FILE"
     display_msg -d 1500 -t "Update package extracted successfully!"
 fi
+
+set_cpuclock --mode smart
 
 log_message "Updater: deleting update package $UPDATE_PKG" "$LOG_FILE"
 rm -f "$UPDATE_PKG"
