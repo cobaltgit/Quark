@@ -1,8 +1,23 @@
 #!/bin/sh
 # Helper functions for Quark
 
-export LD_LIBRARY_PATH="/mnt/SDCARD/System/lib:$LD_LIBRARY_PATH"
-export PATH="/mnt/SDCARD/System/bin:$PATH"
+CPUINFO=$(cat /proc/cpuinfo 2> /dev/null)
+case $CPUINFO in
+    *"TG5040"*)	export PLATFORM="tg5040"  ;;
+    *"TG3040"*)	export PLATFORM="tg3040"  ;;
+    *"sun8i"*)  export PLATFORM="tg2040"  ;;
+esac
+
+if [ "$PLATFORM" = "tg2040" ]; then
+    QUARK_LD_PATH="/mnt/SDCARD/System/lib"
+    QUARK_BIN_PATH="/mnt/SDCARD/System/bin"
+else
+    QUARK_LD_PATH="/mnt/SDCARD/System/lib64"
+    QUARK_BIN_PATH="/mnt/SDCARD/System/bin64"
+fi
+
+export LD_LIBRARY_PATH="$QUARK_LD_PATH:$LD_LIBRARY_PATH"
+export PATH="$QUARK_BIN_PATH:$PATH"
 
 # set_cpuclock: sets CPU governor and frequency, write locks to prevent interference and keep changes
 # Possible modes
@@ -25,6 +40,10 @@ set_cpuclock() {
     case "$MODE" in
         "smart")
             [ -z "$MIN_FREQ" ] && MIN_FREQ=816000 # default minimum frequency
+            case "$PLATFORM" in
+                "tg2040") MAX_FREQ=1344000 ;;
+                "tg3040"|"tg5040") MAX_FREQ=1800000 ;;
+            esac
             echo conservative > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
             echo 50 >/sys/devices/system/cpu/cpufreq/conservative/down_threshold
             echo 75 >/sys/devices/system/cpu/cpufreq/conservative/up_threshold
@@ -32,15 +51,23 @@ set_cpuclock() {
             echo 1 >/sys/devices/system/cpu/cpufreq/conservative/sampling_down_factor
             echo 400000 >/sys/devices/system/cpu/cpufreq/conservative/sampling_rate
             echo "$MIN_FREQ" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
-            echo 1344000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+            echo $MAX_FREQ > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
             ;;
         "performance")
+            case "$PLATFORM" in
+                "tg2040") MAX_FREQ=1344000 ;;
+                "tg3040"|"tg5040") MAX_FREQ=1800000 ;;
+            esac
             echo performance > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-            echo 1344000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+            echo $MAX_FREQ > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
             ;;
         "overclock")
+            case "$PLATFORM" in
+                "tg2040") MAX_FREQ=1536000 ;;
+                "tg3040"|"tg5040") MAX_FREQ=2000000 ;;
+            esac
             echo performance > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-            echo 1536000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+            echo $MAX_FREQ > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
             ;;
     esac
 
