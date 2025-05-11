@@ -1,13 +1,17 @@
 #!/bin/sh
 
-SRC_DIR="/mnt/SDCARD/System/trimui"
+. /mnt/SDCARD/System/scripts/helpers.sh
+
+SRC_DIR="/mnt/SDCARD/System/trimui/$PLATFORM"
 DEST_DIR="/usr/trimui"
 
 {
-    rm -rf /mnt/UDISK/Store/.cache
+    if [ "$PLATFORM" = "tg2040" ]; then
+        rm -rf /mnt/UDISK/Store/.cache
 
-    mount -o bind "/mnt/SDCARD/System/scripts/usb_storage_disabled.sh" "/usr/trimui/apps/usb_storage/launch.sh" # disable USB storage app
-    mount -o bind "/mnt/SDCARD" "/mnt/UDISK/Apps" # app store will install onto SD card
-    mount -o bind "$SRC_DIR/bin/MainUI" "$DEST_DIR/bin/MainUI" # patched MainUI for appstore
-    mount -o bind "$SRC_DIR/res/lang" "$DEST_DIR/res/lang"
+        mount -o bind "/mnt/SDCARD/System/scripts/usb_storage_disabled.sh" "/usr/trimui/apps/usb_storage/launch.sh" # disable USB storage app
+        mount -o bind "/mnt/SDCARD" "/mnt/UDISK/Apps" # app store will install onto SD card
+        mount -o bind "$SRC_DIR/bin/MainUI" "$DEST_DIR/bin/MainUI" # patched MainUI for appstore
+        mount -o bind "$SRC_DIR/res/lang" "$DEST_DIR/res/lang"
+    fi
 } &
