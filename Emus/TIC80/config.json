@@ -1,6 +1,6 @@
 {
   "label": "TIC-80",
-  "icon": "ic-TIC80.png",
+  "icon": "icon.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/TIC80",
   "imgpath": "../../Roms/TIC80/Imgs",

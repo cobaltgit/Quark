@@ -1,6 +1,9 @@
 #!/bin/sh
 # Helper functions for Quark
 
+export LD_LIBRARY_PATH="/mnt/SDCARD/System/lib:$LD_LIBRARY_PATH"
+export PATH="/mnt/SDCARD/System/bin:$PATH"
+
 # set_cpuclock: sets CPU governor and frequency, write locks to prevent interference and keep changes
 # Possible modes
 # - smart: modified conservative governor that responds better to usage spikes, balancing performance with battery life. Minimum frequency can be specified by the user (--min-freq arg) or defaults to 816mhz
@@ -105,7 +108,7 @@ display() {
 
     kill_display
 
-    DISPLAY_CMD="/mnt/SDCARD/System/bin/display.elf -d $DISPLAY_DURATION -b \"$DISPLAY_BG\" -f \"$DISPLAY_FONT\" \"$DISPLAY_TEXT\""
+    DISPLAY_CMD="display.elf -d $DISPLAY_DURATION -b \"$DISPLAY_BG\" -f \"$DISPLAY_FONT\" \"$DISPLAY_TEXT\""
     if [ $DISPLAY_DURATION -eq 0 ]; then
         eval "$DISPLAY_CMD" &
     else
@@ -123,4 +126,12 @@ log_message() {
     else # append to log
         printf '[%s] %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$MESSAGE" >> "$LOGFILE"
     fi
+}
+
+# Take a screenshot of framebuffer and rotate to the correct orientation
+fbscreenshot() {
+    TMP_SCREENSHOT="/tmp/$$.png"
+    SCREENSHOT="$1"
+    [ -z "$SCREENSHOT" ] && SCREENSHOT="/mnt/SDCARD/Saves/screenshots/$(date +"Screenshot_%Y%m%d_%H%M%S.png")"
+    fbgrab -a "$TMP_SCREENSHOT" && magick convert "$TMP_SCREENSHOT" -rotate 90 -alpha set "$SCREENSHOT" && rm -f "$TMP_SCREENSHOT"
 }

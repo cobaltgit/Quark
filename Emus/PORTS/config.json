@@ -1,6 +1,6 @@
 {
   "label": "PORTS",
-  "icon": "ic-PORTS.png",
+  "icon": "icon.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/PORTS",
   "imgpath": "../../Roms/PORTS/Imgs",

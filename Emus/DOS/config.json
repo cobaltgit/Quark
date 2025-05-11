@@ -1,6 +1,6 @@
 {
   "label": "MS-DOS",
-  "icon": "ic-DOS.png",
+  "icon": "icon.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/DOS",
   "imgpath": "../../Roms/DOS/Imgs",

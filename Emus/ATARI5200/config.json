@@ -1,6 +1,6 @@
 {
   "label": "ATARI 5200",
-  "icon": "ic-ATARI5200.png",
+  "icon": "icon.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/ATARI5200",
   "imgpath": "../../Roms/ATARI5200/Imgs",

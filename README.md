@@ -15,7 +15,9 @@ Installation is as simple as extracting the [latest release](https://github.com/
 
 * SELECT + L/R: Volume control
 * START + L/R: Brightness control
-* MENU + L/R: L2/R2 (enable in Settings)
+* MENU + L/R: L2/R2
+* SELECT + MENU + R: screenshot (does not work in RetroArch, use SELECT + A instead in this case)
+* SELECT + START held for 10 seconds: reboot
 
 ### RetroArch
 
@@ -33,7 +35,7 @@ Installation is as simple as extracting the [latest release](https://github.com/
 Below is a list of systems that Quark supports, along with the emulator core they use by default:
 
 * Commodore Amiga (UAE4ARM)
-* Arcade (FB Alpha 2012 / MAME 2003 Plus)
+* Arcade (FB Alpha 2012 / MAME 2003 Plus / MAME 2003 Xtreme Amped)
 * Arduboy (Ardens)
 * Atari 8-bit computers (Atari800)
 * Atari 2600 (Stella 2014)
@@ -48,16 +50,16 @@ Below is a list of systems that Quark supports, along with the emulator core the
 * Doom (PrBoom)
 * MS-DOS (DOSBox Pure)
 * EasyRPG
-* Nintendo Entertainment System (FCEUmm)
-* Nintendo Family Computer Disk System (FCEUmm)
+* Nintendo Entertainment System (FCEUmm / Nestopia)
+* Nintendo Family Computer Disk System (FCEUmm / Nestopia)
 * Nintendo Game Boy / Game Boy Color (Gambatte)
-* Nintendo Game Boy Advance (gpSP)
-* Sega Game Gear (PicoDrive)
+* Nintendo Game Boy Advance (gpSP / mGBA)
+* Sega Game Gear (PicoDrive / Genesis Plus GX)
 * MADrigal's Simulators (GW)
 * Intellivision (FreeIntv)
 * Atari Lynx (Handy)
-* Sega Mega Drive (PicoDrive)
-* Sega Master System (PicoDrive)
+* Sega Mega Drive (PicoDrive / Genesis Plus GX)
+* Sega Master System (PicoDrive / Genesis Plus GX)
 * MP3 player
 * MSX / MSX2 (blueMSX)
 * Neo Geo (FB Alpha 2012)
@@ -74,8 +76,8 @@ Below is a list of systems that Quark supports, along with the emulator core the
 * Quake (TyrQuake)
 * Sega 32X (PicoDrive)
 * Sega Mega CD (PicoDrive / Genesis Plus GX)
-* Super Nintendo Entertainment System (ChimeraSNES)
-* Sega SG-1000 / SC-3000 (PicoDrive)
+* Super Nintendo Entertainment System (ChimeraSNES / Snes9x 2005 Plus)
+* Sega SG-1000 / SC-3000 (PicoDrive / Genesis Plus GX)
 * NEC PC Engine SuperGrafx (Beetle SuperGrafx)
 * Watara Supervision (Potator)
 * TIC-80

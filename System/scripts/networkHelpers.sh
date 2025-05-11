@@ -19,7 +19,7 @@ setup_syncthing() {
         sleep 1
         ifconfig lo up
         sleep 1
-        /mnt/SDCARD/System/bin/syncthing generate \
+        syncthing generate \
             --gui-user=quark \
             --gui-password=quark \
             --no-default-folder \
@@ -46,11 +46,14 @@ setup_syncthing() {
 setup_dropbear() {
     display -t "Setting up SSH..."
 
+    ROOT_SHADOW="$(awk -F ":" '/root/ {print $2}' "/etc/shadow")"
+
     [ ! -d "$DROPBEAR_KEY_DIR" ] && mkdir -p "$DROPBEAR_KEY_DIR"
-    [ ! -f "$DROPBEAR_KEY_DIR/dropbear_rsa_host_key" ] && /mnt/SDCARD/System/bin/dropbearmulti dropbearkey -t rsa -f "$DROPBEAR_KEY_DIR/dropbear_rsa_host_key"
-    [ ! -f "$DROPBEAR_KEY_DIR/dropbear_ecdsa_host_key" ] && /mnt/SDCARD/System/bin/dropbearmulti dropbearkey -t ecdsa -f "$DROPBEAR_KEY_DIR/dropbear_ecdsa_host_key"
-    [ ! -f "$DROPBEAR_KEY_DIR/dropbear_ed25519_host_key" ] && /mnt/SDCARD/System/bin/dropbearmulti dropbearkey -t ed25519 -f "$DROPBEAR_KEY_DIR/dropbear_ed25519_host_key"
-    [ "$(awk -F ":" '/root/ {print $2}' "/etc/shadow")" = "!" ] && echo -e "quark\nquark" | passwd root # set default root password
+    [ ! -f "$DROPBEAR_KEY_DIR/dropbear_rsa_host_key" ] && dropbearmulti dropbearkey -t rsa -f "$DROPBEAR_KEY_DIR/dropbear_rsa_host_key"
+    [ ! -f "$DROPBEAR_KEY_DIR/dropbear_ecdsa_host_key" ] && dropbearmulti dropbearkey -t ecdsa -f "$DROPBEAR_KEY_DIR/dropbear_ecdsa_host_key"
+    [ ! -f "$DROPBEAR_KEY_DIR/dropbear_ed25519_host_key" ] && dropbearmulti dropbearkey -t ed25519 -f "$DROPBEAR_KEY_DIR/dropbear_ed25519_host_key"
+    [ "$ROOT_SHADOW" = "!" ] || [ "$ROOT_SHADOW" = "" ] \
+        && echo -e "quark\nquark" | passwd root # set default root password
 
     kill_display
 }
@@ -58,7 +61,7 @@ setup_dropbear() {
 start_syncthing_process() {
     setup_syncthing
     if ! pgrep syncthing >/dev/null 2>&1; then
-        HOME="/mnt/SDCARD" nice -2 /mnt/SDCARD/System/bin/syncthing serve \
+        HOME="/mnt/SDCARD" nice -2 syncthing serve \
             --no-restart \
             --no-upgrade \
             --home="$SYNCTHING_CONF_DIR" \
@@ -68,7 +71,7 @@ start_syncthing_process() {
 
 start_dufs_process() {
     if ! pgrep dufs >/dev/null 2>&1; then
-        nice -2 /mnt/SDCARD/System/bin/dufs \
+        nice -2 dufs \
             --auth quark:quark@/:rw \
             --allow-upload \
             --allow-delete \
@@ -82,7 +85,7 @@ start_dufs_process() {
 start_dropbear_process() {
     setup_dropbear
     if ! pgrep dropbearmulti >/dev/null 2>&1; then
-        nice -2 /mnt/SDCARD/System/bin/dropbearmulti dropbear \
+        nice -2 dropbearmulti dropbear \
             -r "$DROPBEAR_KEY_DIR/dropbear_rsa_host_key" \
             -r "$DROPBEAR_KEY_DIR/dropbear_ecdsa_host_key" \
             -r "$DROPBEAR_KEY_DIR/dropbear_ed25519_host_key" \

@@ -1,6 +1,6 @@
 {
   "label": "NES",
-  "icon": "ic-FC.png",
+  "icon": "icon.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/FC",
   "imgpath": "../../Roms/FC/Imgs",
@@ -12,6 +12,10 @@
     {
       "name": "CPU: Smart",
       "launch": "/mnt/SDCARD/Emus/.emu_setup/cpu_switch.sh"
+    },
+    {
+      "name": "Core: FCEUmm",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/core_switch.sh"
     },
     {
       "name": "Save override",

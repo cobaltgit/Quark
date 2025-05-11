@@ -1,6 +1,6 @@
 {
   "label": "WONDER SWAN",
-  "icon": "ic-WS.png",
+  "icon": "icon.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/WS",
   "imgpath": "../../Roms/WS/Imgs",

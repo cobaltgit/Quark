@@ -1,6 +1,6 @@
 {
   "label": "CPS I",
-  "icon": "ic-cps1.png",
+  "icon": "icon.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/CPS1",
   "imgpath": "../../Roms/CPS1/Imgs",
