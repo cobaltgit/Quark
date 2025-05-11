@@ -71,14 +71,7 @@ ROM_FILE="$(readlink -f "$1")"
 if [ "$CPU_MODE" = "smart" ]; then
     { # speed up game launch
         set_cpuclock --mode performance
-        sleep 5
-        set_cpuclock --mode smart --min-freq $CPU_MIN_FREQ
-    } &
-else
-    set_cpuclock --mode "$CPU_MODE"
-fi
-
-case "$EMU" in
+        sleep 5/home/cobalt/Downloads/Quark Effusion Updater/Apps /home/cobalt/Downloads/Quark Effusion Updater/Updater /home/cobalt/Downloads/Quark Effusion Updater/Quark_Update_v1.4.0.tar.zst
     "MP3") run_mp3 ;;
     "OPENBOR") run_openbor ;;
     "PORTS") run_port ;;
