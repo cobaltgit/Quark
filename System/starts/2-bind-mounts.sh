@@ -6,6 +6,8 @@ SRC_DIR="/mnt/SDCARD/System/trimui/$PLATFORM"
 DEST_DIR="/usr/trimui"
 
 {
+    mount -o bind /mnt/SDCARD/System/etc/retroarch/retroarch.$PLATFORM.cfg /mnt/SDCARD/RetroArch/retroarch.cfg
+
     if [ "$PLATFORM" = "tg2040" ]; then
         rm -rf /mnt/UDISK/Store/.cache
 
