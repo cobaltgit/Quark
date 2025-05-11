@@ -15,11 +15,17 @@ OVERRIDE_FILE="/mnt/SDCARD/Emus/.emu_setup/overrides/$EMU/$GAME.opt"
 run_retroarch() {
     RA_DIR="/mnt/SDCARD/RetroArch"
     cd "$RA_DIR"
-
-    RA_BIN="ra32.trimui"
-    if [ "$EMU" = "PS" ] || [ "$EMU" = "SFC" ]; then # Improved SNES/PSX performance
-        RA_BIN="ra32.trimui_sdl"
-        cp -f retroarch.cfg retroarch_sdl.cfg # config path is hard-coded, unfortunately. attempting to use bind mount causes a segmentation fault when accessing the menu on first run
+    
+    if [ "$PLATFORM" = "tg2040" ]; then
+        RA_BIN="ra32.trimui"
+        CORES_DIR="cores"
+        if [ "$EMU" = "PS" ] || [ "$EMU" = "SFC" ]; then # Improved SNES/PSX performance
+            RA_BIN="ra32.trimui_sdl"
+            cp -f retroarch.cfg retroarch_sdl.cfg # config path is hard-coded, unfortunately. attempting to use bind mount causes a segmentation fault when accessing the menu on first run
+        fi
+    else
+        RA_BIN="ra64.trimui"
+        CORES_DIR="cores64"
     fi
 
     if [ -n "$NET_PARAM" ]; then
@@ -37,7 +43,7 @@ run_retroarch() {
         fi
     fi
 
-    CORE_PATH="$RA_DIR/.retroarch/cores/${CORE}_libretro.so"
+    CORE_PATH="$RA_DIR/.retroarch/$CORES_DIR/${CORE}_libretro.so"
 
     HOME="$RA_DIR/" "$RA_DIR/$RA_BIN" -v $NET_PARAM -L "$CORE_PATH" "$ROM_FILE"
 
