@@ -100,12 +100,12 @@ else
     display_msg -d 1500 -t "Update package extracted successfully!"
 fi
 
-set_cpuclock --mode smart
-
 log_message "Updater: deleting update package $UPDATE_PKG" "$LOG_FILE"
 rm -f "$UPDATE_PKG"
 
 /mnt/SDCARD/Updater/backup.sh --restore
+
+set_cpuclock --mode smart
 
 display_msg -d 1500 -t "Update finished. Rebooting your device..."
 
