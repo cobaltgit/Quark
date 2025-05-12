@@ -109,14 +109,15 @@ update_setting() {
     fi
 }
 
-# kill_display: kill any instances of display.elf, should be used before starting another display.
+# kill_display: kill any instances of display.elf or sdl2imgshow (dependent on platform), should be used before starting another display.
 kill_display() {
     killall -9 display.elf
+    killall -9 sdl2imgshow
 }
 
 # display: displays text on screen for a (optional) set duration with a (optional) background image
 display() {
-    DEFAULT_BG="/mnt/SDCARD/System/res/quarkbg.png"
+    DEFAULT_BG="/mnt/SDCARD/System/res/quarkbg_$PLATFORM.png"
     DEFAULT_FONT="/mnt/SDCARD/System/res/TwCenMT.ttf"
 
     while [ "$#" -gt 0 ]; do
@@ -135,11 +136,20 @@ display() {
 
     kill_display
 
-    DISPLAY_CMD="display.elf -d $DISPLAY_DURATION -b \"$DISPLAY_BG\" -f \"$DISPLAY_FONT\" \"$DISPLAY_TEXT\""
-    if [ $DISPLAY_DURATION -eq 0 ]; then
-        eval "$DISPLAY_CMD" &
+    if [ "$PLATFORM" = "tg2040" ]; then
+        DISPLAY_CMD="display.elf -d $DISPLAY_DURATION -b \"$DISPLAY_BG\" -f \"$DISPLAY_FONT\" \"$DISPLAY_TEXT\""
+        if [ $DISPLAY_DURATION -eq 0 ]; then
+            eval "$DISPLAY_CMD" &
+        else
+            eval "$DISPLAY_CMD"
+        fi
     else
-        eval "$DISPLAY_CMD"
+        DISPLAY_CMD="sdl2imgshow -i \"$DISPLAY_BG\" -f \"$DISPLAY_FONT\" -s 64 -t \"$DISPLAY_TEXT\""
+        eval "$DISPLAY_CMD" &
+        if [ $DISPLAY_DURATION -gt 0 ]; then
+            sleep $(($DISPLAY_DURATION / 1000))
+            kill_display
+        fi
     fi
 }
 
