@@ -57,9 +57,9 @@ run_port() {
 
 run_openbor() {
     cd "$EMU_DIR"
-    export LD_LIBRARY_PATH="$EMU_DIR:$LD_LIBRARY_PATH"
+    [ "$PLATFORM" = "tg2040" ] && export LD_LIBRARY_PATH="$EMU_DIR:$LD_LIBRARY_PATH"
 
-    ./OpenBOR.trimui "$ROM_FILE"
+    "./OpenBOR.$PLATFORM" "$ROM_FILE"
 }
 
 run_mp3() {
