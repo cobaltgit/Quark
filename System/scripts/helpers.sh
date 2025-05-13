@@ -144,7 +144,11 @@ display() {
             eval "$DISPLAY_CMD"
         fi
     else
-        DISPLAY_CMD="sdl2imgshow -i \"$DISPLAY_BG\" -f \"$DISPLAY_FONT\" -s 64 -t \"$DISPLAY_TEXT\""
+        case "$PLATFORM" in
+            "tg3040") FONT_SIZE=48 ;;
+            "tg5040") FONT_SIZE=64 ;;
+        esac
+        DISPLAY_CMD="sdl2imgshow -i \"$DISPLAY_BG\" -f \"$DISPLAY_FONT\" -s $FONT_SIZE -t \"$DISPLAY_TEXT\""
         eval "$DISPLAY_CMD" &
         if [ $DISPLAY_DURATION -gt 0 ]; then
             sleep $(($DISPLAY_DURATION / 1000))
