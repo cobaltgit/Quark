@@ -11,7 +11,7 @@ IP="$(ip addr show wlan0 | awk '/inet[^6]/ {split($2, a, "/"); print a[1]}')"
 if $SYNCTHING_ENABLED; then
     display -d 1000 -t "Disabling Syncthing..."
     SYNCTHING_ENABLED=false
-    echo -E "$(/mnt/SDCARD/System/bin/jq '.description = "Turned off"' "$SYNCTHING_APP_CONFIG")" > "$SYNCTHING_APP_CONFIG"
+    echo -E "$(jq '.description = "Turned off"' "$SYNCTHING_APP_CONFIG")" > "$SYNCTHING_APP_CONFIG"
     stop_syncthing_process
 else
     display -d 1000 -t "Enabling Syncthing..."
@@ -21,7 +21,7 @@ else
     else
         DESCRIPTION="IP: $IP:8384"
     fi 
-    echo -E "$(/mnt/SDCARD/System/bin/jq --arg DESCRIPTION "$DESCRIPTION" '.description = $DESCRIPTION' "$SYNCTHING_APP_CONFIG")" > "$SYNCTHING_APP_CONFIG"
+    echo -E "$(jq --arg DESCRIPTION "$DESCRIPTION" '.description = $DESCRIPTION' "$SYNCTHING_APP_CONFIG")" > "$SYNCTHING_APP_CONFIG"
     start_syncthing_process
 fi
 

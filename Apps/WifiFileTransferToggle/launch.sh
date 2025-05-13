@@ -13,7 +13,7 @@ IP="$(ip addr show wlan0 | awk '/inet[^6]/ {split($2, a, "/"); print a[1]}')"
 if $DUFS_ENABLED; then
     display -d 1000 -t "Disabling dufs..."
     DUFS_ENABLED=false
-    echo -E "$(/mnt/SDCARD/System/bin/jq '.description = "Turned off"' "$DUFS_APP_CONFIG")" > "$DUFS_APP_CONFIG"
+    echo -E "$(jq '.description = "Turned off"' "$DUFS_APP_CONFIG")" > "$DUFS_APP_CONFIG"
     stop_dufs_process
 else
     display -d 1000 -t "Enabling dufs..."
@@ -23,7 +23,7 @@ else
     else
         DESCRIPTION="IP: $IP:5000"
     fi 
-    echo -E "$(/mnt/SDCARD/System/bin/jq --arg DESCRIPTION "$DESCRIPTION" '.description = $DESCRIPTION' "$DUFS_APP_CONFIG")" > "$DUFS_APP_CONFIG"
+    echo -E "$(jq --arg DESCRIPTION "$DESCRIPTION" '.description = $DESCRIPTION' "$DUFS_APP_CONFIG")" > "$DUFS_APP_CONFIG"
     start_dufs_process
 fi
 

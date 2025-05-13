@@ -11,7 +11,7 @@ IP="$(ip addr show wlan0 | awk '/inet[^6]/ {split($2, a, "/"); print a[1]}')"
 if $SSH_ENABLED; then
     display -d 1000 -t "Disabling SSH..."
     SSH_ENABLED=false
-    echo -E "$(/mnt/SDCARD/System/bin/jq '.description = "Turned off"' "$SSH_APP_CONFIG")" > "$SSH_APP_CONFIG"
+    echo -E "$(jq '.description = "Turned off"' "$SSH_APP_CONFIG")" > "$SSH_APP_CONFIG"
     stop_dropbear_process
 else
     display -d 1000 -t "Enabling SSH..."
@@ -21,7 +21,7 @@ else
     else
         DESCRIPTION="IP: $IP:22"
     fi 
-    echo -E "$(/mnt/SDCARD/System/bin/jq --arg DESCRIPTION "$DESCRIPTION" '.description = $DESCRIPTION' "$SSH_APP_CONFIG")" > "$SSH_APP_CONFIG"
+    echo -E "$(jq --arg DESCRIPTION "$DESCRIPTION" '.description = $DESCRIPTION' "$SSH_APP_CONFIG")" > "$SSH_APP_CONFIG"
     start_dropbear_process
 fi
 
