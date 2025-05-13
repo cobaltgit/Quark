@@ -145,7 +145,7 @@ display() {
         fi
     else
         case "$PLATFORM" in
-            "tg3040") FONT_SIZE=48 ;;
+            "tg3040") FONT_SIZE=56 ;;
             "tg5040") FONT_SIZE=64 ;;
         esac
         DISPLAY_CMD="sdl2imgshow -i \"$DISPLAY_BG\" -f \"$DISPLAY_FONT\" -s $FONT_SIZE -t \"$DISPLAY_TEXT\""
