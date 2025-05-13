@@ -37,7 +37,7 @@ setup_syncthing() {
         sync
         sed -i "s|<address>127.0.0.1:8384</address>|<address>0.0.0.0:8384</address>|g" $SYNCTHING_CONF_DIR/config.xml
         sed -i 's|<urAccepted>0</urAccepted>|<urAccepted>-1</urAccepted>|' "$SYNCTHING_CONF_DIR/config.xml"
-        sed -i 's/\(name="\)sun8i\(\"\)/\1Quark\2/' "$SYNCTHING_CONF_DIR/config.xml"
+        sed -i 's/\(name="\)\(sun8i\|TinaLinux\)\(\"\)/\1Quark\3/' "$SYNCTHING_CONF_DIR/config.xml"
 
         kill_display
     fi
