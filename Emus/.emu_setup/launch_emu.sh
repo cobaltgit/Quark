@@ -72,6 +72,51 @@ run_mp3() {
     rm /tmp/stay_awake
 }
 
+run_pico8_or_fake08() {
+    PICO8_DIR="/mnt/SDCARD/BIOS/Pico-8"
+    PICO8_SPLORE_LAUNCHER="$(dirname "$ROM_FILE")/☆ Splore.p8"
+    FAKE08_FALLBACK=false
+
+    export HOME="$EMU_DIR"
+
+    cd "$EMU_DIR"
+
+    for PICO8_REQUIRED_FILE in pico8_64 pico8.dat; do
+        if [ ! -f "$PICO8_DIR/$PICO8_REQUIRED_FILE" ]; then
+            display -d 1000 -t "$PICO8_REQUIRED_FILE not found. Falling back to Fake-08..."
+            FAKE08_FALLBACK=true
+            break
+        fi
+    done
+
+    if [ "$PLATFORM" = "tg2040" ]; then
+        FAKE08_FALLBACK=true
+    fi
+
+    if $FAKE08_FALLBACK; then
+        if [ "$ROM_FILE" = "$PICO8_SPLORE_LAUNCHER" ]; then
+            display -d 1000 -t "Splore is not supported by Fake-08"
+            exit 1
+        fi
+        run_retroarch
+    else
+        export PATH="$PICO8_DIR:$PATH"
+        export LD_LIBRARY_PATH="$EMU_DIR/lib:$LD_LIBRARY_PATH"
+
+        case "$PLATFORM" in
+            "tg3040") WIDTH=1024 HEIGHT=768 ;;
+            "tg5040") WIDTH=1280 HEIGHT=720 ;;
+        esac
+
+        if [ "$ROM_FILE" = "$PICO8_SPLORE_LAUNCHER" ]; then
+            pico8_64 -splore -width $WIDTH -height $HEIGHT -root_path "/mnt/SDCARD/Roms/PICO8/"
+        else
+            pico8_64 -width $WIDTH -height $HEIGHT -scancodes -run "$ROM_FILE"
+        fi
+        sync
+    fi
+}
+
 ROM_FILE="$(readlink -f "$1")"
 
 if [ "$CPU_MODE" = "smart" ]; then
@@ -88,6 +133,7 @@ case "$EMU" in
     "MP3") run_mp3 ;;
     "OPENBOR") run_openbor ;;
     "PORTS") run_port ;;
+    "PICO8") run_pico8_or_fake08 ;;
     *) run_retroarch ;;
 esac
 

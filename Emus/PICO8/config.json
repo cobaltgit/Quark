@@ -3,15 +3,19 @@
   "icon": "icon.png",
   "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/PICO8",
-  "imgpath": "../../Roms/PICO8/Imgs",
+  "imgpath": "../../Roms/PICO8",
   "useswap": 1,
   "shortname": 0,
   "hidebios": 1,
-  "extlist": "p8",
+  "extlist": "p8|png",
   "launchlist": [
     {
       "name": "CPU: Smart",
       "launch": "/mnt/SDCARD/Emus/.emu_setup/cpu_switch.sh"
+    },
+    {
+      "name": "Import Splore carts",
+      "launch": "import_carts.sh"
     },
     {
       "name": "Save override",
