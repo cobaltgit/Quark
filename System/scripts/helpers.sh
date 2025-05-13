@@ -115,6 +115,39 @@ kill_display() {
     killall -9 sdl2imgshow
 }
 
+# doublepipe_wrap: wrap text for sdl2imgshow
+doublepipe_wrap() {
+    text="$1"
+    n="$2"
+    result=""
+    current_length=0
+    
+    OLD_IFS="$IFS"
+    IFS=' '
+    
+    for word in $text; do
+        word_len=$(expr length "$word")
+        
+        if [ $((current_length + word_len)) -gt "$n" ]; then
+            result="${result}||"
+            current_length=0
+        fi
+        
+        if [ "$current_length" -gt 0 ]; then
+            result="${result} "
+            current_length=$((current_length + 1))
+        fi
+        
+        result="${result}${word}"
+        current_length=$((current_length + word_len))
+    done
+    
+    # Restore IFS
+    IFS="$OLD_IFS"
+    
+    printf '%s\n' "$result"
+}
+
 # display: displays text on screen for a (optional) set duration with a (optional) background image
 display() {
     DEFAULT_BG="/mnt/SDCARD/System/res/quarkbg_$PLATFORM.png"
@@ -145,10 +178,10 @@ display() {
         fi
     else
         case "$PLATFORM" in
-            "tg3040") FONT_SIZE=56 ;;
-            "tg5040") FONT_SIZE=64 ;;
+            "tg3040") FONT_SIZE=40 ;;
+            "tg5040") FONT_SIZE=48 ;;
         esac
-        DISPLAY_CMD="sdl2imgshow -i \"$DISPLAY_BG\" -f \"$DISPLAY_FONT\" -s $FONT_SIZE -t \"$DISPLAY_TEXT\""
+        DISPLAY_CMD="sdl2imgshow -i \"$DISPLAY_BG\" -f \"$DISPLAY_FONT\" -s $FONT_SIZE -c 255,255,255 -a center -t \"$(doublepipe_wrap "$DISPLAY_TEXT" 32)\""
         eval "$DISPLAY_CMD" &
         if [ $DISPLAY_DURATION -gt 0 ]; then
             sleep $(($DISPLAY_DURATION / 1000))
