@@ -65,13 +65,11 @@ screenshot_hotkey() {
         if [ "$PLATFORM" = "tg2040" ]; then
             evtest --query $EVTEST_DEV EV_KEY $EV_KEY_SELECT # SELECT
             if [ $? = 10 ]; then
-                if [ "$PLATFORM" = "tg2040" ]; then
-                    evtest --query $EVTEST_DEV EV_KEY 109 # MENU + R
-                    if [ $? = 10 ]; then
-                        echo default-on > /sys/devices/platform/sunxi-led/leds/led2/trigger
-                        fbscreenshot
-                        echo none > /sys/devices/platform/sunxi-led/leds/led2/trigger
-                    fi
+                evtest --query $EVTEST_DEV EV_KEY 109 # MENU + R
+                if [ $? = 10 ]; then
+                    echo default-on > /sys/devices/platform/sunxi-led/leds/led2/trigger
+                    fbscreenshot
+                    echo none > /sys/devices/platform/sunxi-led/leds/led2/trigger
                 fi
             fi
         else
