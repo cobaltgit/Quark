@@ -207,5 +207,9 @@ fbscreenshot() {
     TMP_SCREENSHOT="/tmp/$$.png"
     SCREENSHOT="$1"
     [ -z "$SCREENSHOT" ] && SCREENSHOT="/mnt/SDCARD/Saves/screenshots/$(date +"Screenshot_%Y%m%d_%H%M%S.png")"
-    fbgrab -a "$TMP_SCREENSHOT" && magick convert "$TMP_SCREENSHOT" -rotate 90 -alpha set "$SCREENSHOT" && rm -f "$TMP_SCREENSHOT"
+    fbgrab -a "$TMP_SCREENSHOT"
+    if [ "$PLATFORM" = "tg2040" ]; then
+        magick convert "$TMP_SCREENSHOT" -rotate 90 -alpha set "$TMP_SCREENSHOT"
+    fi
+    mv "$TMP_SCREENSHOT" "$SCREENSHOT"
 }
