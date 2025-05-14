@@ -2,4 +2,4 @@
 
 export CORE="gpsp"
 export CPU_MODE="smart"
-export CPU_MIN_FREQ=408000
+export CPU_MIN_FREQ=600000
