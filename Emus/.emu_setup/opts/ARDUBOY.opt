@@ -2,4 +2,4 @@
 
 export CORE="ardens"
 export CPU_MODE="smart"
-export CPU_MIN_FREQ=720000
+export CPU_MIN_FREQ=816000
