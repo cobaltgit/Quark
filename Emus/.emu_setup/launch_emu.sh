@@ -81,16 +81,16 @@ run_pico8_or_fake08() {
 
     cd "$EMU_DIR"
 
-    for PICO8_REQUIRED_FILE in pico8_64 pico8.dat; do
-        if [ ! -f "$PICO8_DIR/$PICO8_REQUIRED_FILE" ]; then
-            display -d 1000 -t "$PICO8_REQUIRED_FILE not found. Falling back to Fake-08..."
-            FAKE08_FALLBACK=true
-            break
-        fi
-    done
-
     if [ "$PLATFORM" = "tg2040" ]; then
         FAKE08_FALLBACK=true
+    else
+        for PICO8_REQUIRED_FILE in pico8_64 pico8.dat; do
+            if [ ! -f "$PICO8_DIR/$PICO8_REQUIRED_FILE" ]; then
+                display -d 1000 -t "$PICO8_REQUIRED_FILE not found. Falling back to Fake-08..."
+                FAKE08_FALLBACK=true
+                break
+            fi
+        done
     fi
 
     if $FAKE08_FALLBACK; then
