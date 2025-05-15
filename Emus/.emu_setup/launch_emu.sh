@@ -77,8 +77,7 @@ run_ppsspp() {
 
     export XDG_CONFIG_HOME="/mnt/SDCARD/Saves"
 
-    # todo: one binary for both backends?
-    "./PPSSPPSDL_$VIDEO_BACKEND" "$ROM_FILE"
+    "./PPSSPPSDL" "$ROM_FILE"
 }
 
 run_pico8_or_fake08() {
@@ -143,6 +142,7 @@ case "$EMU" in
     "OPENBOR") run_openbor ;;
     "PORTS") run_port ;;
     "PICO8") run_pico8_or_fake08 ;;
+    "PSP") run_ppsspp ;;
     *) run_retroarch ;;
 esac
 
