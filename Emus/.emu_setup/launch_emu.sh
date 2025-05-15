@@ -76,8 +76,14 @@ run_ppsspp() {
     cd "$EMU_DIR"
 
     export XDG_CONFIG_HOME="/mnt/SDCARD/Saves"
+    PPSSPP_INI="$XDG_CONFIG_HOME/ppsspp/PSP/SYSTEM/ppsspp.ini"
 
-    "./PPSSPPSDL" "$ROM_FILE"
+    case "$VIDEO_BACKEND" in
+        "opengl") sed -i "s|GraphicsBackend =.*|GraphicsBackend = 0 (OPENGL)|" "$PPSSPP_INI" ;;
+        "vulkan") sed -i "s|GraphicsBackend =.*|GraphicsBackend = 3 (VULKAN)|" "$PPSSPP_INI" ;;
+    esac
+
+    ./PPSSPPSDL "$ROM_FILE"
 }
 
 run_pico8_or_fake08() {
