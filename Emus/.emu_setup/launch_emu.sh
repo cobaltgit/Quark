@@ -72,6 +72,15 @@ run_mp3() {
     rm /tmp/stay_awake
 }
 
+run_ppsspp() {
+    cd "$EMU_DIR"
+
+    export XDG_CONFIG_HOME="/mnt/SDCARD/Saves"
+
+    # todo: one binary for both backends?
+    "./PPSSPPSDL_$VIDEO_BACKEND" "$ROM_FILE"
+}
+
 run_pico8_or_fake08() {
     PICO8_DIR="/mnt/SDCARD/BIOS/Pico-8"
     PICO8_SPLORE_LAUNCHER="$(dirname "$ROM_FILE")/☆ Splore.p8"
