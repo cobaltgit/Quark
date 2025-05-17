@@ -181,7 +181,7 @@ display() {
             "tg3040") FONT_SIZE=40 ;;
             "tg5040") FONT_SIZE=48 ;;
         esac
-        DISPLAY_CMD="sdl2imgshow -i \"$DISPLAY_BG\" -f \"$DISPLAY_FONT\" -s $FONT_SIZE -c 255,255,255 -a center -t \"$(doublepipe_wrap "$DISPLAY_TEXT" 32)\""
+        DISPLAY_CMD="sdl2imgshow.new -i \"$DISPLAY_BG\" -f \"$DISPLAY_FONT\" -s $FONT_SIZE -c 255,255,255 -a center -t \"$(doublepipe_wrap "$DISPLAY_TEXT" 32)\""
         eval "$DISPLAY_CMD" &
         if [ $DISPLAY_DURATION -gt 0 ]; then
             sleep $(($DISPLAY_DURATION / 1000))
