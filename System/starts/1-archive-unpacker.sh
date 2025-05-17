@@ -17,7 +17,6 @@ find "$ARCHIVES_FOLDER" -type f -iname "*.zip" -o -iname "*.tar.zst" | while rea
     basename="$(basename "$archive")"
     log_message "Unpacker: unpacking archive $basename"
 
-    # todo: fix flickering between MainUI and display
     LD_LIBRARY_PATH="/usr/trimui/lib" display -t "Unpacking archive $basename..."
 
     case "$archive" in
