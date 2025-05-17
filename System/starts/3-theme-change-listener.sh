@@ -6,7 +6,7 @@
 SYSTEM_JSON="/mnt/UDISK/system.json"
 THEME_PATH="$(awk -F'"' '/"theme":/ {print $4}' "$SYSTEM_JSON" | sed 's:/*$:/:')"
 
-while true; do
+while [ "$PLATFORM" = "tg2040" ]; do
     inotifywait -e modify "$SYSTEM_JSON"
 
     NEW_THEME_PATH="$(awk -F'"' '/"theme":/ {print $4}' "$SYSTEM_JSON" | sed 's:/*$:/:')"
