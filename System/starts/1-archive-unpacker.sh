@@ -17,13 +17,16 @@ find "$ARCHIVES_FOLDER" -type f -iname "*.zip" -o -iname "*.tar.zst" | while rea
     basename="$(basename "$archive")"
     log_message "Unpacker: unpacking archive $basename"
 
-    display -t "Unpacking archive $basename..."
+    # todo: fix flickering between MainUI and display
+    LD_LIBRARY_PATH="/usr/trimui/lib" display -t "Unpacking archive $basename..."
 
     case "$archive" in
-        "*.zip") DECOMPRESS_COMMAND="unzip -o -d / \"$archive\"" ;;
-        "*.tar.gz") DECOMPRESS_COMMAND="tar xzvf \"$archive\" -C /" ;;
-        "*.tar.zst") DECOMPRESS_COMMAND="zstd -d --stdout \"$archive\" | tar xv -C /" ;;
+        *.zip) DECOMPRESS_COMMAND="unzip -o -d / \"$archive\"" ;;
+        *.tar.gz) DECOMPRESS_COMMAND="tar xzvf \"$archive\" -C /" ;;
+        *.tar.zst) DECOMPRESS_COMMAND="zstd -d --stdout \"$archive\" | tar xv -C /" ;;
     esac
+
+    echo "Decompress command: $DECOMPRESS_COMMAND"
 
     if ! eval "$DECOMPRESS_COMMAND"; then
         log_message "Unpacker: failed to unpack archive $basename"
@@ -31,4 +34,6 @@ find "$ARCHIVES_FOLDER" -type f -iname "*.zip" -o -iname "*.tar.zst" | while rea
         log_message "Unpacker: archive $basename unpacked successfully"
         rm -f "$archive"
     fi
+
+    kill_display
 done > "$ARCHIVE_UNPACK_LOG" 2>&1

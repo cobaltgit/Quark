@@ -113,6 +113,7 @@ update_setting() {
 kill_display() {
     killall -9 display.elf
     killall -9 sdl2imgshow
+    killall -9 sdl2imgshow.new
 }
 
 # doublepipe_wrap: wrap text for sdl2imgshow
