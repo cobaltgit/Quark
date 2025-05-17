@@ -16,9 +16,17 @@ DEST_DIR="/usr/trimui"
         mount -o bind "/mnt/SDCARD" "/mnt/UDISK/Apps" # app store will install onto SD card
         mount -o bind "$SRC_DIR/bin/MainUI" "$DEST_DIR/bin/MainUI" # patched MainUI for appstore
         mount -o bind "$SRC_DIR/res/lang" "$DEST_DIR/res/lang"
+    else
+        mount -o bind "/mnt/SDCARD/System/bin64" "/mnt/SDCARD/System/bin"
+        mount -o bind "/mnt/SDCARD/System/lib64" "/mnt/SDCARD/System/lib"
 
-        for UNSUPPORTED_SYSTEM in N64 DC PSP SATURN; do
-            mkdir -p "/tmp/$UNSUPPORTED_SYSTEM" && mount -o bind "/tmp/$UNSUPPORTED_SYSTEM" "/mnt/SDCARD/Emus/$UNSUPPORTED_SYSTEM"
-        done
+        [ -d "/mnt/SDCARD/Roms/PORTS64" ] && mount -o bind "/mnt/SDCARD/Roms/PORTS64" "/mnt/SDCARD/Roms/PORTS"
+
+        if [ -f "/mnt/SDCARD/System/bin64/busybox" ]; then # PortMaster stuff
+            ln -s "/mnt/SDCARD/System/bin64/busybox" "/bin/bash"
+            for cmd in $(/mnt/SDCARD/System/bin64/busybox --list); do
+                [ -e "/usr/bin/$cmd" ] || [ -e "/bin/$cmd" ] || [ "$cmd" = "sh" ] || ln -s "/mnt/SDCARD/System/bin64/busybox" "/usr/bin/$cmd"
+            done
+        fi
     fi
 } &

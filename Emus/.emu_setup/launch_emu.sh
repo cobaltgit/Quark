@@ -52,7 +52,7 @@ run_retroarch() {
 
 run_port() {
     cd "$EMU_DIR"
-    /bin/sh "$ROM_FILE"
+    [ -e "/bin/bash" ] && /bin/bash "$ROM_FILE" || /bin/sh "$ROM_FILE"
 }
 
 run_openbor() {
