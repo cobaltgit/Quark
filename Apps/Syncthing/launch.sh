@@ -23,6 +23,12 @@ else
     fi 
     echo -E "$(jq --arg DESCRIPTION "$DESCRIPTION" '.description = $DESCRIPTION' "$SYNCTHING_APP_CONFIG")" > "$SYNCTHING_APP_CONFIG"
     start_syncthing_process
+
+    if [ -n "$IP" ]; then
+        display -d 1500 -t "IP: $IP:8384"
+    else
+        display -d 1500 -t "Warning: No Internet connection."
+    fi
 fi
 
 update_setting "network" "syncthing" "$SYNCTHING_ENABLED"

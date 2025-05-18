@@ -23,6 +23,12 @@ else
     fi 
     echo -E "$(jq --arg DESCRIPTION "$DESCRIPTION" '.description = $DESCRIPTION' "$SSH_APP_CONFIG")" > "$SSH_APP_CONFIG"
     start_dropbear_process
+
+    if [ -n "$IP" ]; then
+        display -d 1500 -t "IP: $IP:22"
+    else
+        display -d 1500 -t "Warning: No Internet connection."
+    fi
 fi
 
 update_setting "network" "ssh" "$SSH_ENABLED"
