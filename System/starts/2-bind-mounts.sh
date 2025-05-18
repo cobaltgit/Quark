@@ -28,12 +28,12 @@ DEST_DIR="/usr/trimui"
         mount -o bind "/mnt/SDCARD/System/lib64" "/mnt/SDCARD/System/lib"
 
         [ -d "/mnt/SDCARD/Roms/PORTS64" ] && mount -o bind "/mnt/SDCARD/Roms/PORTS64" "/mnt/SDCARD/Roms/PORTS"
+        [ -f "/mnt/SDCARD/System/bin64/bash" ] && ln -s "/mnt/SDCARD/System/bin64/bash" "/bin/bash"
 
         if [ -f "/mnt/SDCARD/System/bin64/busybox" ]; then # PortMaster stuff
             mount -o bind "/mnt/SDCARD/System/bin64/busybox" "/bin/busybox"
-            ln -s "/bin/busybox" "/bin/bash"
             for cmd in $(busybox --list); do
-                [ -e "/usr/bin/$cmd" ] || [ -e "/bin/$cmd" ] || [ "$cmd" = "sh" ] || ln -s "/bin/busybox" "/usr/bin/$cmd"
+                [ -e "/usr/bin/$cmd" ] || [ -e "/bin/$cmd" ] || [ "$cmd" = "sh" ] || [ "$cmd" = "bash" ] || ln -s "/bin/busybox" "/usr/bin/$cmd"
             done
         fi
     fi
