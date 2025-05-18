@@ -88,7 +88,7 @@ cd /mnt/SDCARD
 
 for item in *; do
     if [ "$item" != "Updater" ] && [ "$item" != "$(basename "$UPDATE_PKG")" ] && [ "$item" != "BIOS" ] && \
-        [ "$item" != "Roms" ] && [ "$item" != "Saves" ] && [ "$item" != "Themes" ]; then
+        [ "$item" != "Roms" ] && [ "$item" != "Saves" ] && [ "$item" != "Themes" ] [ "$item" != "Data" ]; then
             log_message "Updater: deleting folder $item" "$LOG_FILE"
             rm -rf "$item"
     fi
