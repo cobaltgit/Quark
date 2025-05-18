@@ -8,8 +8,14 @@ case $CPUINFO in
 esac
 
 case "$PLATFORM" in
-    "tg2040") export UPDATER_BIN_PATH="/mnt/SDCARD/Updater/bin" ;;
-    "tg5040"|"tg3040") export UPDATER_BIN_PATH="/mnt/SDCARD/Updater/bin64" ;;
+    "tg2040") 
+        UPDATER_BIN_PATH="/mnt/SDCARD/Updater/bin"
+        SDCARD_DEV="/dev/mmcblk0p1"
+        ;;
+    "tg5040"|"tg3040") 
+        UPDATER_BIN_PATH="/mnt/SDCARD/Updater/bin64" 
+        SDCARD_DEV="/dev/mmcblk1p1"
+        ;;
 esac
 
 export PATH="$UPDATER_BIN_PATH:$PATH"
@@ -29,7 +35,7 @@ log_message() {
 ro_check() {
     if [ $(mount | grep SDCARD | cut -d"(" -f 2 | cut -d"," -f1 ) = "ro" ]; then
         log_message "Updater: SD card read only, attempting remount as rw" "$LOG_FILE"
-        mount -o remount,rw /dev/mmcblk0p1 /mnt/SDCARD
+        mount -o remount,rw $SDCARD_DEV /mnt/SDCARD
     fi
 }
 
