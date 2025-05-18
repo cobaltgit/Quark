@@ -18,7 +18,7 @@ SDCARD_UNHEALTHY=false
 display_msg -t "Starting updater..."
 log_message "Updater: starting update process..." "$LOG_FILE"
 
-if [ $(cat /sys/class/power_supply/lradc_battery/capacity) -lt 20 ]; then
+if [ $(cat "$POWER_SUPPLY/capacity") -lt 20 ]; then
     log_message "Updater: battery is below 20%, exiting" "$LOG_FILE"
     display_msg -d 1500 -t "Battery is too low to update. Please charge to at least 20%"
     exit 1
