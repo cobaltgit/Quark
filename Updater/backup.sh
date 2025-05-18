@@ -12,7 +12,7 @@ if [ "$1" = "--restore" ]; then
 
     BACKUP_TO_RESTORE="$(ls -t /mnt/SDCARD/Saves/QuarkBackup_*.tar.zst | head -1)"
     log_message "Updater: restoring backup $BACKUP_TO_RESTORE..."
-    if /mnt/SDCARD/Updater/bin/zstd -d --stdout "$BACKUP_TO_RESTORE" | tar xv -C / >> "$BACKUP_LOG" 2>&1; then
+    if zstd -d --stdout "$BACKUP_TO_RESTORE" | tar xv -C / >> "$BACKUP_LOG" 2>&1; then
         log_message "Updater: successfully restored backup"
         display_msg -d 1500 -t "Successfully restored user data"
     else

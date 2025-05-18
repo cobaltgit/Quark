@@ -1,5 +1,18 @@
 #!/bin/sh
 
+CPUINFO=$(cat /proc/cpuinfo 2> /dev/null)
+case $CPUINFO in
+    *"TG5040"*)	export PLATFORM="tg5040"  ;;
+    *"TG3040"*)	export PLATFORM="tg3040"  ;;
+    *"sun8i"*)  export PLATFORM="tg2040"  ;;
+esac
+
+case "$PLATFORM" in
+    "tg2040") export UPDATER_BIN_PATH="/mnt/SDCARD/Updater/bin" ;;
+    "tg5040"|"tg3040") export UPDATER_BIN_PATH="/mnt/SDCARD/Updater/bin64" ;;
+esac
+
+export PATH="$UPDATER_BIN_PATH:$PATH"
 export LOG_FILE="/mnt/SDCARD/Updater/updater.log"
 
 log_message() {
@@ -20,9 +33,41 @@ ro_check() {
     fi
 }
 
-display_msg() {
-    DEFAULT_BG="/mnt/SDCARD/Updater/bin/res/quarkbg.png"
-    DEFAULT_FONT="/mnt/SDCARD/Updater/bin/res/TwCenMT.ttf"
+doublepipe_wrap() {
+    text="$1"
+    n="$2"
+    result=""
+    current_length=0
+    
+    OLD_IFS="$IFS"
+    IFS=' '
+    
+    for word in $text; do
+        word_len=$(expr length "$word")
+        
+        if [ $((current_length + word_len)) -gt "$n" ]; then
+            result="${result}||"
+            current_length=0
+        fi
+        
+        if [ "$current_length" -gt 0 ]; then
+            result="${result} "
+            current_length=$((current_length + 1))
+        fi
+        
+        result="${result}${word}"
+        current_length=$((current_length + word_len))
+    done
+    
+    # Restore IFS
+    IFS="$OLD_IFS"
+    
+    printf '%s\n' "$result"
+}
+
+display() {
+    DEFAULT_BG="/mnt/SDCARD/Updater/res/quarkbg_$PLATFORM.png"
+    DEFAULT_FONT="/mnt/SDCARD/Updater/res/TwCenMT.ttf"
 
     while [ "$#" -gt 0 ]; do
         case $1 in
@@ -39,11 +84,25 @@ display_msg() {
     [ -z "$DISPLAY_DURATION" ] && DISPLAY_DURATION=0
 
     killall -9 display.elf
+    killall -9 sdl2imgshow
 
-    DISPLAY_CMD="/mnt/SDCARD/Updater/bin/display.elf -d $DISPLAY_DURATION -b \"$DISPLAY_BG\" -f \"$DISPLAY_FONT\" \"$DISPLAY_TEXT\""
-    if [ $DISPLAY_DURATION -eq 0 ]; then
-        eval "$DISPLAY_CMD" &
+    if [ "$PLATFORM" = "tg2040" ]; then
+        DISPLAY_CMD="display.elf -d $DISPLAY_DURATION -b \"$DISPLAY_BG\" -f \"$DISPLAY_FONT\" \"$DISPLAY_TEXT\""
+        if [ $DISPLAY_DURATION -eq 0 ]; then
+            eval "$DISPLAY_CMD" &
+        else
+            eval "$DISPLAY_CMD"
+        fi
     else
-        eval "$DISPLAY_CMD"
+        case "$PLATFORM" in
+            "tg3040") FONT_SIZE=40 ;;
+            "tg5040") FONT_SIZE=48 ;;
+        esac
+        DISPLAY_CMD="sdl2imgshow -i \"$DISPLAY_BG\" -f \"$DISPLAY_FONT\" -s $FONT_SIZE -c 255,255,255 -a center -t \"$(doublepipe_wrap "$DISPLAY_TEXT" 32)\""
+        eval "$DISPLAY_CMD" &
+        if [ $DISPLAY_DURATION -gt 0 ]; then
+            sleep $(($DISPLAY_DURATION / 1000))
+            killall -9 sdl2imgshow
+        fi
     fi
 }
