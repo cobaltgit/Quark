@@ -34,7 +34,7 @@ else
     log_message "Creating backup of user data - $BACKUP_LOCATION"
     display_msg -t "Backing up user data..."
 
-    if ( tar cvT backup_list.txt | zstd -12 > "$BACKUP_LOCATION" ) >> "$BACKUP_LOG" 2>&1; then
+    if ( tar cvT backup_list.txt | zstd -12 -T0 > "$BACKUP_LOCATION" ) >> "$BACKUP_LOG" 2>&1; then
         log_message "Updater: successfully backed up files" "$BACKUP_LOG"
         display_msg -d 1500 -t "Successfully backed up user data"
     else
