@@ -71,13 +71,12 @@ fi
 
 set_cpuclock --mode overclock
 
-if [ "$PLATFORM" = "tg2040" ]; then
-    umount "/mnt/SDCARD/Apps/PortMaster"
-    umount "/mnt/SDCARD/Emus/N64"
-    umount "/mnt/SDCARD/Emus/DC"
-    umount "/mnt/SDCARD/Emus/PSP"
-    umount "/mnt/SDCARD/Emus/SATURN"
-fi
+umount "/mnt/SDCARD/Apps/PortMaster"
+umount "/mnt/SDCARD/Emus/MP3"
+umount "/mnt/SDCARD/Emus/N64"
+umount "/mnt/SDCARD/Emus/DC"
+umount "/mnt/SDCARD/Emus/PSP"
+umount "/mnt/SDCARD/Emus/SATURN"
 
 /mnt/SDCARD/Updater/backup.sh
 

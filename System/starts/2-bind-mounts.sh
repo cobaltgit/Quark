@@ -27,6 +27,8 @@ DEST_DIR="/usr/trimui"
         mount -o bind "/mnt/SDCARD/System/bin64" "/mnt/SDCARD/System/bin"
         mount -o bind "/mnt/SDCARD/System/lib64" "/mnt/SDCARD/System/lib"
 
+        mkdir -p "/tmp/MP3" && mount -o bind "/tmp/MP3" "/mnt/SDCARD/Emus/MP3"
+
         [ -d "/mnt/SDCARD/Roms/PORTS64" ] && mount -o bind "/mnt/SDCARD/Roms/PORTS64" "/mnt/SDCARD/Roms/PORTS"
         [ -f "/mnt/SDCARD/System/bin64/bash" ] && ln -s "/mnt/SDCARD/System/bin64/bash" "/bin/bash"
 
