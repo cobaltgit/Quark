@@ -36,5 +36,10 @@ DEST_DIR="/usr/trimui"
                 [ -e "/usr/bin/$cmd" ] || [ -e "/bin/$cmd" ] || [ "$cmd" = "sh" ] || [ "$cmd" = "bash" ] || ln -s "/bin/busybox" "/usr/bin/$cmd"
             done
         fi
+
+        if [ -f "/mnt/SDCARD/Apps/PortMaster/PortMaster/control.txt" ]; then
+            mkdir -p "/roms/ports/PortMaster" # todo: can we do this without writing to flash??
+            mount -o bind "/mnt/SDCARD/Apps/PortMaster/PortMaster/control.txt" "/roms/ports/PortMaster/control.txt"
+        fi
     fi
 } &
