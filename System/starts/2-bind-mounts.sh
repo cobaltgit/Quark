@@ -41,7 +41,7 @@ DEST_DIR="/usr/trimui"
 
         if [ -f "/mnt/SDCARD/Apps/PortMaster/PortMaster/control.txt" ]; then
             mkdir -p "/roms/ports/PortMaster" # todo: can we do this without writing to flash??
-            mount -o bind "/mnt/SDCARD/Apps/PortMaster/PortMaster/control.txt" "/roms/ports/PortMaster/control.txt"
+            ln -s "/mnt/SDCARD/Apps/PortMaster/PortMaster/control.txt" "/roms/ports/PortMaster/control.txt"
         fi
     fi
 } &
