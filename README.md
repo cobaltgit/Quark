@@ -1,6 +1,6 @@
 # Quark
 
-A trimmed down version of the TrimUI Smart's stock operating system with extra goodies, great for small SD cards!  
+A modified stock SD card package that supports the TrimUI Smart, Smart Pro and Brick from a single microSD card!
 Installation is as simple as extracting the [latest release](https://github.com/cobaltgit/Quark/releases/latest) into the root of a microSD card formatted with the FAT32 filesystem.
 
 * Many more systems to choose from than the stock base package, including home computers and ports
@@ -15,8 +15,8 @@ Installation is as simple as extracting the [latest release](https://github.com/
 
 * SELECT + L/R: Volume control
 * START + L/R: Brightness control
-* MENU + L/R: L2/R2
-* SELECT + MENU + R: screenshot (does not work in RetroArch, use SELECT + A instead in this case)
+* MENU + L/R: L2/R2 (**Smart only**)
+* SELECT + MENU + R: screenshot (does not work in RetroArch on the Smart, use SELECT + A instead in this case)
 * SELECT + START held for 10 seconds: reboot
 
 ### RetroArch
@@ -60,7 +60,7 @@ Below is a list of systems that Quark supports, along with the emulator core the
 * Atari Lynx (Handy)
 * Sega Mega Drive (PicoDrive / Genesis Plus GX)
 * Sega Master System (PicoDrive / Genesis Plus GX)
-* MP3 player
+* MP3 player (**Smart only**)
 * MSX / MSX2 (blueMSX)
 * Neo Geo (FB Alpha 2012)
 * Neo Geo CD (NeoCD)
@@ -88,12 +88,19 @@ Below is a list of systems that Quark supports, along with the emulator core the
 * Sharp X68000 (PX68K)
 * Sinclair ZX Spectrum (FUSE)
 
+## Brick/Smart Pro
+
+The Brick and Smart Pro will allow you access to some higher-end emulators:
+
+* Nintendo 64 (KM LudicrousN64 2K22 Xtreme Amped)
+* Pico-8 (native, place `pico8.dat` and `pico8_64` in `SDCARD:/BIOS/Pico-8`)
+* Sega Dreamcast (Flycast)
+* Sony PlayStation Portable (PPSSPP standalone)
+
 ## Known Issues
 
-* Sega CD games have no CD audio playback when using `.chd` format games using the PicoDrive core. Launcher works around this by changing to the Genesis Plus GX core if needed.
-* RACE (NGP/NGPC emulator) audio freezes when using auto save state. Manually save state before exiting and load state when launching game
 * Audio stretching when using auto save/load state for Sega CD games with Picodrive. Manually save state before exiting and load state when launching game
-* FPS display not showing when an overlay is applied
+* FPS display not showing when an overlay is applied (**Smart only**)
 
 ## Licence
 
