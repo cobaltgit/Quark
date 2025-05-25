@@ -1,0 +1,25 @@
+{
+  "label": "MEDIA",
+  "icon": "icon.png",
+  "launch": "../.emu_setup/launch_emu.sh",
+  "rompath": "../../Roms/MEDIA",
+  "imgpath": "../../Roms/MEDIA/Imgs",
+  "useswap": 0,
+  "shortname": 0,
+  "hidebios": 0,
+  "extlist": "mp4|avi|ogv|ogg|mp3|flac|opus|mp2|mkv|oga|mka|wav|mov|webm|flv|m4v|wmv|aac|m4a",
+  "launchlist": [
+    {
+      "name": "CPU: Smart",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/cpu_switch.sh"
+    },
+    {
+      "name": "Save override",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/save_override.sh"
+    },
+    {
+      "name": "Delete override",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/del_override.sh"
+    }
+  ]
+}
