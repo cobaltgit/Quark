@@ -50,30 +50,9 @@ run_retroarch() {
     [ "$RA_BIN" = "ra32.trimui_sdl" ] && cp -f retroarch_sdl.cfg retroarch.cfg # copy back
 }
 
-run_mp3() {
+run_port() {
     cd "$EMU_DIR"
-
-    echo 1 > /tmp/stay_awake
-
-    ./mp3player.elf "$ROM_FILE"
-
-    rm /tmp/stay_awake
-}
-
-run_ffplay() {
-    cd "$EMU_DIR"
-
-    case "$PLATFORM" in
-        "tg5040") X=1280 Y=720 ;;
-        "tg3040") X=1024 Y=768 ;;
-    esac
-
-    gptokeyb "ffplay" -c ffplay.gptk &
-    GPTK_PID=$!
-
-    ffplay -x $X -y $Y -fs -i "$ROM_FILE" >/dev/null 2>&1
-    
-    kill -9 $GPTK_PID
+    [ -e "/bin/bash" ] && /bin/bash "$ROM_FILE" || /bin/sh "$ROM_FILE"
 }
 
 run_openbor() {
@@ -83,9 +62,14 @@ run_openbor() {
     "./OpenBOR.$PLATFORM" "$ROM_FILE"
 }
 
-run_port() {
+run_mp3() {
     cd "$EMU_DIR"
-    [ -e "/bin/bash" ] && /bin/bash "$ROM_FILE" || /bin/sh "$ROM_FILE"
+
+    echo 1 > /tmp/stay_awake
+
+    ./mp3player.elf "$ROM_FILE"
+
+    rm /tmp/stay_awake
 }
 
 run_ppsspp() {
@@ -160,7 +144,6 @@ else
 fi
 
 case "$EMU" in
-    "MEDIA") run_ffplay ;;
     "MP3") run_mp3 ;;
     "OPENBOR") run_openbor ;;
     "PORTS") run_port ;;
