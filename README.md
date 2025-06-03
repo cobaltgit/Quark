@@ -95,6 +95,7 @@ The Brick and Smart Pro will allow you access to some higher-end emulators:
 * Nintendo 64 (KM LudicrousN64 2K22 Xtreme Amped)
 * Pico-8 (native, place `pico8.dat` and `pico8_64` in `SDCARD:/BIOS/Pico-8`)
 * Sega Dreamcast (Flycast)
+* Sega Saturn (Yaba Sanshiro standalone)
 * Sony PlayStation Portable (PPSSPP standalone)
 
 ## Known Issues

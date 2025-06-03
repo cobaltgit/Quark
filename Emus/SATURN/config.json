@@ -1,0 +1,33 @@
+{
+    "label":"SATURN",
+    "icon": "icon.png",
+    "launch":"../.emu_setup/launch_emu.sh",
+    "rompath":"../../Roms/SATURN",
+    "imgpath":"../../Roms/SATURN/Imgs",
+    "useswap":0,
+    "shortname":0,
+    "hidebios":0,
+    "extlist":"cue|chd|ccd|iso",
+    "launchlist": [
+        {
+            "name": "CPU: Overclock",
+            "launch": "/mnt/SDCARD/Emus/.emu_setup/cpu_switch.sh"
+        },
+        {
+            "name": "BIOS: Real",
+            "launch": "/mnt/SDCARD/Emus/.emu_setup/saturn_bios_switch.sh"
+        },
+        {
+            "name": "Generate M3Us",
+            "launch": "/mnt/SDCARD/Emus/.emu_setup/generate_m3u.sh"
+        },
+        {
+            "name": "Save override",
+            "launch": "/mnt/SDCARD/Emus/.emu_setup/save_override.sh"
+        },
+        {
+            "name": "Delete override",
+            "launch": "/mnt/SDCARD/Emus/.emu_setup/del_override.sh"
+        }
+    ]
+}

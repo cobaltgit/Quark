@@ -1,0 +1,5 @@
+#!/bin/sh
+
+export CPU_MODE="smart"
+export CPU_MIN_FREQ=1200000
+export SATURN_USE_REAL_BIOS=true

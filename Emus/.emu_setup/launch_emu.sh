@@ -131,6 +131,21 @@ run_pico8_or_fake08() {
     fi
 }
 
+run_yabasanshiro() {
+    cd "$EMU_DIR"
+
+    SATURN_BIOS="/mnt/SDCARD/BIOS/saturn_bios.bin"
+
+    export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:lib"
+    export HOME="$EMU_DIR"
+
+    if $SATURN_USE_REAL_BIOS && [ -f "$SATURN_BIOS" ]; then
+        ./yabasanshiro -r 3 -i "$ROM_FILE" -b "/mnt/SDCARD/BIOS/saturn_bios.bin" >./log.txt 2>&1
+    else # fall back to BIOS HLE if set in options or BIOS does not exist
+        ./yabasanshiro -r 3 -i "$ROM_FILE" >./log.txt 2>&1
+    fi
+}
+
 ROM_FILE="$(readlink -f "$1")"
 
 if [ "$CPU_MODE" = "smart" ]; then
@@ -149,6 +164,7 @@ case "$EMU" in
     "PORTS") run_port ;;
     "PICO8") run_pico8_or_fake08 ;;
     "PSP") run_ppsspp ;;
+    "SATURN") run_yabasanshiro ;;
     *) run_retroarch ;;
 esac
 
