@@ -11,9 +11,19 @@ esac
 if [ "$PLATFORM" = "tg2040" ]; then
     QUARK_LD_PATH="/mnt/SDCARD/System/lib"
     QUARK_BIN_PATH="/mnt/SDCARD/System/bin"
+
+    export EVTEST_DEV="/dev/input/event0"
+    export EV_KEY_SELECT=97
+    export EV_KEY_MENU=1
+    export EV_KEY_START=28
 else
     QUARK_LD_PATH="/mnt/SDCARD/System/lib64"
     QUARK_BIN_PATH="/mnt/SDCARD/System/bin64"
+
+    export EVTEST_DEV="/dev/input/event3"
+    export EV_KEY_SELECT=314
+    export EV_KEY_MENU=316
+    export EV_KEY_START=315
 fi
 
 export LD_LIBRARY_PATH="$QUARK_LD_PATH:$LD_LIBRARY_PATH"

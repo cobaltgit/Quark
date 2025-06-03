@@ -133,9 +133,9 @@ elif ! ping -c 2 thumbnails.libretro.com > /dev/null 2>&1; then
 fi
 
 while true; do
-    /mnt/SDCARD/System/bin/evtest --query /dev/input/event0 EV_KEY 97
+    evtest --query $EVTEST_DEV EV_KEY $EV_KEY_SELECT
     if [ $? = 10 ]; then
-        /mnt/SDCARD/System/bin/evtest --query /dev/input/event0 EV_KEY 28
+        evtest --query $EVTEST_DEV EV_KEY $EV_KEY_START
         if [ $? = 10 ]; then
             log_message "Scraper: user requested exit" "$SCRAPER_LOG"
             display -d 2000 -t "Exiting scraper..."

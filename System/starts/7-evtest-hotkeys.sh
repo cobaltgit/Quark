@@ -3,21 +3,6 @@
 
 . /mnt/SDCARD/System/scripts/helpers.sh
 
-case "$PLATFORM" in
-    "tg2040")
-        EVTEST_DEV="/dev/input/event0"
-        EV_KEY_SELECT=97
-        EV_KEY_MENU=1
-        EV_KEY_START=28
-        ;;
-    "tg3040"|"tg5040")
-        EVTEST_DEV="/dev/input/event3"
-        EV_KEY_SELECT=314
-        EV_KEY_MENU=316
-        EV_KEY_START=315
-        ;;
-esac
-
 reboot_hotkey() {
     BOTH_PRESSED_TIME=0
     MAX_PRESS_LENGTH=10
