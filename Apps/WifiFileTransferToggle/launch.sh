@@ -26,9 +26,9 @@ else
     echo -E "$(jq --arg DESCRIPTION "$DESCRIPTION" '.description = $DESCRIPTION' "$DUFS_APP_CONFIG")" > "$DUFS_APP_CONFIG"
     start_dufs_process
     if [ -n "$IP" ]; then
-        display -d 1500 -t "IP: $IP:5000"
+        display -d 2000 -t "IP: $IP:5000"
     else
-        display -d 1500 -t "Warning: No Internet connection."
+        display -d 2000 -t "Warning: No Internet connection."
     fi
 fi
 

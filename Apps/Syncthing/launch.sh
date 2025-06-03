@@ -25,9 +25,9 @@ else
     start_syncthing_process
 
     if [ -n "$IP" ]; then
-        display -d 1500 -t "IP: $IP:8384"
+        display -d 2000 -t "IP: $IP:8384"
     else
-        display -d 1500 -t "Warning: No Internet connection."
+        display -d 2000 -t "Warning: No Internet connection."
     fi
 fi
 
