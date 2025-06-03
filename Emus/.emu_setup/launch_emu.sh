@@ -140,7 +140,7 @@ run_yabasanshiro() {
     export HOME="$EMU_DIR"
 
     if $SATURN_USE_REAL_BIOS && [ -f "$SATURN_BIOS" ]; then
-        ./yabasanshiro -r 3 -i "$ROM_FILE" -b "/mnt/SDCARD/BIOS/saturn_bios.bin" >./log.txt 2>&1
+        ./yabasanshiro -r 3 -i "$ROM_FILE" -b "$SATURN_BIOS" >./log.txt 2>&1
     else # fall back to BIOS HLE if set in options or BIOS does not exist
         ./yabasanshiro -r 3 -i "$ROM_FILE" >./log.txt 2>&1
     fi
