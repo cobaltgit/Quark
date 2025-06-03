@@ -158,9 +158,9 @@ for SYSTEM in "$ROMS_DIR"/*/; do
         continue
     fi
 
-    ROM_EXTS="$(/mnt/SDCARD/System/bin/jq -r '.extlist' "/mnt/SDCARD/Emus/$SYS_NAME/config.json" | awk '{gsub(/\|/, " "); print $0}')"
+    ROM_EXTS="$(jq -r '.extlist' "/mnt/SDCARD/Emus/$SYS_NAME/config.json" | awk '{gsub(/\|/, " "); print $0}')"
     AMOUNT_GAMES="$(find "$SYSTEM" -type f -regex ".*\.\($(echo "$ROM_EXTS" | sed 's/ /\\\|/g')\)$" | wc -l)"
-    SYS_LABEL="$(/mnt/SDCARD/System/bin/jq ".label" "/mnt/SDCARD/Emus/$SYS_NAME/config.json")"
+    SYS_LABEL="$(jq ".label" "/mnt/SDCARD/Emus/$SYS_NAME/config.json")"
 
     if [ -z "$ROM_EXTS" ] || [ "$AMOUNT_GAMES" -eq 0 ]; then
         log_message "Scraper: no supported extensions/games found for $SYS_NAME, skipping..." "$SCRAPER_LOG"
