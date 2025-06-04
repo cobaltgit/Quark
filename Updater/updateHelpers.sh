@@ -11,12 +11,12 @@ case "$PLATFORM" in
     "tg2040") 
         UPDATER_BIN_PATH="/mnt/SDCARD/Updater/bin"
         SDCARD_DEV="/dev/mmcblk0p1"
-        POWER_SUPPLY="/sys/class/power_supply/lrdac_battery"
+        export POWER_SUPPLY="/sys/class/power_supply/lrdac_battery"
         ;;
     "tg5040"|"tg3040") 
         UPDATER_BIN_PATH="/mnt/SDCARD/Updater/bin64" 
         SDCARD_DEV="/dev/mmcblk1p1"
-        POWER_SUPPLY="/sys/class/power_supply/axp2202-battery"
+        export POWER_SUPPLY="/sys/class/power_supply/axp2202-battery"
         ;;
 esac
 
