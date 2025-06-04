@@ -216,8 +216,7 @@ log_message() {
 # Take a screenshot of framebuffer and rotate to the correct orientation
 fbscreenshot() {
     TMP_SCREENSHOT="/tmp/$$.png"
-    SCREENSHOT="$1"
-    [ -z "$SCREENSHOT" ] && SCREENSHOT="/mnt/SDCARD/Saves/screenshots/$(date +"Screenshot_%Y%m%d_%H%M%S.png")"
+    SCREENSHOT="${1:-"/mnt/SDCARD/Saves/screenshots/$(date +"Screenshot_%Y%m%d_%H%M%S.png")"}"
     fbgrab -a "$TMP_SCREENSHOT"
     if [ "$PLATFORM" = "tg2040" ]; then
         magick convert "$TMP_SCREENSHOT" -rotate 90 -alpha set "$TMP_SCREENSHOT"
