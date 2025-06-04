@@ -7,7 +7,8 @@ DEST_DIR="/usr/trimui"
 
 {
     mount -o bind /mnt/SDCARD/System/etc/retroarch/retroarch.$PLATFORM.cfg /mnt/SDCARD/RetroArch/retroarch.cfg
-    mount -o bind /mnt/SDCARD/System/res/overlays/$PLATFORM /mnt/SDCARD/RetroArch/.retroarch/overlay
+    mount -o bind /mnt/SDCARD/System/res/$PLATFORM/overlays /mnt/SDCARD/RetroArch/.retroarch/overlay
+    mount -o bind /mnt/SDCARD/System/res/$PLATFORM/themes /mnt/SDCARD/Themes
 
     if [ "$PLATFORM" = "tg2040" ]; then
         rm -rf /mnt/UDISK/Store/.cache

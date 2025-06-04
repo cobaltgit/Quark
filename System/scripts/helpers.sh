@@ -161,7 +161,7 @@ doublepipe_wrap() {
 
 # display: displays text on screen for a (optional) set duration with a (optional) background image
 display() {
-    DEFAULT_BG="/mnt/SDCARD/System/res/quarkbg_$PLATFORM.png"
+    DEFAULT_BG="/mnt/SDCARD/System/res/$PLATFORM/quarkbg.png"
     DEFAULT_FONT="/mnt/SDCARD/System/res/TwCenMT.ttf"
 
     while [ "$#" -gt 0 ]; do
@@ -174,9 +174,9 @@ display() {
         shift
     done
 
-    [ -z "$DISPLAY_BG" ] && DISPLAY_BG=$DEFAULT_BG
-    [ -z "$DISPLAY_FONT" ] && DISPLAY_FONT=$DEFAULT_FONT
-    [ -z "$DISPLAY_DURATION" ] && DISPLAY_DURATION=0
+    DISPLAY_BG="${DISPLAY_BG:-${DEFAULT_BG}}"
+    DISPLAY_FONT="${DISPLAY_FONT:-${DEFAULT_FONT}}"
+    DISPLAY_DURATION="${DISPLAY_FONT:-0}"
 
     kill_display
 
