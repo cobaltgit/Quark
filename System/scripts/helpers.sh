@@ -49,7 +49,7 @@ set_cpuclock() {
 
     case "$MODE" in
         "smart")
-            [ -z "$MIN_FREQ" ] && MIN_FREQ=816000 # default minimum frequency
+            MIN_FREQ=${MIN_FREQ:-816000} # default minimum frequency
             case "$PLATFORM" in
                 "tg2040") MAX_FREQ=1344000 ;;
                 "tg3040"|"tg5040") MAX_FREQ=1800000 ;;
