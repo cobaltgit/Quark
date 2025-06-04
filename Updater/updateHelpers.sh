@@ -87,9 +87,9 @@ display() {
         shift
     done
 
-    [ -z "$DISPLAY_BG" ] && DISPLAY_BG=$DEFAULT_BG
-    [ -z "$DISPLAY_FONT" ] && DISPLAY_FONT=$DEFAULT_FONT
-    [ -z "$DISPLAY_DURATION" ] && DISPLAY_DURATION=0
+    DISPLAY_BG="${DISPLAY_BG:-${DEFAULT_BG}}"
+    DISPLAY_FONT="${DISPLAY_FONT:-${DEFAULT_FONT}}"
+    DISPLAY_DURATION=${DISPLAY_DURATION:-0}
 
     killall -9 display.elf
     killall -9 sdl2imgshow
