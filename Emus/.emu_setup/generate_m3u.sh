@@ -72,8 +72,6 @@ if [ -d "$FULLPATH" ]; then
         find . -maxdepth 1 ! -iname '*.m3u' -type f -iname "$SEARCH_NAME*.*" -exec mv -n -- '{}' "$DIRNAME" \; # move discs to directory
         find "$DIRNAME" ! -iname '*.m3u' -type f -iname "$SEARCH_NAME*.*[$DISC_EXTS]" | sort > "$FILENAME.m3u" # create playlist of discs
     done
-else
-    echo "Directory $FULLPATH does not exist."
 fi
 
 rm -f "$ROMS_DIR/$SYSTEM/${SYSTEM}_cache7.db"
