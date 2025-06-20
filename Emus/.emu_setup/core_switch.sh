@@ -37,13 +37,11 @@ case "$EMU" in
         fi
         ;;
     "SFC")
-        if [ "$CORE" = "chimerasnes" ]; then
-            NEW_CORE="snes9x2005_plus"
-            DISPLAY="Core: Snes9x-05+"
-        else
-            NEW_CORE="chimerasnes"
-            DISPLAY="Core: Chimera"
-        fi
+        case "$CORE" in
+            "chimerasnes") NEW_CORE="supafaust" DISPLAY="Core: Supafaust" ;;
+            "supafaust") NEW_CORE="snes9x2005_plus" DISPLAY="Core: Snes9x-05+" ;;
+            "snes9x2005_plus") NEW_CORE="chimerasnes" DISPLAY="Core: Chimera" ;;
+        esac
         ;;
     "GG"|"MD"|"MS"|"SEGACD"|"SG1000")
         if [ "$CORE" = "picodrive" ]; then
