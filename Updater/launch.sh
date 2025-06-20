@@ -71,6 +71,8 @@ fi
 
 set_cpuclock --mode overclock
 
+echo mmc1 > /sys/devices/platform/sunxi-led/leds/led3/trigger
+
 /mnt/SDCARD/Updater/backup.sh
 
 log_message "Updater: cleaning up SD card..." "$LOG_FILE"
@@ -104,6 +106,8 @@ log_message "Updater: deleting update package $UPDATE_PKG" "$LOG_FILE"
 rm -f "$UPDATE_PKG"
 
 /mnt/SDCARD/Updater/backup.sh --restore
+
+echo none > /sys/devices/platform/sunxi-led/leds/led3/trigger
 
 set_cpuclock --mode smart
 
