@@ -10,8 +10,8 @@ SYNCTHING_CONF_DIR="/mnt/SDCARD/System/etc/syncthing"
 DROPBEAR_KEY_DIR="/mnt/SDCARD/System/etc/ssh"
 
 setup_syncthing() {
-    [ ! -d "$SYNCTHING_LOG_DIR" ] && mkdir -p "$SYNCTHING_LOG_DIR"
-    [ ! -d "$SYNCTHING_CONF_DIR" ] && mkdir -p "$SYNCTHING_CONF_DIR"
+    mkdir -p "$SYNCTHING_LOG_DIR"
+    mkdir -p "$SYNCTHING_CONF_DIR"
     if ! [ -f "$SYNCTHING_CONF_DIR/config.xml" ]; then
         display -t "Setting up Syncthing..."
 
