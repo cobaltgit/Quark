@@ -24,7 +24,7 @@ set_cpuclock() {
 
     case "$MODE" in
         "smart")
-            [ -z "$MIN_FREQ" ] && MIN_FREQ=816000 # default minimum frequency
+            MIN_FREQ=${MIN_FREQ:-816000}
             echo conservative > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
             echo 50 >/sys/devices/system/cpu/cpufreq/conservative/down_threshold
             echo 75 >/sys/devices/system/cpu/cpufreq/conservative/up_threshold
@@ -102,9 +102,9 @@ display() {
         shift
     done
 
-    [ -z "$DISPLAY_BG" ] && DISPLAY_BG=$DEFAULT_BG
-    [ -z "$DISPLAY_FONT" ] && DISPLAY_FONT=$DEFAULT_FONT
-    [ -z "$DISPLAY_DURATION" ] && DISPLAY_DURATION=0
+    DISPLAY_BG=${DISPLAY_BG:-DEFAULT_BG}
+    DISPLAY_FONT=${DISPLAY_FONT:-DEFAULT_FONT}
+    DISPLAY_DURATION=${DISPLAY_DURATION:-DEFAULT_DURATION}
 
     kill_display
 
