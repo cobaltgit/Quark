@@ -102,6 +102,8 @@ else
     display_msg -d 1500 -t "Update package extracted successfully!"
 fi
 
+sync
+
 log_message "Updater: deleting update package $UPDATE_PKG" "$LOG_FILE"
 rm -f "$UPDATE_PKG"
 
