@@ -29,8 +29,8 @@ case "$EMU" in
         ;;
     "SFC")
         case "$CORE" in
-            "chimerasnes") NEW_CORE="supafaust" DISPLAY="Core: Supafaust" ;;
-            "supafaust") NEW_CORE="snes9x2005_plus" DISPLAY="Core: Snes9x-05+" ;;
+            "chimerasnes") NEW_CORE="mednafen_supafaust" DISPLAY="Core: Supafaust" ;;
+            "mednafen_supafaust") NEW_CORE="snes9x2005_plus" DISPLAY="Core: Snes9x-05+" ;;
             "snes9x2005_plus") NEW_CORE="chimerasnes" DISPLAY="Core: Chimera" ;;
         esac
         ;;
