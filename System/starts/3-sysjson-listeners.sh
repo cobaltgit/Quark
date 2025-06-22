@@ -7,6 +7,8 @@ SYSTEM_JSON="/mnt/UDISK/system.json"
 THEME_PATH="$(awk -F'"' '/"theme":/ {print $4}' "$SYSTEM_JSON" | sed 's:/*$:/:')"
 VOLUME="$(awk '/\"vol\":/ { gsub(/[,]/,"",$2); print $2}' "$SYSTEM_JSON")"
 
+amixer sset 'headphone volume' $(($VOLUME * 5))% &
+
 # Reboot on theme change to fully load theme
 while true; do
     inotifywait -e modify "$SYSTEM_JSON"
