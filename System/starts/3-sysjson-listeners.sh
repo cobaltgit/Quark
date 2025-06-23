@@ -37,6 +37,7 @@ done &
 while true; do
     inotifywait -e create /dev --include 'audio1'
     if [ -c "/dev/audio1" ]; then
+        VOLUME="$(awk '/\"vol\":/ { gsub(/[,]/,"",$2); print $2}' "$SYSTEM_JSON")"
         nice -2 amixer -c 1 sset 'PCM' $(($VOLUME * 5))%
     fi
 done &
