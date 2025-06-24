@@ -1,5 +1,7 @@
 #!/bin/sh
 
+. /mnt/SDCARD/System/scripts/helpers.sh
+
 SRC_DIR="/mnt/SDCARD/System/trimui"
 DEST_DIR="/usr/trimui"
 
