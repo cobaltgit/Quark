@@ -1,7 +1,6 @@
 {
 "label":"Guest Mode [OFF]",
-"icon":"icon.png",
-"iconsel":"icon.png",
+"icon":"icon-off.png",
 "launch":"launch.sh",
 "description":"Toggle the guest profile"
 }
