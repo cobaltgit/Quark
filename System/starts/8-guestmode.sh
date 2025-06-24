@@ -5,7 +5,7 @@
 
 GUESTMODE_APP="/mnt/SDCARD/Apps/GuestMode"
 
-if $(get_setting "user" "guest"); then
+if [ $(get_setting "user" "guest") = "true" ]; then
     mount -o bind /mnt/SDCARD/Saves/.guest /mnt/SDCARD/Saves
     sed -i 's|\[OFF\]|\[ON\]|' "$GUESTMODE_APP/config.json"
 else

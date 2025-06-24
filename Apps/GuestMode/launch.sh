@@ -4,7 +4,7 @@
 
 GUEST_MODE=$(get_setting "user" "guest")
 
-if $GUEST_MODE; then
+if [ "$GUEST_MODE" = "true" ]; then
     GUEST_MODE=false
     umount /mnt/SDCARD/Saves
     sed -i 's|\[ON\]|\[OFF\]|' "$(dirname "$0")/config.json"
