@@ -12,6 +12,10 @@
 /mnt/SDCARD/RetroArch/content_image_history_guest.lpl
 /mnt/SDCARD/RetroArch/content_music_history.lpl
 /mnt/SDCARD/RetroArch/content_music_history_guest.lpl
+/mnt/SDCARD/Roms/favourite2.json
+/mnt/SDCARD/Roms/favourite2.guest.json
+/mnt/SDCARD/Roms/recentlist.json
+/mnt/SDCARD/Roms/recentlist.guest.json
 /mnt/SDCARD/RetroArch/retroarch.cfg
 /mnt/SDCARD/RetroArch/.retroarch/config/
 /mnt/SDCARD/RetroArch/.retroarch/overlay/
