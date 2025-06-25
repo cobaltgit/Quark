@@ -82,3 +82,11 @@ case "$EMU" in
 esac
 
 set_cpuclock --mode smart # reset cpu clock
+
+if [ -c "/dev/audio1" ]; then # MainUI has a bug in which it will error out before rendering whenever a USB-C audio device is connected
+    display -t "Please unplug your USB-C audio device. See the 'Known Issues' section in the readme for more info."
+    while [ -c "/dev/audio1" ]; do
+        sleep 0.2
+    done
+    kill_display
+fi
