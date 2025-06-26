@@ -7,11 +7,10 @@ SYSTEM_JSON="/mnt/UDISK/system.json"
 THEME_PATH="$(awk -F'"' '/"theme":/ {print $4}' "$SYSTEM_JSON" | sed 's:/*$:/:')"
 VOLUME="$(awk '/\"vol\":/ { gsub(/[,]/,"",$2); print $2}' "$SYSTEM_JSON")"
 
-# Combined theme change and volume control listener
 while true; do
     inotifywait -e modify "$SYSTEM_JSON"
 
-    # Check for theme changes
+    # reboot when theme is changed to fully load theme
     NEW_THEME_PATH="$(awk -F'"' '/"theme":/ {print $4}' "$SYSTEM_JSON" | sed 's:/*$:/:')"
     if [ "$NEW_THEME_PATH" != "$THEME_PATH" ]; then
         killall -9 MainUI
@@ -19,7 +18,7 @@ while true; do
         reboot
     fi
 
-    # Check for volume changes
+    # USB-C headphone volume control
     NEW_VOLUME="$(awk '/\"vol\":/ { gsub(/[,]/,"",$2); print $2}' "$SYSTEM_JSON")"
     if [ "$NEW_VOLUME" != "$VOLUME" ]; then
         VOLUME="$NEW_VOLUME"
