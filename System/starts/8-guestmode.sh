@@ -16,13 +16,5 @@ if [ $(get_setting "user" "guest") = "true" ]; then
 
     sed -i -e 's|\[OFF\]|\[ON\]|' -e 's|icon-off.png|icon-on.png|' "$GUESTMODE_APP/config.json"
 else
-    umount /mnt/SDCARD/Saves
-    umount /mnt/SDCARD/Roms/favourite2.json
-    umount /mnt/SDCARD/Roms/recentlist.json
-    umount /mnt/SDCARD/RetroArch/content_history.lpl
-    umount /mnt/SDCARD/RetroArch/content_image_history.lpl
-    umount /mnt/SDCARD/RetroArch/content_music_history.lpl
-    umount /mnt/SDCARD/RetroArch/content_favorites.lpl
-
     sed -i -e 's|\[ON\]|\[OFF\]|' -e 's|icon-on.png|icon-off.png|' "$GUESTMODE_APP/config.json"
 fi
