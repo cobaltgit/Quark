@@ -8,7 +8,7 @@ BOOTLOGO_MAX_BYTES=524288 # 512KiB
 BOOTLOGO="bootlogo.bmp"
 LOG_FILE="/mnt/SDCARD/System/log/bootlogo.log"
 
-BOOTLOGO_RESOLUTION="$(magick identify -format "%xx%y" "$BOOTLOGO")"
+BOOTLOGO_RESOLUTION="$(magick identify -format "%wx%h" "$BOOTLOGO")"
 BOOTLOGO_DEPTH="$(magick identify -format "%[bit-depth]-%[type]" "$BOOTLOGO")"
 
 if [ $(wc -c <$BOOTLOGO) -gt $BOOTLOGO_MAX_BYTES ]; then
