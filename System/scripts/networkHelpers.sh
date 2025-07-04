@@ -54,8 +54,7 @@ setup_dropbear() {
     [ ! -f "$DROPBEAR_KEY_DIR/dropbear_rsa_host_key" ] && dropbearmulti dropbearkey -t rsa -f "$DROPBEAR_KEY_DIR/dropbear_rsa_host_key"
     [ ! -f "$DROPBEAR_KEY_DIR/dropbear_ecdsa_host_key" ] && dropbearmulti dropbearkey -t ecdsa -f "$DROPBEAR_KEY_DIR/dropbear_ecdsa_host_key"
     [ ! -f "$DROPBEAR_KEY_DIR/dropbear_ed25519_host_key" ] && dropbearmulti dropbearkey -t ed25519 -f "$DROPBEAR_KEY_DIR/dropbear_ed25519_host_key"
-    [ "$ROOT_SHADOW" = "!" ] || [ "$ROOT_SHADOW" = "" ] \
-        && echo -e "quark\nquark" | passwd root # set default root password
+    echo -e "quark\nquark" | passwd root
 
     kill_display
 }
