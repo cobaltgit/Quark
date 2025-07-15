@@ -94,7 +94,6 @@ Below is a list of systems that Quark supports, along with the emulator core the
 * RACE (NGP/NGPC emulator) audio freezes when using auto save state. Manually save state before exiting and load state when launching game
 * Audio stretching when using auto save/load state for Sega CD games with Picodrive. Manually save state before exiting and load state when launching game
 * On-screen notifications not showing when an overlay is applied in RetroArch
-* MainUI refuses to start (excluding on boot) when USB-C headphones are plugged in due to an internal bug that causes the SDL sound subsystem to fail to initialise.
 
 ## Licence
 
