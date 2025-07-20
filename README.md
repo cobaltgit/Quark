@@ -106,3 +106,5 @@ This project is licenced under [CC-BY-SA-4.0](https://creativecommons.org/licens
 * **Jutleys:** Dingux Commander from [Tomato](https://github.com/Jutleys/Trimui-Smart-Tomato), as well as some system icons
 * **[chrizzo-hb](https://github.com/chrizzo-hb/knulli-bezels):** overlays/bezels for handheld systems
 * **[Marcoosio101](https://github.com/Marcoosio101):** testing and issue reporting, default theme design
+* **[ryanmsartor](https://github.com/ryanmsartor/):** Quark Store domain for byte-patched MainUI
+* **[spycat88](https://github.com/spycat88):** Quark Burner for Windows
