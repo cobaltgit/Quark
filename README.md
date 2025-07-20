@@ -76,7 +76,7 @@ Below is a list of systems that Quark supports, along with the emulator core the
 * Quake (TyrQuake)
 * Sega 32X (PicoDrive)
 * Sega Mega CD (PicoDrive / Genesis Plus GX)
-* Super Nintendo Entertainment System (ChimeraSNES / Snes9x 2005 Plus)
+* Super Nintendo Entertainment System (ChimeraSNES / Snes9x 2005 Plus / Snes9x)
 * Sega SG-1000 / SC-3000 (PicoDrive / Genesis Plus GX)
 * NEC PC Engine SuperGrafx (Beetle SuperGrafx)
 * Watara Supervision (Potator)
@@ -90,10 +90,10 @@ Below is a list of systems that Quark supports, along with the emulator core the
 
 ## Known Issues
 
-* Sega CD games have no CD audio playback when using `.chd` format games using the PicoDrive core. Launcher works around this by changing to the Genesis Plus GX core if needed.
+* Sega CD games have no CD audio playback when using `.chd` format games using the PicoDrive core. Either revert to an older version of PicoDrive or use the Genesis Plus GX core to remedy this.
 * RACE (NGP/NGPC emulator) audio freezes when using auto save state. Manually save state before exiting and load state when launching game
 * Audio stretching when using auto save/load state for Sega CD games with Picodrive. Manually save state before exiting and load state when launching game
-* FPS display not showing when an overlay is applied
+* On-screen notifications not showing when an overlay is applied in RetroArch
 
 ## Licence
 

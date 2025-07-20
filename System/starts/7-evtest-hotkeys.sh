@@ -46,17 +46,22 @@ reboot_hotkey() {
 }
 
 screenshot_hotkey() {
-    while true; do
-        evtest --query /dev/input/event0 EV_KEY 97 # SELECT
-        if [ $? = 10 ]; then
-            evtest --query /dev/input/event0 EV_KEY 109 # MENU + R
-            if [ $? = 10 ]; then
-                echo default-on > /sys/devices/platform/sunxi-led/leds/led2/trigger
-                fbscreenshot
-                echo none > /sys/devices/platform/sunxi-led/leds/led2/trigger
-            fi
+    SELECT_PRESSED=false
+    MENU_R_PRESSED=false
+
+    evtest /dev/input/event0 | while read line; do
+        case "$line" in
+            *"EV_KEY"*"KEY_RIGHTCTRL"*"value 1") SELECT_PRESSED=true ;;
+            *"EV_KEY"*"KEY_RIGHTCTRL"*"value 0") SELECT_PRESSED=false ;;
+            *"EV_KEY"*"KEY_PAGEDOWN"*"value 1") MENU_R_PRESSED=true ;;
+            *"EV_KEY"*"KEY_PAGEDOWN"*"value 0") MENU_R_PRESSED=false ;;
+        esac
+
+        if $SELECT_PRESSED && $MENU_R_PRESSED; then
+            echo default-on > /sys/devices/platform/sunxi-led/leds/led2/trigger
+            fbscreenshot
+            echo none > /sys/devices/platform/sunxi-led/leds/led2/trigger
         fi
-        sleep 0.2
     done
 }
 

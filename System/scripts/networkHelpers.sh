@@ -10,8 +10,8 @@ SYNCTHING_CONF_DIR="/mnt/SDCARD/System/etc/syncthing"
 DROPBEAR_KEY_DIR="/mnt/SDCARD/System/etc/ssh"
 
 setup_syncthing() {
-    [ ! -d "$SYNCTHING_LOG_DIR" ] && mkdir -p "$SYNCTHING_LOG_DIR"
-    [ ! -d "$SYNCTHING_CONF_DIR" ] && mkdir -p "$SYNCTHING_CONF_DIR"
+    mkdir -p "$SYNCTHING_LOG_DIR"
+    mkdir -p "$SYNCTHING_CONF_DIR"
     if ! [ -f "$SYNCTHING_CONF_DIR/config.xml" ]; then
         display -t "Setting up Syncthing..."
 
@@ -27,17 +27,19 @@ setup_syncthing() {
         sleep 5
 
         if grep -q "<listenAddress>dynamic+https://relays.syncthing.net/endpoint</listenAddress>" "$SYNCTHING_CONF_DIR/config.xml"; then
-            sed -i '/<listenAddress>dynamic+https:\/\/relays.syncthing.net\/endpoint<\/listenAddress>/d' "$SYNCTHING_CONF_DIR/config.xml"
-            sed -i '/<listenAddress>quic:\/\/0.0.0.0:41383<\/listenAddress>/d' "$SYNCTHING_CONF_DIR/config.xml"
-            sed -i 's|<listenAddress>tcp://0.0.0.0:41383</listenAddress>|<listenAddress>default</listenAddress>|' "$SYNCTHING_CONF_DIR/config.xml"
+            sed -i -e '/<listenAddress>dynamic+https:\/\/relays.syncthing.net\/endpoint<\/listenAddress>/d' \
+                -e '/<listenAddress>quic:\/\/0.0.0.0:41383<\/listenAddress>/d' \
+                -e 's|<listenAddress>tcp://0.0.0.0:41383</listenAddress>|<listenAddress>default</listenAddress>|' \
+                "$SYNCTHING_CONF_DIR/config.xml"
         fi
 
         killall syncthing
 
         sync
-        sed -i "s|<address>127.0.0.1:8384</address>|<address>0.0.0.0:8384</address>|g" $SYNCTHING_CONF_DIR/config.xml
-        sed -i 's|<urAccepted>0</urAccepted>|<urAccepted>-1</urAccepted>|' "$SYNCTHING_CONF_DIR/config.xml"
-        sed -i 's/\(name="\)sun8i\(\"\)/\1Quark\2/' "$SYNCTHING_CONF_DIR/config.xml"
+        sed -i -e "s|<address>127.0.0.1:8384</address>|<address>0.0.0.0:8384</address>|g" \
+            -e 's|<urAccepted>0</urAccepted>|<urAccepted>-1</urAccepted>|' \
+            -e 's/\(name="\)sun8i\(\"\)/\1Quark\2/' \
+                "$SYNCTHING_CONF_DIR/config.xml"
 
         kill_display
     fi
@@ -48,12 +50,11 @@ setup_dropbear() {
 
     ROOT_SHADOW="$(awk -F ":" '/root/ {print $2}' "/etc/shadow")"
 
-    [ ! -d "$DROPBEAR_KEY_DIR" ] && mkdir -p "$DROPBEAR_KEY_DIR"
+    mkdir -p "$DROPBEAR_KEY_DIR"
     [ ! -f "$DROPBEAR_KEY_DIR/dropbear_rsa_host_key" ] && dropbearmulti dropbearkey -t rsa -f "$DROPBEAR_KEY_DIR/dropbear_rsa_host_key"
     [ ! -f "$DROPBEAR_KEY_DIR/dropbear_ecdsa_host_key" ] && dropbearmulti dropbearkey -t ecdsa -f "$DROPBEAR_KEY_DIR/dropbear_ecdsa_host_key"
     [ ! -f "$DROPBEAR_KEY_DIR/dropbear_ed25519_host_key" ] && dropbearmulti dropbearkey -t ed25519 -f "$DROPBEAR_KEY_DIR/dropbear_ed25519_host_key"
-    [ "$ROOT_SHADOW" = "!" ] || [ "$ROOT_SHADOW" = "" ] \
-        && echo -e "quark\nquark" | passwd root # set default root password
+    echo -e "quark\nquark" | passwd root
 
     kill_display
 }
