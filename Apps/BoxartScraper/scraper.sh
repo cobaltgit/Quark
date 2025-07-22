@@ -13,7 +13,7 @@ get_ra_alias() {
         ATARI800) ra_name="Atari - 8-bit" ;;
         ATARI2600) ra_name="Atari - 2600" ;;
         ATARIST) ra_name="Atari - ST" ;;
-        ARCADE | MAME2003PLUS | CPS1 | CPS2 | CPS3) ra_name="MAME" ;;
+        ARCADE | MAME2003PLUS | CPS1 | CPS2 | CPS3 | PGM) ra_name="MAME" ;;
         ARDUBOY) ra_name="Arduboy Inc - Arduboy" ;;
         COLECO) ra_name="Coleco - ColecoVision" ;;
         C64) ra_name="Commodore - 64" ;;
@@ -42,7 +42,7 @@ get_ra_alias() {
         NGPC) ra_name="SNK - Neo Geo Pocket Color" ;;
         PCE) ra_name="NEC - PC Engine - TurboGrafx 16" ;;
         PCECD) ra_name="NEC - PC Engine CD - TurboGrafx-CD" ;;
-        PGM) ra_name="FBNeo - Arcade Games" ;;
+        FBNEO) ra_name="FBNeo - Arcade Games" ;;
         POKEMINI) ra_name="Nintendo - Pokemon Mini" ;;
         PS) ra_name="Sony - PlayStation" ;;
         QUAKE) ra_name="Quake" ;;
