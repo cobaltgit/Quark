@@ -35,6 +35,7 @@ get_ra_alias() {
         MD) ra_name="Sega - Mega Drive - Genesis" ;;
         MS) ra_name="Sega - Master System - Mark III" ;;
         MSX) ra_name="Microsoft - MSX" ;;
+        MSX2) ra_name="Microsoft - MSX2" ;;
         NDS) ra_name="Nintendo - Nintendo DS" ;; # gluon system
         NEOCD) ra_name="SNK - Neo Geo CD" ;;
         NEOGEO) ra_name="SNK - Neo Geo" ;;
