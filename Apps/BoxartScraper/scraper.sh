@@ -4,6 +4,8 @@
 
 SCRAPER_LOG="/mnt/SDCARD/System/log/scraper.log"
 ROMS_DIR="/mnt/SDCARD/Roms"
+SELECT_PRESSED=false
+START_PRESSED=false
 
 get_ra_alias() {
     case $1 in
@@ -132,17 +134,17 @@ elif ! ping -c 2 thumbnails.libretro.com > /dev/null 2>&1; then
     fi
 fi
 
-while true; do
-    /mnt/SDCARD/System/bin/evtest --query /dev/input/event0 EV_KEY 97
-    if [ $? = 10 ]; then
-        /mnt/SDCARD/System/bin/evtest --query /dev/input/event0 EV_KEY 28
-        if [ $? = 10 ]; then
-            log_message "Scraper: user requested exit" "$SCRAPER_LOG"
-            display -d 2000 -t "Exiting scraper..."
-            killall scraper.sh # suicide
-        fi
+evtest /dev/input/event0 | while read line; do
+    *"EV_KEY"*"KEY_RIGHTCTRL"*"value 1") SELECT_PRESSED=true ;;
+    *"EV_KEY"*"KEY_RIGHTCTRL"*"value 0") SELECT_PRESSED=false ;;
+    *"EV_KEY"*"KEY_ENTER"*"value 1") START_PRESSED=true ;;
+    *"EV_KEY"*"KEY_ENTER"*"value 0") START_PRESSED=false ;;
+
+    if [ "$SELECT_PRESSED" = "true" ] && [ "$START_PRESSED" = "true" ]; then
+        log_message "Scraper: user requested exit" "$SCRAPER_LOG"
+        display -d 2000 -t "Exiting scraper..."
+        killall -9 scraper.sh # suicide
     fi
-    sleep 0.1
 done &
 EVTEST_LOOP_PID=$!
 
