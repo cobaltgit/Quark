@@ -1,11 +1,11 @@
-10-Yard Fight (Japan) (Alt 1).png
-10-Yard Fight (Japan).png
-1942 (Japan) (Alt 1).png
-1942 (Japan).png
 3-D Golf Simulation (Japan) (Alt 1).png
 3-D Golf Simulation (Japan) (High Speed).png
 3-D Golf Simulation (Japan).png
 3D Tennis (Japan).png
+10-Yard Fight (Japan) (Alt 1).png
+10-Yard Fight (Japan).png
+1942 (Japan) (Alt 1).png
+1942 (Japan).png
 A.E. (Japan).png
 A1 Spirit - The Way to Formula-1 (Japan).png
 Actman (Japan) (Alt 1).png
@@ -52,11 +52,11 @@ Athletic Land (Japan).png
 Attack Four Volley Ball (Japan).png
 B.C.'s Quest (Japan) (Alt 1).png
 B.C.'s Quest (Japan).png
+Backgammon (Europe).png
 Back Gammon (Japan) (Alt 1).png
 Back Gammon (Japan).png
 Back to the Future (Japan) (Alt 1).png
 Back to the Future (Japan).png
-Backgammon (Europe).png
 Balance (Japan) (Alt 1).png
 Balance (Japan) (Alt 2).png
 Balance (Japan) (Alt 3).png
@@ -84,11 +84,11 @@ Bee _ Flower (Japan).png
 Bifamu (Japan) (Alt 1).png
 Bifamu (Japan).png
 Binary Land (Japan).png
-Black Onyx II, The - Search for the Fire Crystal (Japan).png
 Black Onyx, The (Japan).png
+Black Onyx II, The - Search for the Fire Crystal (Japan).png
 Blagger MSX (Europe) (Converted from Tape).png
-Block Hole (Korea) (Unl).png
 Blockade Runner (Japan).png
+Block Hole (Korea) (Unl).png
 Boggy '84 (Japan) (Alt 1).png
 Boggy '84 (Japan) (Alt 2).png
 Boggy '84 (Japan).png
@@ -96,9 +96,9 @@ Boing Boing (Spain).png
 Bokosuka Wars (Japan) (Alt 1).png
 Bokosuka Wars (Japan).png
 Bomber King (Japan).png
+Bomberman (Japan).png
 Bomber Man (Japan).png
 Bomber Man Special (Japan).png
-Bomberman (Japan).png
 Bomberman Special (Japan).png
 Boogie Woogi Jungle (Japan) (Alt 1).png
 Boogie Woogi Jungle (Japan) (Alt 2).png
@@ -130,20 +130,20 @@ Cannon Ball (Japan) (Alt 1).png
 Cannon Ball (Japan).png
 Cannon Fighter (Japan).png
 Captain Chef (Japan).png
-Car Fighter (Japan).png
-Car Jamboree (Japan) (Alt 1).png
-Car Jamboree (Japan).png
 Car-Race (Japan) (Alt 1).png
 Car-Race (Japan) (Alt 2).png
 Car-Race (Japan).png
+Car Fighter (Japan).png
+Car Jamboree (Japan) (Alt 1).png
+Car Jamboree (Japan).png
 Casio Daishogai Keiba (Japan).png
 Casio Pachinko-U.F.O. (Japan).png
 Casio Ski Command (Japan) (Alt 1).png
 Casio Ski Command (Japan).png
 Casio Worldopen (Japan).png
+Castle, The (Japan).png
 Castle Excellent (Japan) (Alt 1).png
 Castle Excellent (Japan).png
-Castle, The (Japan).png
 Chack'n Pop (Japan) (Alt 1).png
 Chack'n Pop (Japan).png
 Challenge Derby (Japan).png
@@ -154,8 +154,8 @@ Champion Kendou (Japan).png
 Champion Pro Wrestling (Japan) (Alt 1).png
 Champion Pro Wrestling (Japan) (Alt 2).png
 Champion Pro Wrestling (Japan).png
-Champion Soccer (Japan).png
 Championship Lode Runner (Japan).png
+Champion Soccer (Japan).png
 Checkers in Tantan Tanuki (Japan).png
 Cheese (Japan) (Program).png
 Chess (Japan).png
@@ -176,8 +176,8 @@ Color Ball (Japan) (Alt 1).png
 Color Ball (Japan) (Alt 2).png
 Color Ball (Japan).png
 Columns (Japan).png
-Come On! Picot (Japan).png
 Comecocos (Spain).png
+Come On! Picot (Japan).png
 Comet Tail (Japan).png
 Comic Bakery (Japan) (Alt 1).png
 Comic Bakery (Japan) (Alt 2).png
@@ -211,7 +211,6 @@ D-Day (Japan) (Alt 1).png
 D-Day (Japan) (Alt 2).png
 D-Day (Japan) (Alt 3).png
 D-Day (Japan).png
-DX7 Voicing Program (Japan) (Program).png
 Daidasso (Japan).png
 Daiva Story 4 - Asura's Bloodfeud (Japan).png
 Dam Busters, The (Japan) (Alt 1).png
@@ -255,6 +254,7 @@ Dungeon Hunter (Japan).png
 Dungeon Master (Japan).png
 Dunk Shot (Japan) (Alt 1).png
 Dunk Shot (Japan).png
+DX7 Voicing Program (Japan) (Program).png
 Dynamite Bowl (Japan).png
 Eagle Fighter (Japan) (Alt 1).png
 Eagle Fighter (Japan).png
@@ -280,13 +280,6 @@ Exoide-Z Area 5 (Japan).png
 F-1 Spirit - The Way to Formula-1 (Japan) (Alt 1).png
 F-1 Spirit - The Way to Formula-1 (Japan).png
 F16 Fighting Falcon (Japan).png
-FB-01 Voicing Program (Japan) (Program).png
-FM Music Composer (Japan) (Program).png
-FM Music Composer II (Japan) (Program).png
-FM Music Macro (Japan) (Program).png
-FM Pana Amusement Cartridge (Japan) (Program).png
-FM Voicing Program (Japan) (Program).png
-Fa Tetris (Korea) (Unl).png
 Fairy (Japan).png
 Fairy Land Story, The (Japan) (Alt 1).png
 Fairy Land Story, The (Japan).png
@@ -294,7 +287,9 @@ Family Automation Language Community (Japan) (Program).png
 Fandom Library #3 (Japan).png
 Fantasy Zone (Japan).png
 Farm Kit (Europe) (Program).png
+Fa Tetris (Korea) (Unl).png
 Fathom (Japan).png
+FB-01 Voicing Program (Japan) (Program).png
 Final Justice (Japan).png
 Final Mahjong (Japan).png
 Final Zone Wolf (Japan).png
@@ -313,6 +308,11 @@ Flight Deck (Japan).png
 Flight Simulator (Japan).png
 Flipper Slipper (Japan) (Alt 1).png
 Flipper Slipper (Japan).png
+FM Music Composer (Japan) (Program).png
+FM Music Composer II (Japan) (Program).png
+FM Music Macro (Japan) (Program).png
+FM Pana Amusement Cartridge (Japan) (Program).png
+FM Voicing Program (Japan) (Program).png
 Formation Z (Japan) (Alt 1).png
 Formation Z (Japan).png
 Frogger (Japan) (Alt 1).png
@@ -324,7 +324,6 @@ Fruit Search (Japan) (Alt 1).png
 Fruit Search (Japan).png
 Funky Mouse (Japan).png
 Futbol (Spain).png
-GP World (Japan).png
 Galaga (Japan).png
 Galaxian (Japan).png
 Gall Force - Defense of Chaos (Japan).png
@@ -338,13 +337,14 @@ Gate of Labyrinth (Japan).png
 Genghis Khan (Japan).png
 Ghostbusters (Europe).png
 Glider (Japan).png
-Gojira vs 3 Daikaijuu (Japan).png
 Gojira-kun (Japan).png
+Gojira vs 3 Daikaijuu (Japan).png
 Gokiburi Daisakusen - Bug Bomb (Japan).png
 Golf Game (Japan).png
 Golvellius (Japan).png
 Gomok Narabe - Omo Go (Japan).png
 Goonies, The (Japan).png
+GP World (Japan).png
 Gradius (Japan) (Wii U Virtual Console).png
 Gradius 2 (Japan, Europe) (En) (Wii U Virtual Console).png
 Green Beret (Europe).png
@@ -400,8 +400,8 @@ Jigsaw Set (Japan).png
 Jissen - 4-nin Mahjong (Japan).png
 Jump (Japan).png
 Jump Coaster (Japan).png
-Jump Land (Japan).png
 Jumping Rabbit (Japan).png
+Jump Land (Japan).png
 Juno First (Japan).png
 Jyan Friend (Japan).png
 Jyankyo (Japan).png
@@ -413,10 +413,10 @@ Keiba, The (Japan) (Program).png
 Kekkyoku Nankyoku Dai Bouken (Japan) (Wii U Virtual Console).png
 Keystone Kapers (Japan).png
 Kick It (Japan).png
-King Knight (Japan).png
-King _ Balloon (Japan).png
 King's Valley (Japan, Europe) (En).png
 King's Valley II (Japan, Europe) (En).png
+King _ Balloon (Japan).png
+King Knight (Japan).png
 Kinnikuman - Muscle Man (Japan).png
 Knight Lore (Japan).png
 Knightmare - Majou Densetsu (Japan) (Wii U Virtual Console).png
@@ -440,8 +440,8 @@ Kung Fu Master (Japan).png
 Kung Fu Taigun (Japan).png
 Ladder Building (Japan).png
 Laptick 2 (Japan).png
-Le Mans 2 (Europe).png
 Legendly Knight (Korea).png
+Le Mans 2 (Europe).png
 Leonard (Spain).png
 Light Corridor, The (Europe).png
 Lode Runner (Japan).png
@@ -450,19 +450,11 @@ Lord Over (Japan).png
 Lot Lot (Japan).png
 Lunar Ball (Japan).png
 M36 - A Life Planet (Japan).png
-MSX 21 (Japan).png
-MSX Baseball (Japan).png
-MSX Baseball II National (Japan).png
-MSX Basic-kun (Japan) (Program).png
-MSX Bunsetsu Henkan Jisyo (Japan) (Program).png
-MSX Derby (Japan).png
-MSX Rugby (Japan).png
-MSX Soccer (Japan).png
-MSX-Aid (Japan) (Program).png
-MSX-Logo (Netherlands) (Program).png
 Mac Attack (Europe).png
 Machinegun Joe vs The Mafia (Japan).png
 Macross (Japan).png
+Mad Mix Game - Topo Soft (1988) [4989].png
+Mad Mix Game - Topo Soft (1988) [7855].png
 Magical Kid Wiz (Japan).png
 Magical Tree (Japan) (Wii U Virtual Console).png
 Magical Tree (Japan).png
@@ -484,8 +476,8 @@ Mirai - Future (Japan).png
 Mitsumega Toohru - Three-Eyed One Comes Here, The (Japan).png
 Moai no Hibou (Japan).png
 Moai no Hibou (Korea).png
-Mobile Planet Suthirus - Approach from the Westgate (Japan).png
 Mobile-Suit Gundam - Last Shooting (Japan).png
+Mobile Planet Suthirus - Approach from the Westgate (Japan).png
 Mokarimakka (Japan).png
 Mole (Japan).png
 Mole Mole 2 (Japan).png
@@ -497,9 +489,19 @@ Moonsweeper (Japan).png
 Mopiranger (Japan).png
 Mouser (Japan).png
 Mr. Chin (Japan).png
+Mr. Do's Wild Ride (Japan).png
 Mr. Do (Japan).png
 Mr. Do vs Unicorns (Japan).png
-Mr. Do's Wild Ride (Japan).png
+MSX-Aid (Japan) (Program).png
+MSX-Logo (Netherlands) (Program).png
+MSX 21 (Japan).png
+MSX Baseball (Japan).png
+MSX Baseball II National (Japan).png
+MSX Basic-kun (Japan) (Program).png
+MSX Bunsetsu Henkan Jisyo (Japan) (Program).png
+MSX Derby (Japan).png
+MSX Rugby (Japan).png
+MSX Soccer (Japan).png
 Mugen Senshi Valis - The Fantasm Soldier (Japan).png
 Music Editor (Japan) (Program).png
 Music Studio G7 (Japan) (Program).png
@@ -510,9 +512,9 @@ Nessen Koushiyen (Japan).png
 New Horizon - English Course 1 (Japan) (Program).png
 Night Shade (Japan).png
 Ninja Jajamaru-kun (Japan).png
-Ninja Princess (Japan).png
 Ninjakun (Japan).png
 Ninjakun Majou (Japan).png
+Ninja Princess (Japan).png
 Ninjya Kage (Japan).png
 Nobunaga no Yabou - Zenkoku Ban (Japan).png
 Nyan Nyan Pro Wrestling (Japan).png
@@ -533,8 +535,8 @@ Pastfinder (Japan).png
 Pay Load (Japan).png
 Peetan (Japan).png
 Pegasus (Japan).png
-Penguin Adventure (Japan, Europe) (En).png
 Penguin-kun Wars (Japan).png
+Penguin Adventure (Japan, Europe) (En).png
 Pico Pico (Japan).png
 Picture Puzzle (Japan).png
 Pillbox (Japan).png
@@ -543,8 +545,8 @@ Pine Applin (Japan).png
 Pinky Chase (Japan).png
 Pipi (Japan).png
 Pippols (Japan).png
-Pitfall II - Lost Caverns (Japan).png
 Pitfall! (Japan).png
+Pitfall II - Lost Caverns (Japan).png
 Play Ball (Japan).png
 Poiny X Senryosakusen - Operation Thanksgiving (Japan).png
 Police Story, The (Japan).png
@@ -613,10 +615,10 @@ Squish'em (Japan).png
 Star Blazer (Japan).png
 Star Command (Japan).png
 Star Force (Japan).png
-Star Soldier (Japan).png
 Starship Simulator (Japan).png
-Step Up (Japan).png
+Star Soldier (Japan).png
 Stepper (Japan).png
+Step Up (Japan).png
 Stone of Wisdom, The (Japan).png
 Strange Loop (Japan).png
 Suparobo (Japan).png
@@ -637,7 +639,6 @@ Super Tripper (Spain).png
 Sweet Acorn (Japan).png
 Swing (Japan).png
 Syougun (Japan).png
-TZR - Grand Prix Rider (Japan).png
 Tank Battalion (Japan).png
 Tatica (Japan).png
 Tawara-kun (Japan).png
@@ -653,8 +654,8 @@ Thunder Ball (Japan).png
 Thunderbolt (Japan).png
 Time Pilot (Japan).png
 Toobin (Europe).png
-Top Roller! (Japan).png
 Topple Zip (Japan).png
+Top Roller! (Japan).png
 Track _ Field 1 (Europe).png
 Track _ Field 2 (Europe).png
 Traffic (Japan).png
@@ -665,6 +666,7 @@ Trumpaid (Japan).png
 Tumego 120 (Japan).png
 Turboat (Japan).png
 Twin Bee (Japan) (Wii U Virtual Console).png
+TZR - Grand Prix Rider (Japan).png
 Ultraman (Japan).png
 Vaxol - Heavy Armed Storm Vehicle (Japan).png
 Venus Fire (Japan).png
@@ -693,3 +695,163 @@ Zen (Europe) (Program).png
 Zenji (Japan).png
 Zexas Limited (Japan).png
 Zoom 909 (Japan).png
+1942 (Japan).png
+AcroJet (Japan).png
+Aleste (Japan).png
+Alges no Yoku (Japan).png
+American Soccer (Japan).png
+Aoki Ookami to Shiroki Mejika - Genchou Hishi (Japan).png
+Aoki Ookami to Shiroki Mejika - Genghis Khan (Japan).png
+Arctic - Active Rail Playing (Japan).png
+A Ressha de Ikou MSX (Japan).png
+Arkanoid II - Revenge of Doh (Japan).png
+AshGuine - Densetsu no Seisenshi (Japan).png
+AshGuine Story II - Kokuu no Gajou (Japan).png
+AshGuine Story III - Fukushuu no Honoo (Japan).png
+Bubble Bobble (Japan).png
+Cockpit, The (Japan).png
+Contra (Japan) (Wii U Virtual Console).png
+Contra (Japan).png
+Crimson (Japan).png
+Daikoukai Jidai (Japan).png
+Daisenryaku MSX2 (Japan).png
+Darwin 4078 (Japan).png
+Deep Forest (Japan).png
+Dires - Giger Loop (Japan).png
+Double Vision (Japan).png
+Dragon Buster (Japan).png
+Dragon Quest (Japan).png
+Dragon Quest II (Japan).png
+Dragon Slayer IV - Drasle Family (Japan) (Alt 1).png
+Dragon Slayer IV - Drasle Family (Japan).png
+Dragon Slayer Jr. - Romancia (Japan).png
+Dragon Slayer V - Sorcerian (Japan).png
+Druid (Japan).png
+Dynamite Bowl (Japan).png
+Eidolon, The (Europe).png
+Elthlead (Japan).png
+Empereur, L' (Japan).png
+Europe Sensen (Japan).png
+F-15 Strike Eagle (Japan).png
+Famicle Parodic (Japan).png
+Family Billiards (Japan).png
+Family Boxing - MSX Title Match (Japan).png
+Fantasy Zone II - The Tears of Opa-Opa (Japan).png
+Final Mystery Murder Club - Satsujin Club (Japan).png
+Fire Ball (Japan).png
+Fleet Commander II - Koukon no Kaiiki (Japan).png
+Gakuen Monogatari - High School Story (Japan).png
+Gambler Jiko Chuushinha 2 - Jishou! Kyougou Janshi Hen (Japan).png
+Ganbare Goemon! - Karakuri Douchuu (Japan) (Wii U Virtual Console).png
+Garakuta (Japan).png
+Garyuu Ou (Japan).png
+Gekitotsu Pennant Race - Pro Yakyuu, The (Japan).png
+Gekitotsu Pennant Race 2 (Japan) (English Menu).png
+Gekitotsu Pennant Race 2 (Japan).png
+Girly Block (Japan).png
+Hacker (Japan).png
+Hai no Majutsushi (Japan).png
+Han Seimei Senki Andorogynus (Japan).png
+Hard Ball (Japan).png
+Heroes of the Lance (Japan).png
+Higemaru Makai Shima - Nanatsu no Shima Daibouken (Japan).png
+High School! Kimengumi (Japan).png
+Hinotori - Houou Hen (Japan).png
+Hole in One Special (Japan).png
+Hydlide 3 - The Space Memories (Japan).png
+Ide Yousuke Meijin no Jissen Mahjong (Japan).png
+Ikari (Japan).png
+Inemuriryuu Asada Tetsuya no A-kyuu Mahjong (Japan).png
+Inindou - Datou Nobunaga (Japan).png
+Ishin no Arashi (Japan).png
+Jansei (Japan).png
+Kempelen Chess (Japan).png
+Kiki Kaikai (Japan).png
+King Kong 2 - Yomigaeru Densetsu (Japan).png
+Kisei (Japan).png
+Kitahei (Japan).png
+Koronis Rift (Europe).png
+Lupin Sansei - Babylon no Ougon Densetsu (Japan).png
+Lupin Sansei - Cagliostro no Shiro (Japan).png
+Mad Rider (Japan).png
+Maison Ikkoku - Kanketsu Hen - Sayonara, Soshite... (Japan).png
+Maison Ikkoku - Omoide no Photograph (Japan).png
+Malaya no Hibou (Japan).png
+Metal Gear (Europe).png
+Metal Gear (Japan).png
+Metal Gear 2 - Solid Snake (Japan).png
+Mirai (Japan).png
+Mississippi Satsujinjiken (Japan).png
+Moero!! Nettou Yakyuu '88 (Japan).png
+Monmon Kaibutsu (Japan).png
+Nekketsu Juudou (Japan).png
+Ninja-kun - Asura no Shou (Japan).png
+Nobunaga no Yabou - Bushou Fuuun Roku (Japan).png
+Nobunaga no Yabou - Sengoku Gunyuuden (Japan).png
+Nobunaga no Yabou - Zenkoku Ban (Japan).png
+Ogre (Japan).png
+Ouke no Tani - El Giza no Fuuin (Japan).png
+Ouke no Tani - El Giza no Fuuin - Edit Contest Yuushuu Sakuhinshuu (Japan).png
+Out Run (Japan).png
+Pac-Mania (Japan).png
+Pachi Pro Densetsu (Japan).png
+Penguin-kun Wars 2 (Japan).png
+Predator (Japan).png
+Professional Mahjong Gokuu (Japan).png
+Project A2 - Shijousaidai no Hyouteki (Japan).png
+Pro Yakyuu Family Stadium - Pennant Race (Japan).png
+Pro Yakyuu Fan - Telenet Stadium (Japan).png
+Quarth (Japan) (Wii U Virtual Console).png
+Quarth (Japan).png
+Quarth (Korea).png
+Quinpl (Japan).png
+Rastan Saga (Japan).png
+Relics (Japan).png
+Replicart (Japan).png
+Return of Ishtar, The (Japan).png
+Return of Jelda (Japan).png
+Rick to Mick no Daibouken (Japan).png
+Royal Blood (Japan).png
+Sangokushi (Japan).png
+Sangokushi II (Japan).png
+Scramble Formation (Japan).png
+Seikima II Special - Akuma no Gyakushuu (Japan).png
+Shanghai (Japan).png
+Shiryou Sensen - War of the Dead (Japan).png
+Space Manbow (Japan) (Wii U Virtual Console).png
+Space Manbow (Japan).png
+Star Virgin (Japan).png
+Strategic Mars (Japan).png
+Suikoden - Tenmei no Chikai (Japan).png
+Super Daisenryaku (Japan).png
+Super Load Runner (Japan).png
+Super Rambo Special (Japan).png
+Super Runner (Japan).png
+Super Tritorn (Japan).png
+Synthe Saurus (Japan) (Program).png
+Taiyou no Shinden - Asteka II (Japan).png
+Tanikawa Hiroshi no Shougi Shinan 2 (Japan).png
+Teitoku no Ketsudan (Japan).png
+Tengoku Yoitoko (Japan).png
+Tetris (Japan).png
+Topple Zip (Japan).png
+Treasure of Usas, The (Japan, Europe).png
+Tsurikichi Sanpei - Blue Marine Hen (Japan).png
+Tsurikichi Sanpei - Tsuri Sennin Hen (Japan).png
+Ultima Exodus (Japan).png
+Urusei Yatsura - Koi no Survival Birthday (Japan).png
+Vampire Killer (Japan, Europe).png
+Victorious Nine II - Koukou Yakyuu Hen (Japan).png
+Wizardry (Japan).png
+Woody Poco (Japan).png
+Xak - The Art of Visual Stage (Japan).png
+Xak II - The Rising of the Red Moon (Japan).png
+Xak III - The Tower of Gazzel (Japan).png
+Xevious - Fardraut Saga (Japan).png
+Yaksa (Japan).png
+Yamamura Misa Suspense - Kyoto Ryuu no Tera Satsujinjiken (Japan).png
+Yuurei-kun (Japan).png
+Zanac Ex (Japan).png
+Zoids - Chuuou Tairiku no Tatakai (Japan).png
+Zombie Hunter (Japan).png
+Zukkoke Yajikita Onmitsu Douchuu (Japan).png
