@@ -135,10 +135,12 @@ elif ! ping -c 2 thumbnails.libretro.com > /dev/null 2>&1; then
 fi
 
 evtest /dev/input/event0 | while read line; do
-    *"EV_KEY"*"KEY_RIGHTCTRL"*"value 1") SELECT_PRESSED=true ;;
-    *"EV_KEY"*"KEY_RIGHTCTRL"*"value 0") SELECT_PRESSED=false ;;
-    *"EV_KEY"*"KEY_ENTER"*"value 1") START_PRESSED=true ;;
-    *"EV_KEY"*"KEY_ENTER"*"value 0") START_PRESSED=false ;;
+    case "$line" in
+        *"EV_KEY"*"KEY_RIGHTCTRL"*"value 1") SELECT_PRESSED=true ;;
+        *"EV_KEY"*"KEY_RIGHTCTRL"*"value 0") SELECT_PRESSED=false ;;
+        *"EV_KEY"*"KEY_ENTER"*"value 1") START_PRESSED=true ;;
+        *"EV_KEY"*"KEY_ENTER"*"value 0") START_PRESSED=false ;;
+    esac
 
     if [ "$SELECT_PRESSED" = "true" ] && [ "$START_PRESSED" = "true" ]; then
         log_message "Scraper: user requested exit" "$SCRAPER_LOG"
