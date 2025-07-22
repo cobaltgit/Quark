@@ -42,6 +42,7 @@ get_ra_alias() {
         NGPC) ra_name="SNK - Neo Geo Pocket Color" ;;
         PCE) ra_name="NEC - PC Engine - TurboGrafx 16" ;;
         PCECD) ra_name="NEC - PC Engine CD - TurboGrafx-CD" ;;
+        PGM) ra_name="FBNeo - Arcade Games" ;;
         POKEMINI) ra_name="Nintendo - Pokemon Mini" ;;
         PS) ra_name="Sony - PlayStation" ;;
         QUAKE) ra_name="Quake" ;;
