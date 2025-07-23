@@ -76,7 +76,7 @@ get_image_name() {
     if echo "$sys_name" | grep -qE "(ARCADE|FBNEO|MAME2003PLUS|NEOGEO|CPS1|CPS2|CPS3)"; then
         # These systems' roms in libretro are stored by their long-form name.
         rom_without_ext="${rom_file_name%.*}"
-        echo "$(awk -v rom="$rom_without_ext" -F'\t' '$1 == rom { gsub(/^"|"$|^"/, "", $2); print $2 }' "db/ARCADE_games.txt").png"
+        awk -v rom="$rom_without_ext" -F'\t' '$1 == rom { gsub(/^"|"$/, "", $2); print $2 ".png" }' "db/ARCADE_games.txt"
         return
     else
         rom_without_ext="${rom_file_name%.*}"
