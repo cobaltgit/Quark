@@ -6,6 +6,7 @@ SCRAPER_LOG="/mnt/SDCARD/System/log/scraper.log"
 ROMS_DIR="/mnt/SDCARD/Roms"
 SELECT_PRESSED=false
 START_PRESSED=false
+EXITING=false
 
 get_ra_alias() {
     case $1 in
@@ -139,6 +140,7 @@ evtest /dev/input/event0 | while read line; do
     esac
 
     if [ "$SELECT_PRESSED" = "true" ] && [ "$START_PRESSED" = "true" ]; then
+        EXITING=true
         log_message "Scraper: user requested exit" "$SCRAPER_LOG"
         display -d 2000 -t "Exiting scraper..."
         killall -9 scraper.sh # suicide
@@ -200,7 +202,9 @@ for SYSTEM in "$ROMS_DIR"/*/; do
         CURRENT_TIME=$(date +%s)
         if [ $((CURRENT_TIME - LAST_UPDATE)) -ge 5 ]; then
             PROGRESS=$((CURRENT_COUNT * 100 / AMOUNT_GAMES))
-            display -t "Scraping $SYS_LABEL: $CURRENT_COUNT/$AMOUNT_GAMES ($PROGRESS%)"
+            if [ "$EXITING" != "false" ]; then # don't display if user requests exit
+                display -t "Scraping $SYS_LABEL: $CURRENT_COUNT/$AMOUNT_GAMES ($PROGRESS%)"
+            fi
             LAST_UPDATE=$CURRENT_TIME
         fi
 
