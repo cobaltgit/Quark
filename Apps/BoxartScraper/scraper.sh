@@ -67,52 +67,46 @@ get_ra_alias() {
     esac
 }
 
-# modified from spruce's scraper
 get_image_name() {
     local sys_name="$1"
     local rom_file_name="$2"
-    local rom_without_ext
+    local rom_without_ext="${rom_file_name%.*}"
 
-    if echo "$sys_name" | grep -qE "(ARCADE|FBNEO|MAME2003PLUS|NEOGEO|CPS1|CPS2|CPS3)"; then
-        # These systems' roms in libretro are stored by their long-form name.
-        rom_without_ext="${rom_file_name%.*}"
-        awk -v rom="$rom_without_ext" -F'\t' '$1 == rom { gsub(/^"|"$/, "", $2); print $2 ".png" }' "db/ARCADE_games.txt"
-        return
-    else
-        rom_without_ext="${rom_file_name%.*}"
-    fi
+    case "$sys_name" in
+        ARCADE|FBNEO|MAME2003PLUS|NEOGEO|CPS1|CPS2|CPS3|PGM)
+            awk -v rom="$rom_without_ext" -F'\t' '$1 == rom { gsub(/^"|"$/, "", $2); print $2 ".png"; exit }' "db/ARCADE_games.txt"
+            return
+            ;;
+    esac
 
     local image_list_file="db/${sys_name}_games.txt"
+    [ ! -f "$image_list_file" ] && return
 
-    # Check if the game list file exists
-    if [ ! -f "$image_list_file" ]; then
-        return
-    fi
-    
-    # Try an exact match first, escaping brackets for grep
-    image_name=$(grep -i "^$(echo "$rom_without_ext" | sed 's/\[/\\\[/g; s/\]/\\\]/g')\.png$" "$image_list_file")
+    # Try exact match first
+    image_name=$(grep -i "^$(printf '%s' "$rom_without_ext" | sed 's/\[/\\[/g; s/\]/\\]/g')\.png$" "$image_list_file")
     if [ -n "$image_name" ]; then
         echo "$image_name"
         return
     fi
 
-
     # Fuzzy match: remove anything in brackets, flip ampersands to underscores (libretro quirk), remove trailing whitespace
-    search_term="$(echo "$rom_without_ext" | sed -e 's/&/_/g' -e 's/\[.*\]//g' -e 's/[[:blank:]]*$//g')"
-    matches=$(grep -E "^$search_term( \(|\.)" "$image_list_file") 
+    search_term="$(printf '%s' "$rom_without_ext" | sed -e 's/&/_/g' -e 's/\[.*\]//g' -e 's/[[:blank:]]*$//')"
+    matches=$(grep -E "^$search_term( \\(|\\.)" "$image_list_file")
     if [ -n "$matches" ]; then
         echo "$matches" | head -1
         return
     fi
+
     # As a final check, try without the region or anything in parens
-    search_term=$(echo "$search_term" | sed -e 's/([^)]*)//g' -e 's/[[:blank:]]*$//g')
-    matches=$(grep -E "^$search_term( \(|\.)" "$image_list_file") 
+    search_term=$(printf '%s' "$search_term" | sed -e 's/([^)]*)//g' -e 's/[[:blank:]]*$//')
+    matches=$(grep -E "^$search_term( \\(|\\.)" "$image_list_file")
 
     if [ -n "$matches" ]; then
-        if echo "$matches" | grep -q '(USA)' ; then
-          echo "$matches" | grep '(USA)' | head -1
+        usa_match=$(echo "$matches" | grep '(USA)')
+        if [ -n "$usa_match" ]; then
+            echo "$usa_match" | head -1
         else
-          echo "$matches" | head -1
+            echo "$matches" | head -1
         fi
     fi
 }
@@ -164,70 +158,82 @@ for SYSTEM in "$ROMS_DIR"/*/; do
         continue
     fi
 
-    ROM_EXTS="$(/mnt/SDCARD/System/bin/jq -r '.extlist' "/mnt/SDCARD/Emus/$SYS_NAME/config.json" | awk '{gsub(/\|/, " "); print $0}')"
-    AMOUNT_GAMES="$(find "$SYSTEM" -type f -regex ".*\.\($(echo "$ROM_EXTS" | sed 's/ /\\\|/g')\)$" | wc -l)"
-    SYS_LABEL="$(/mnt/SDCARD/System/bin/jq ".label" "/mnt/SDCARD/Emus/$SYS_NAME/config.json")"
+    config_file="/mnt/SDCARD/Emus/$SYS_NAME/config.json"
+    if [ ! -f "$config_file" ]; then
+        log_message "Scraper: config file not found for $SYS_NAME, skipping..." "$SCRAPER_LOG"
+        continue
+    fi
+ 
+    ROM_EXTS="$(jq -r '.extlist' "$config_file" | tr '|' ' ')"
+    SYS_LABEL="$(jq -r '.label' "$config_file")"
 
-    if [ -z "$ROM_EXTS" ] || [ "$AMOUNT_GAMES" -eq 0 ]; then
-        log_message "Scraper: no supported extensions/games found for $SYS_NAME, skipping..." "$SCRAPER_LOG"
+    if [ -z "$ROM_EXTS" ]; then
+        log_message "Scraper: no supported extensions found for $SYS_NAME, skipping..." "$SCRAPER_LOG"
         continue
     fi
 
+    mkdir -p "${SYSTEM}Imgs"
+
+    rom_files=$(find "$SYSTEM" -maxdepth 1 -type f -regex ".*\\.\\($(echo "$ROM_EXTS" | sed 's/ /\\|/g')\\)\$")
+    
+    if [ -z "$rom_files" ]; then
+        log_message "Scraper: no ROM files found for $SYS_NAME, skipping..." "$SCRAPER_LOG"
+        continue
+    fi
+
+    AMOUNT_GAMES=$(echo "$rom_files" | wc -l)
     display -t "Scraping $SYS_LABEL: $AMOUNT_GAMES games..."
 
     SKIP_COUNT=0
     SCRAPED_COUNT=0
     NOT_FOUND_COUNT=0
 
-    for ROM_FILE in "$SYSTEM"*; do
+    # Build URLs
+    base_url="http://thumbnails.libretro.com/$ra_name/Named_Boxarts"
+    github_base="https://raw.githubusercontent.com/libretro-thumbnails/$(echo "$ra_name" | sed 's/ /_/g')/master/Named_Boxarts"
+
+    echo "$rom_files" | while IFS= read -r ROM_FILE; do
         ROM_BASENAME="$(basename "$ROM_FILE")"
-
-        # skip non-rom files
-        if [ -d "$ROM_FILE" ] || [ "$ROM_BASENAME" = ".*" ] \
-            || ! echo "$ROM_BASENAME" | grep -qE "\.($(echo "$ROM_EXTS" | sed -e "s/ /\|/g"))$"; then
-            continue
-        fi
-
         ROM_NAME="${ROM_BASENAME%.*}"
         IMAGE_PATH="${SYSTEM}Imgs/$ROM_NAME.png"
 
-        mkdir -p "${SYSTEM}Imgs"
-
+        # Skip if image already exists
         if [ -f "$IMAGE_PATH" ]; then
             SKIP_COUNT=$((SKIP_COUNT + 1))
             continue
         fi
        
         REMOTE_IMAGE_NAME=$(get_image_name "$SYS_NAME" "$ROM_BASENAME")
-        REMOTE_IMAGE_NAME_ALT="$(echo "$REMOTE_IMAGE_NAME" | sed 's| -|_|')" # alternate colon replacement
-
         if [ -z "$REMOTE_IMAGE_NAME" ]; then
             NOT_FOUND_COUNT=$((NOT_FOUND_COUNT + 1))
             continue
         fi
 
-        BOXART_URL=$(echo "http://thumbnails.libretro.com/$ra_name/Named_Boxarts/$REMOTE_IMAGE_NAME" | sed 's/ /%20/g' | tr -d '\r' )
-        BOXART_URL_ALT=$(echo "http://thumbnails.libretro.com/$ra_name/Named_Boxarts/$REMOTE_IMAGE_NAME_ALT" | sed 's/ /%20/g' | tr -d '\r' )
-        FALLBACK_URL="$(echo "https://raw.githubusercontent.com/libretro-thumbnails/$(echo "$ra_name" | sed 's/ /_/g')/master/Named_Boxarts/$REMOTE_IMAGE_NAME" | sed 's/ /%20/g' | tr -d '\r')"
-        FALLBACK_URL_ALT="$(echo "https://raw.githubusercontent.com/libretro-thumbnails/$(echo "$ra_name" | sed 's/ /_/g')/master/Named_Boxarts/$REMOTE_IMAGE_NAME_ALT" | sed 's/ /%20/g' | tr -d '\r')"
-        log_message "BoxartScraper: Downloading $BOXART_URL" "$SCRAPER_LOG"
-        if ! { curl -fgkso "$IMAGE_PATH" "$BOXART_URL" || curl -fgkso "$IMAGE_PATH" "$BOXART_URL_ALT"; }; then
-            log_message "BoxartScraper: failed to scrape $BOXART_URL, falling back to libretro thumbnails GitHub repo." "$SCRAPER_LOG"
-            rm -f "$IMAGE_PATH"
-            if ! { curl -fgkso "$IMAGE_PATH" "$FALLBACK_URL" || curl -fgkso "$IMAGE_PATH" "$FALLBACK_URL_ALT"; }; then
-                log_message "BoxartScraper: failed to scrape $FALLBACK_URL." "$SCRAPER_LOG"
-                rm -f "$IMAGE_PATH"
-            fi
-        fi
+        # URL encoding and cleanup
+        REMOTE_IMAGE_NAME_CLEAN="$REMOTE_IMAGE_NAME"
+        REMOTE_IMAGE_NAME_ALT=$(echo "$REMOTE_IMAGE_NAME_CLEAN" | sed 's| -|_|')
+        
+        BOXART_URL=$(printf '%s/%s' "$base_url" "$REMOTE_IMAGE_NAME_CLEAN" | sed 's/ /%20/g')
+        BOXART_URL_ALT=$(printf '%s/%s' "$base_url" "$REMOTE_IMAGE_NAME_ALT" | sed 's/ /%20/g')  
+        FALLBACK_URL=$(printf '%s/%s' "$github_base" "$REMOTE_IMAGE_NAME_CLEAN" | sed 's/ /%20/g')
+        FALLBACK_URL_ALT=$(printf '%s/%s' "$github_base" "$REMOTE_IMAGE_NAME_ALT" | sed 's/ /%20/g')
 
-        if [ -f "$IMAGE_PATH" ]; then
+        log_message "BoxartScraper: Downloading $BOXART_URL" "$SCRAPER_LOG"
+        
+        # Try primary URLs, then fallbacks
+        if curl -fgkso "$IMAGE_PATH" "$BOXART_URL" || curl -fgkso "$IMAGE_PATH" "$BOXART_URL_ALT" || \
+            curl -fgkso "$IMAGE_PATH" "$FALLBACK_URL" || curl -fgkso "$IMAGE_PATH" "$FALLBACK_URL_ALT"; then
+            log_message "BoxartScraper: $SYS_NAME: scraped image for $ROM_BASENAME"
             SCRAPED_COUNT=$((SCRAPED_COUNT + 1))
         else
+            log_message "BoxartScraper: failed to scrape $ROM_BASENAME" "$SCRAPER_LOG"
+            rm -f "$IMAGE_PATH"
             NOT_FOUND_COUNT=$((NOT_FOUND_COUNT + 1))
         fi
     done
+    
     log_message "Scraper: $SYS_NAME - Scraped: $SCRAPED_COUNT, Skipped: $SKIP_COUNT, Not found: $NOT_FOUND_COUNT" "$SCRAPER_LOG"
 done
 
-kill -9 $EVTEST_LOOP_PID
+kill -9 $EVTEST_LOOP_PID 2>/dev/null
 display -d 2000 -t "Scraping complete!"
