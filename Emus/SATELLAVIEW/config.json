@@ -1,9 +1,9 @@
 {
-  "label": "SNES",
+  "label": "BS-X",
   "icon": "icon.png",
   "launch": "../.emu_setup/launch_emu.sh",
-  "rompath": "../../Roms/SFC",
-  "imgpath": "../../Roms/SFC/Imgs",
+  "rompath": "../../Roms/SATELLAVIEW",
+  "imgpath": "../../Roms/SATELLAVIEW/Imgs",
   "useswap": 0,
   "shortname": 0,
   "hidebios": 0,
@@ -12,6 +12,10 @@
     {
       "name": "CPU: Smart",
       "launch": "/mnt/SDCARD/Emus/.emu_setup/cpu_switch.sh"
+    },
+    {
+      "name": "Core: Chimera",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/core_switch.sh"
     },
     {
       "name": "Save override",

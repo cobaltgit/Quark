@@ -49,6 +49,7 @@ get_ra_alias() {
         SEGACD) ra_name="Sega - Mega-CD - Sega CD" ;;
         SG1000) ra_name="Sega - SG-1000" ;;
         ATARI7800) ra_name="Atari - 7800" ;;
+        SATELLAVIEW) ra_name="Nintendo - Satellaview" ;;
         SCUMMVM) ra_name="ScummVM" ;; # gluon system
         SFC) ra_name="Nintendo - Super Nintendo Entertainment System" ;;
         SGFX) ra_name="NEC - PC Engine SuperGrafx" ;;
