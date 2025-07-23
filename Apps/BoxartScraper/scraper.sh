@@ -223,7 +223,7 @@ for SYSTEM in "$ROMS_DIR"/*/; do
         # Try primary URLs, then fallbacks
         if curl -fgkso "$IMAGE_PATH" "$BOXART_URL" || curl -fgkso "$IMAGE_PATH" "$BOXART_URL_ALT" || \
             curl -fgkso "$IMAGE_PATH" "$FALLBACK_URL" || curl -fgkso "$IMAGE_PATH" "$FALLBACK_URL_ALT"; then
-            log_message "BoxartScraper: $SYS_NAME: scraped image for $ROM_BASENAME"
+            log_message "BoxartScraper: $SYS_NAME: scraped image for $ROM_BASENAME" "$SCRAPER_LOG"
             SCRAPED_COUNT=$((SCRAPED_COUNT + 1))
         else
             log_message "BoxartScraper: failed to scrape $ROM_BASENAME" "$SCRAPER_LOG"
