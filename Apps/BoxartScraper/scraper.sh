@@ -182,17 +182,28 @@ for SYSTEM in "$ROMS_DIR"/*/; do
     fi
 
     AMOUNT_GAMES=$(echo "$rom_files" | wc -l)
-    display -t "Scraping $SYS_LABEL: $AMOUNT_GAMES games..."
+    display -t "Scraping $SYS_LABEL: 0/$AMOUNT_GAMES (0%)"
 
     SKIP_COUNT=0
     SCRAPED_COUNT=0
     NOT_FOUND_COUNT=0
+    CURRENT_COUNT=0
+    LAST_UPDATE=0
 
     # Build URLs
     base_url="http://thumbnails.libretro.com/$ra_name/Named_Boxarts"
     github_base="https://raw.githubusercontent.com/libretro-thumbnails/$(echo "$ra_name" | sed 's/ /_/g')/master/Named_Boxarts"
 
     echo "$rom_files" | while IFS= read -r ROM_FILE; do
+
+        CURRENT_COUNT=$((CURRENT_COUNT + 1))
+        CURRENT_TIME=$(date +%s)
+        if [ $((CURRENT_TIME - LAST_UPDATE)) -ge 5 ]; then
+            PROGRESS=$((CURRENT_COUNT * 100 / AMOUNT_GAMES))
+            display -t "Scraping $SYS_LABEL: $CURRENT_COUNT/$AMOUNT_GAMES ($PROGRESS%)"
+            LAST_UPDATE=$CURRENT_TIME
+        fi
+
         ROM_BASENAME="$(basename "$ROM_FILE")"
         ROM_NAME="${ROM_BASENAME%.*}"
         IMAGE_PATH="${SYSTEM}Imgs/$ROM_NAME.png"
