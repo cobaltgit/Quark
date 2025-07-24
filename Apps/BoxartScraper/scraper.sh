@@ -2,6 +2,8 @@
 
 . /mnt/SDCARD/System/scripts/helpers.sh
 
+export SSL_CERT_FILE="/mnt/SDCARD/System/etc/ca-certificates.crt"
+
 SCRAPER_LOG="/mnt/SDCARD/System/log/scraper.log"
 ROMS_DIR="/mnt/SDCARD/Roms"
 SELECT_PRESSED=false
@@ -242,8 +244,8 @@ for SYSTEM in "$ROMS_DIR"/*/; do
         log_message "BoxartScraper: Downloading $BOXART_URL" "$SCRAPER_LOG"
         
         # Try primary URLs, then fallbacks
-        if curl -fgkso "$IMAGE_PATH" "$BOXART_URL" || curl -fgkso "$IMAGE_PATH" "$BOXART_URL_ALT" || \
-            curl -fgkso "$IMAGE_PATH" "$FALLBACK_URL" || curl -fgkso "$IMAGE_PATH" "$FALLBACK_URL_ALT"; then
+        if curl -fgso "$IMAGE_PATH" "$BOXART_URL" || curl -fgso "$IMAGE_PATH" "$BOXART_URL_ALT" || \
+            curl -fgso "$IMAGE_PATH" "$FALLBACK_URL" || curl -fgso "$IMAGE_PATH" "$FALLBACK_URL_ALT"; then
             log_message "BoxartScraper: $SYS_NAME: scraped image for $ROM_BASENAME" "$SCRAPER_LOG"
             SCRAPED_COUNT=$((SCRAPED_COUNT + 1))
         else
