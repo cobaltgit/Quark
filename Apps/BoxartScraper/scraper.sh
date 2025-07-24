@@ -152,6 +152,12 @@ for SYSTEM in "$ROMS_DIR"/*/; do
     [ ! -d "$SYSTEM" ] && continue
 
     SYS_NAME="$(basename "$SYSTEM")"
+
+    if [ ! -f "db/${SYS_NAME}_games.txt" ]; then
+        log_message "Scraper: gamelist for $SYS_NAME not found" "$SCRAPER_LOG"
+        continue
+    fi
+
     log_message "Scraper: scraping box art for $SYS_NAME" "$SCRAPER_LOG"
 
     get_ra_alias "$SYS_NAME"
