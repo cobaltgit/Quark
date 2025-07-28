@@ -156,7 +156,7 @@ for SYSTEM in "$ROMS_DIR"/*/; do
     SYS_NAME="$(basename "$SYSTEM")"
 
     if [ ! -f "db/${SYS_NAME}_games.txt" ]; then
-        log_message "Scraper: gamelist for $SYS_NAME not found" "$SCRAPER_LOG"
+        log_message "Scraper: gamelist for $SYS_NAME not found" "/mnt/SDCARD/scrap.log"
         continue
     fi
 
@@ -164,7 +164,7 @@ for SYSTEM in "$ROMS_DIR"/*/; do
 
     get_ra_alias "$SYS_NAME"
     if [ -z "$ra_name" ]; then
-        log_message "Scraper: remote system name not found, skipping $SYS_NAME" "$SCRAPER_LOG"
+        log_message "Scraper: remote system name not found, skipping $SYS_NAME" "/mnt/SDCARD/scrap.log"
         continue
     fi
 
@@ -208,9 +208,10 @@ for SYSTEM in "$ROMS_DIR"/*/; do
 
         CURRENT_COUNT=$((CURRENT_COUNT + 1))
         CURRENT_TIME=$(date +%s)
-        if [ $((CURRENT_TIME - LAST_UPDATE)) -ge 5 ]; then
+        INTERVAL=$((CURRENT_TIME - LAST_UPDATE))
+        if [ $INTERVAL -ge 5 ]; then
             PROGRESS=$((CURRENT_COUNT * 100 / AMOUNT_GAMES))
-            if [ "$EXITING" != "false" ]; then # don't display if user requests exit
+            if [ "$EXITING" = "false" ]; then # don't display if user requests exit
                 display -t "Scraping $SYS_LABEL: $CURRENT_COUNT/$AMOUNT_GAMES ($PROGRESS%)"
             fi
             LAST_UPDATE=$CURRENT_TIME
