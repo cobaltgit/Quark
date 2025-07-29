@@ -8,7 +8,6 @@ SCRAPER_LOG="/mnt/SDCARD/System/log/scraper.log"
 ROMS_DIR="/mnt/SDCARD/Roms"
 SELECT_PRESSED=false
 START_PRESSED=false
-EXITING=false
 
 get_ra_alias() {
     case $1 in
@@ -133,90 +132,30 @@ elif ! ping -c 2 thumbnails.libretro.com > /dev/null 2>&1; then
     fi
 fi
 
-evtest /dev/input/event0 | while read line; do
-    case "$line" in
-        *"EV_KEY"*"KEY_RIGHTCTRL"*"value 1") SELECT_PRESSED=true ;;
-        *"EV_KEY"*"KEY_RIGHTCTRL"*"value 0") SELECT_PRESSED=false ;;
-        *"EV_KEY"*"KEY_ENTER"*"value 1") START_PRESSED=true ;;
-        *"EV_KEY"*"KEY_ENTER"*"value 0") START_PRESSED=false ;;
-    esac
+CURRENT_COUNT=0
+LAST_UPDATE=0
 
-    if [ "$SELECT_PRESSED" = "true" ] && [ "$START_PRESSED" = "true" ]; then
-        EXITING=true
-        log_message "Scraper: user requested exit" "$SCRAPER_LOG"
-        display -d 2000 -t "Exiting scraper..."
-        killall -9 scraper.sh # suicide
-    fi
-done &
-EVTEST_LOOP_PID=$!
-
-for SYSTEM in "$ROMS_DIR"/*/; do
-    [ ! -d "$SYSTEM" ] && continue
-
-    SYS_NAME="$(basename "$SYSTEM")"
-
-    if [ ! -f "db/${SYS_NAME}_games.txt" ]; then
-        log_message "Scraper: gamelist for $SYS_NAME not found" "/mnt/SDCARD/scrap.log"
-        continue
-    fi
-
-    log_message "Scraper: scraping box art for $SYS_NAME" "$SCRAPER_LOG"
-
-    get_ra_alias "$SYS_NAME"
-    if [ -z "$ra_name" ]; then
-        log_message "Scraper: remote system name not found, skipping $SYS_NAME" "/mnt/SDCARD/scrap.log"
-        continue
-    fi
-
-    config_file="/mnt/SDCARD/Emus/$SYS_NAME/config.json"
-    if [ ! -f "$config_file" ]; then
-        log_message "Scraper: config file not found for $SYS_NAME, skipping..." "$SCRAPER_LOG"
-        continue
-    fi
- 
-    ROM_EXTS="$(jq -r '.extlist' "$config_file" | tr '|' ' ')"
-    SYS_LABEL="$(jq -r '.label' "$config_file")"
-
-    if [ -z "$ROM_EXTS" ]; then
-        log_message "Scraper: no supported extensions found for $SYS_NAME, skipping..." "$SCRAPER_LOG"
-        continue
-    fi
-
-    mkdir -p "${SYSTEM}Imgs"
-
-    rom_files=$(find "$SYSTEM" -maxdepth 1 -type f -regex ".*\\.\\($(echo "$ROM_EXTS" | sed 's/ /\\|/g')\\)\$")
-    
-    if [ -z "$rom_files" ]; then
-        log_message "Scraper: no ROM files found for $SYS_NAME, skipping..." "$SCRAPER_LOG"
-        continue
-    fi
-
-    AMOUNT_GAMES=$(echo "$rom_files" | wc -l)
-    display -t "Scraping $SYS_LABEL: 0/$AMOUNT_GAMES (0%)"
+scrape_romlist() {
+    local rom_list="$1"
+    local thread_id="$2"
 
     SKIP_COUNT=0
     SCRAPED_COUNT=0
     NOT_FOUND_COUNT=0
-    CURRENT_COUNT=0
-    LAST_UPDATE=0
 
     # Build URLs
     base_url="http://thumbnails.libretro.com/$ra_name/Named_Boxarts"
     github_base="https://raw.githubusercontent.com/libretro-thumbnails/$(echo "$ra_name" | sed 's/ /_/g')/master/Named_Boxarts"
 
-    echo "$rom_files" | while IFS= read -r ROM_FILE; do
-
-        CURRENT_COUNT=$((CURRENT_COUNT + 1))
-        CURRENT_TIME=$(date +%s)
-        INTERVAL=$((CURRENT_TIME - LAST_UPDATE))
-        if [ $INTERVAL -ge 5 ]; then
-            PROGRESS=$((CURRENT_COUNT * 100 / AMOUNT_GAMES))
-            if [ "$EXITING" = "false" ]; then # don't display if user requests exit
-                display -t "Scraping $SYS_LABEL: $CURRENT_COUNT/$AMOUNT_GAMES ($PROGRESS%)"
-            fi
-            LAST_UPDATE=$CURRENT_TIME
+    echo "$rom_list" | while IFS= read -r ROM_FILE; do
+        if [ -f "/tmp/scraper_exit" ]; then
+            log_message "Scraper: exiting thread $thread_id." "$SCRAPER_LOG"
+            break
         fi
+        echo "$SKIP_COUNT $SCRAPED_COUNT $NOT_FOUND_COUNT" > /tmp/scraper_stats_$thread_id
 
+        CURRENT_COUNT=$((current_count + 1))
+        CURRENT_TIME=$(date +%s)
         ROM_BASENAME="$(basename "$ROM_FILE")"
         ROM_NAME="${ROM_BASENAME%.*}"
         IMAGE_PATH="${SYSTEM}Imgs/$ROM_NAME.png"
@@ -226,7 +165,7 @@ for SYSTEM in "$ROMS_DIR"/*/; do
             SKIP_COUNT=$((SKIP_COUNT + 1))
             continue
         fi
-       
+        
         REMOTE_IMAGE_NAME=$(get_image_name "$SYS_NAME" "$ROM_BASENAME")
         if [ -z "$REMOTE_IMAGE_NAME" ]; then
             NOT_FOUND_COUNT=$((NOT_FOUND_COUNT + 1))
@@ -241,22 +180,165 @@ for SYSTEM in "$ROMS_DIR"/*/; do
         BOXART_URL_ALT=$(printf '%s/%s' "$base_url" "$REMOTE_IMAGE_NAME_ALT" | sed 's/ /%20/g')  
         FALLBACK_URL=$(printf '%s/%s' "$github_base" "$REMOTE_IMAGE_NAME_CLEAN" | sed 's/ /%20/g')
         FALLBACK_URL_ALT=$(printf '%s/%s' "$github_base" "$REMOTE_IMAGE_NAME_ALT" | sed 's/ /%20/g')
-
-        log_message "BoxartScraper: Downloading $BOXART_URL" "$SCRAPER_LOG"
         
         # Try primary URLs, then fallbacks
         if curl -fgso "$IMAGE_PATH" "$BOXART_URL" || curl -fgso "$IMAGE_PATH" "$BOXART_URL_ALT" || \
             curl -fgso "$IMAGE_PATH" "$FALLBACK_URL" || curl -fgso "$IMAGE_PATH" "$FALLBACK_URL_ALT"; then
-            log_message "BoxartScraper: $SYS_NAME: scraped image for $ROM_BASENAME" "$SCRAPER_LOG"
+            log_message "Scraper: thread $thread_id: $SYS_NAME: scraped image for $ROM_BASENAME" "$SCRAPER_LOG"
             SCRAPED_COUNT=$((SCRAPED_COUNT + 1))
         else
-            log_message "BoxartScraper: failed to scrape $ROM_BASENAME" "$SCRAPER_LOG"
+            log_message "Scraper: thread $thread_id: $SYS_NAME: failed to scrape $ROM_BASENAME" "$SCRAPER_LOG"
             rm -f "$IMAGE_PATH"
             NOT_FOUND_COUNT=$((NOT_FOUND_COUNT + 1))
         fi
     done
+}
+
+evtest /dev/input/event0 | while read line; do
+    case "$line" in
+        *"EV_KEY"*"KEY_RIGHTCTRL"*"value 1") SELECT_PRESSED=true ;;
+        *"EV_KEY"*"KEY_RIGHTCTRL"*"value 0") SELECT_PRESSED=false ;;
+        *"EV_KEY"*"KEY_ENTER"*"value 1") START_PRESSED=true ;;
+        *"EV_KEY"*"KEY_ENTER"*"value 0") START_PRESSED=false ;;
+    esac
+
+    if [ "$SELECT_PRESSED" = "true" ] && [ "$START_PRESSED" = "true" ]; then
+        log_message "Scraper: user requested exit" "$SCRAPER_LOG"
+        touch /tmp/scraper_exit
+        break
+    fi
+done &
+EVTEST_LOOP_PID=$!
+
+for SYSTEM in "$ROMS_DIR"/*/; do
+    [ ! -d "$SYSTEM" ] && continue
+
+    SYS_NAME="$(basename "$SYSTEM")"
+
+    if [ ! -f "db/${SYS_NAME}_games.txt" ]; then
+        log_message "Scraper: gamelist for $SYS_NAME not found"
+        continue
+    fi
+
+    log_message "Scraper: scraping box art for $SYS_NAME" "$SCRAPER_LOG"
+
+    get_ra_alias "$SYS_NAME"
+    if [ -z "$ra_name" ]; then
+        log_message "Scraper: remote system name not found, skipping $SYS_NAME"
+        continue
+    fi
+
+    CONFIG_FILE="/mnt/SDCARD/Emus/$SYS_NAME/config.json"
+    if [ ! -f "$CONFIG_FILE" ]; then
+        log_message "Scraper: config file not found for $SYS_NAME, skipping..." "$SCRAPER_LOG"
+        continue
+    fi
+ 
+    ROM_EXTS="$(jq -r '.extlist' "$CONFIG_FILE" | tr '|' ' ')"
+    SYS_LABEL="$(jq -r '.label' "$CONFIG_FILE")"
+
+    if [ -z "$ROM_EXTS" ]; then
+        log_message "Scraper: no supported extensions found for $SYS_NAME, skipping..." "$SCRAPER_LOG"
+        continue
+    fi
+
+    mkdir -p "${SYSTEM}Imgs"
+
+    ROM_LIST=$(find "$SYSTEM" -maxdepth 1 -type f -regex ".*\\.\\($(echo "$ROM_EXTS" | sed 's/ /\\|/g')\\)\$")
     
-    log_message "Scraper: $SYS_NAME - Scraped: $SCRAPED_COUNT, Skipped: $SKIP_COUNT, Not found: $NOT_FOUND_COUNT" "$SCRAPER_LOG"
+    if [ -z "$rom_files" ]; then
+        log_message "Scraper: no ROM files found for $SYS_NAME, skipping..." "$SCRAPER_LOG"
+        continue
+    fi
+
+    AMOUNT_GAMES=$(echo "$ROM_LIST" | wc -l)
+    CHUNK_SIZE=$(((AMOUNT_GAMES + 3) / 4))
+    display -t "Scraping $SYS_LABEL: 0/$AMOUNT_GAMES (0%)"
+
+    ROM_LIST_CHUNK="$(echo "$ROM_LIST" | awk "NR <= $CHUNK_SIZE")"
+    scrape_romlist "$ROM_LIST_CHUNK" 1 &
+    THREAD_1_PID=$!
+    ROM_LIST_CHUNK="$(echo "$ROM_LIST" | awk "NR > $CHUNK_SIZE && NR <= $((CHUNK_SIZE * 2))")"
+    scrape_romlist "$ROM_LIST_CHUNK" 2 &
+    THREAD_2_PID=$!
+    ROM_LIST_CHUNK="$(echo "$ROM_LIST" | awk "NR > $((CHUNK_SIZE * 2)) && NR <= $((CHUNK_SIZE * 3))")"
+    scrape_romlist "$ROM_LIST_CHUNK" 3 &
+    THREAD_3_PID=$!
+    ROM_LIST_CHUNK="$(echo "$ROM_LIST" | awk "NR > $((CHUNK_SIZE * 3))")"
+    scrape_romlist "$ROM_LIST_CHUNK" 4 &
+    THREAD_4_PID=$!
+
+    while kill -0 $THREAD_1_PID 2>/dev/null || \
+          kill -0 $THREAD_2_PID 2>/dev/null || \
+          kill -0 $THREAD_3_PID 2>/dev/null || \
+          kill -0 $THREAD_4_PID 2>/dev/null; do
+        
+        if [ -f "/tmp/scraper_exit" ]; then
+            log_message "Scraper: User requested exit, terminating all threads." "$SCRAPER_LOG"
+            kill $THREAD_1_PID 2>/dev/null
+            kill $THREAD_2_PID 2>/dev/null
+            kill $THREAD_3_PID 2>/dev/null
+            kill $THREAD_4_PID 2>/dev/null
+            display -d 2000 -t "Exiting scraper..."
+            rm -f /tmp/scraper_*
+            exit
+        fi
+        
+        CURRENT_TIME=$(date +%s)
+
+        if [ $((CURRENT_TIME - LAST_UPDATE)) -ge 5 ]; then
+            TOTAL_SCRAPED=0
+            TOTAL_SKIPPED=0
+            TOTAL_NOT_FOUND=0
+            
+            for i in 1 2 3 4; do
+                if [ -f "/tmp/scraper_stats_$i" ]; then
+                    read SKIP SCRAPED NOTFOUND < "/tmp/scraper_stats_$i" 2>/dev/null
+                    TOTAL_SKIPPED=$((total_skipped + SKIP))
+                    TOTAL_SCRAPED=$((TOTAL_SCRAPED + SCRAPED))
+                    TOTAL_NOT_FOUND=$((total_not_found + NOTFOUND))
+                fi
+            done
+            
+            CURRENT_COUNT=$((TOTAL_SCRAPED + TOTAL_SKIPPED + TOTAL_NOT_FOUND))
+            if [ $AMOUNT_GAMES -gt 0 ]; then
+                PROGRESS=$((CURRENT_COUNT * 100 / AMOUNT_GAMES))
+                display -t "Scraping $SYS_LABEL: $CURRENT_COUNT/$AMOUNT_GAMES ($PROGRESS%)"
+            fi
+            LAST_UPDATE=$CURRENT_TIME
+        fi      
+        sleep 1
+    done
+
+    if [ -f "/tmp/scraper_exit" ]; then
+        display -d 2000 -t "Exiting scraper..."
+        rm -f /tmp/scraper_*
+        exit
+   fi
+
+    # Wait for all processes to complete
+    kill -0 $THREAD_1_PID && wait $THREAD_1_PID 2>/dev/null
+    kill -0 $THREAD_2_PID && wait $THREAD_2_PID 2>/dev/null
+    kill -0 $THREAD_3_PID && wait $THREAD_3_PID 2>/dev/null
+    kill -0 $THREAD_4_PID && wait $THREAD_4_PID 2>/dev/null
+
+    # Collect final statistics
+    TOTAL_SKIP_COUNT=0
+    TOTAL_SCRAPE_COUNT=0
+    TOTAL_NON_FOUND_COUNT=0
+    
+    for i in 1 2 3 4; do
+        if [ -f "/tmp/scraper_stats_$i" ]; then
+            read SKIP SCRAPED NOTFOUND < "/tmp/scraper_stats_$i" 2>/dev/null
+            TOTAL_SKIP_COUNT=$((TOTAL_SKIP_COUNT + SKIP))
+            TOTAL_SCRAPE_COUNT=$((TOTAL_SCRAPE_COUNT + SCRAPED))
+            TOTAL_NON_FOUND_COUNT=$((TOTAL_NON_FOUND_COUNT + NOTFOUND))
+        fi
+    done
+    
+    rm -f /tmp/scraper_stats_*
+    
+    log_message "Scraper: $SYS_NAME: Scraped: $TOTAL_SCRAPE_COUNT, Skipped: $TOTAL_SKIP_COUNT, Not Found: $TOTAL_NON_FOUND_COUNT"
 done
 
 kill -9 $EVTEST_LOOP_PID 2>/dev/null
