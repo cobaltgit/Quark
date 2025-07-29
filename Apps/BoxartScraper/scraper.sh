@@ -246,7 +246,7 @@ for SYSTEM in "$ROMS_DIR"/*/; do
 
     ROM_LIST=$(find "$SYSTEM" -maxdepth 1 -type f -regex ".*\\.\\($(echo "$ROM_EXTS" | sed 's/ /\\|/g')\\)\$")
     
-    if [ -z "$rom_files" ]; then
+    if [ -z "$ROM_LIST" ]; then
         log_message "Scraper: no ROM files found for $SYS_NAME, skipping..." "$SCRAPER_LOG"
         continue
     fi
