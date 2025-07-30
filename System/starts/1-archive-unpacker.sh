@@ -14,7 +14,7 @@ if [ "$ARCHIVE_COUNT" -eq 0 ]; then
     exit 0
 fi
 
-echo "$ARCHIVES" | while read archive; do
+echo "$ARCHIVES" | while IFS= read -r archive; do
     basename="$(basename "$archive")"
     log_message "Unpacker: unpacking archive $basename"
     if ! unzip -o -d / "$archive"; then
