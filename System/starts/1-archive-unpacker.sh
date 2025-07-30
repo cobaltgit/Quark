@@ -3,7 +3,8 @@
 . /mnt/SDCARD/System/scripts/helpers.sh
 
 ARCHIVES_FOLDER="/mnt/SDCARD/System/archives"
-ARCHIVE_COUNT="$(ls -1 $ARCHIVES_FOLDER/*.zip | wc -l)"
+ARCHIVES="$(find "$ARCHIVES_FOLDER" -type f -iname "*.zip")"
+ARCHIVE_COUNT="$(echo "$ARCHIVES" | wc -l)"
 ARCHIVE_UNPACK_LOG="/mnt/SDCARD/System/log/archive_unpack.log"
 
 log_message "Unpacker: $ARCHIVE_COUNT archives found" "$ARCHIVE_UNPACK_LOG"
@@ -13,7 +14,7 @@ if [ "$ARCHIVE_COUNT" -eq 0 ]; then
     exit 0
 fi
 
-find "$ARCHIVES_FOLDER" -type f -iname "*.zip" | while read archive; do
+echo "$ARCHIVES" | while read archive; do
     basename="$(basename "$archive")"
     log_message "Unpacker: unpacking archive $basename"
     if ! unzip -o -d / "$archive"; then
