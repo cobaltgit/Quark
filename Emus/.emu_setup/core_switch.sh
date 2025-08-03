@@ -29,8 +29,8 @@ case "$EMU" in
         ;;
     "NGP"|"NGPC")
         case "$CORE" in
-            "race") NEW_CORE="mednafen_ngp" DISPLAY="Core: RACE" ;;
-            "mednafen_ngp") NEW_CORE="race" DISPLAY="Core: Beetle" ;;
+            "race") NEW_CORE="mednafen_ngp" DISPLAY="Core: Beetle" ;;
+            "mednafen_ngp") NEW_CORE="race" DISPLAY="Core: RACE" ;;
         esac
         ;;
     "SFC")
