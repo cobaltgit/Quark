@@ -132,9 +132,6 @@ elif ! ping -c 2 thumbnails.libretro.com > /dev/null 2>&1; then
     fi
 fi
 
-CURRENT_COUNT=0
-LAST_UPDATE=0
-
 scrape_romlist() {
     local rom_list="$1"
     local thread_id="$2"
@@ -154,7 +151,6 @@ scrape_romlist() {
         fi
         echo "$SKIP_COUNT $SCRAPED_COUNT $NOT_FOUND_COUNT" > /tmp/scraper_stats_$thread_id
 
-        CURRENT_COUNT=$((current_count + 1))
         CURRENT_TIME=$(date +%s)
         ROM_BASENAME="$(basename "$ROM_FILE")"
         ROM_NAME="${ROM_BASENAME%.*}"
@@ -213,6 +209,7 @@ EVTEST_LOOP_PID=$!
 for SYSTEM in "$ROMS_DIR"/*/; do
     [ ! -d "$SYSTEM" ] && continue
 
+    LAST_UPDATE=0
     SYS_NAME="$(basename "$SYSTEM")"
 
     if [ ! -f "db/${SYS_NAME}_games.txt" ]; then
