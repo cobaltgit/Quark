@@ -54,6 +54,7 @@ Below is a list of systems that Quark supports, along with the emulator core the
 * Nintendo Family Computer Disk System (FCEUmm / Nestopia)
 * Nintendo Game Boy / Game Boy Color (Gambatte)
 * Nintendo Game Boy Advance (gpSP / mGBA)
+* Nintendo/St.GiGA Satellaview (Snes9x)
 * Sega Game Gear (PicoDrive / Genesis Plus GX)
 * MADrigal's Simulators (GW)
 * Intellivision (FreeIntv)
