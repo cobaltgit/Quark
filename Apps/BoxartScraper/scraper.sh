@@ -151,7 +151,6 @@ scrape_romlist() {
         fi
         echo "$SKIP_COUNT $SCRAPED_COUNT $NOT_FOUND_COUNT" > /tmp/scraper_stats_$thread_id
 
-        CURRENT_TIME=$(date +%s)
         ROM_BASENAME="$(basename "$ROM_FILE")"
         ROM_NAME="${ROM_BASENAME%.*}"
         IMAGE_PATH="${SYSTEM}Imgs/$ROM_NAME.png"
