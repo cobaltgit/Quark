@@ -113,6 +113,8 @@ get_image_name() {
     fi
 }
 
+set_cpuclock --mode performance
+
 display -t "Starting scraper..."
 
 if [ "$(awk '/wifi/ { gsub(/[,]/,"",$2); print $2}' "/mnt/UDISK/system.json")" -eq 0 ]; then
@@ -277,6 +279,7 @@ for SYSTEM in "$ROMS_DIR"/*/; do
             kill $THREAD_4_PID 2>/dev/null
             display -d 2000 -t "Exiting scraper..."
             rm -f /tmp/scraper_*
+            set_cpuclock --mode smart
             exit
         fi
         
@@ -339,3 +342,4 @@ done
 
 kill -9 $EVTEST_LOOP_PID 2>/dev/null
 display -d 2000 -t "Scraping complete!"
+set_cpuclock --mode smart
