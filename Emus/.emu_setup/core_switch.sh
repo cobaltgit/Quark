@@ -27,6 +27,12 @@ case "$EMU" in
             "km_mame2003_xtreme_amped") NEW_CORE="mame2003_plus" DISPLAY="Core: Plus" ;;
         esac
         ;;
+    "NGP"|"NGPC")
+        case "$CORE" in
+            "race") NEW_CORE="mednafen_ngp" DISPLAY="Core: RACE" ;;
+            "mednafen_ngp") NEW_CORE="race" DISPLAY="Core: Beetle" ;;
+        esac
+        ;;
     "SFC")
         case "$CORE" in
             "chimerasnes") NEW_CORE="snes9x2005_plus" DISPLAY="Core: Snes9x-05+" ;;
