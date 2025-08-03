@@ -6,7 +6,6 @@
 reboot_hotkey() {
     BOTH_PRESSED_TIME=0
     MAX_PRESS_LENGTH=10
-    PROCESSES="MainUI ra32.trimui ra32.trimui_sdl display.elf mp3player.elf OpenBOR.trimui drastic"
 
     while true; do
         evtest --query /dev/input/event0 EV_KEY 97
@@ -21,13 +20,7 @@ reboot_hotkey() {
 
                     if [ $ELAPSED -ge $MAX_PRESS_LENGTH ]; then
                         log_message "Key combo held for 5 seconds. Rebooting..." "/mnt/SDCARD/System/log/killswitch.log"
-                        for PROC in $PROCESSES; do
-                            if [ "$PROC" = "ra32.trimui" ] || [ "$PROC" = "ra32.trimui_sdl" ]; then # will create a savestate when terminated
-                                killall "$PROC"
-                            else
-                                killall -9 "$PROC"
-                            fi
-                        done
+                        kill_cmd_to_run
                         sleep 0.5
                         cat /dev/zero > /dev/fb0
                         sync
