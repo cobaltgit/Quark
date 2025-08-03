@@ -309,12 +309,6 @@ for SYSTEM in "$ROMS_DIR"/*/; do
         sleep 1
     done
 
-    if [ -f "/tmp/scraper_exit" ]; then
-        display -d 2000 -t "Exiting scraper..."
-        rm -f /tmp/scraper_*
-        exit
-   fi
-
     # Wait for all processes to complete
     kill -0 $THREAD_1_PID && wait $THREAD_1_PID 2>/dev/null
     kill -0 $THREAD_2_PID && wait $THREAD_2_PID 2>/dev/null
