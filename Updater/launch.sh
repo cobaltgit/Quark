@@ -119,4 +119,6 @@ display_msg -d 1500 -t "Update finished. Rebooting your device..."
 
 cat /dev/zero > /dev/fb0
 
+sync
+
 reboot
