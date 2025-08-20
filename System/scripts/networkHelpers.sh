@@ -53,7 +53,7 @@ setup_dropbear() {
     [ ! -f "$DROPBEAR_KEY_DIR/dropbear_ecdsa_host_key" ] && dropbearmulti dropbearkey -t ecdsa -f "$DROPBEAR_KEY_DIR/dropbear_ecdsa_host_key"
     [ ! -f "$DROPBEAR_KEY_DIR/dropbear_ed25519_host_key" ] && dropbearmulti dropbearkey -t ed25519 -f "$DROPBEAR_KEY_DIR/dropbear_ed25519_host_key"
 
-    if mount | grep "/dev/root" | grep -q "(ro[,)]"; then
+    if mount | grep -q "/dev/root.*\(ro[,)]"; then
         if ! e2fsck -p /dev/root; then
             display -d 2000 -t "Failed to set root password: root filesystem has errors."
             exit 1
