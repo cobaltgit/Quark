@@ -109,3 +109,4 @@ This project is licenced under [CC-BY-SA-4.0](https://creativecommons.org/licens
 * **[Marcoosio101](https://github.com/Marcoosio101):** testing and issue reporting, default theme design
 * **[ryanmsartor](https://github.com/ryanmsartor/):** Quark Store domain for byte-patched MainUI
 * **[spycat88](https://github.com/spycat88):** Quark Burner for Windows
+* **[sagotch](https://github.com/sagotch):** SDL2 build for native PICO-8 support
