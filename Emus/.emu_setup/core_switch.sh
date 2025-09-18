@@ -33,6 +33,12 @@ case "$EMU" in
             "mednafen_ngp") NEW_CORE="race" DISPLAY="Core: RACE" ;;
         esac
         ;;
+    "PICO8")
+        case "$CORE" in
+            "native") NEW_CORE="fake08" DISPLAY="Core: FAKE-08" ;;
+            "fake08") NEW_CORE="native" DISPLAY="Core: Native" ;;
+        esac
+        ;;
     "SFC")
         case "$CORE" in
             "chimerasnes") NEW_CORE="snes9x2005_plus" DISPLAY="Core: Snes9x-05+" ;;

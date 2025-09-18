@@ -6,7 +6,7 @@ Installation is as simple as extracting the [latest release](https://github.com/
 * Many more systems to choose from than the stock base package, including home computers and ports
 * RetroArch cores updated to their latest versions from source
 * CPU profiles configured for best performance/battery life balance
-* Overlays for handheld systems
+* RetroArch overlays for handheld systems
 * Support for network services, including Syncthing, SSH and file transfer over SFTP or HTTP!
 
 ## Hotkeys
@@ -70,7 +70,7 @@ Below is a list of systems that Quark supports, along with the emulator core the
 * NEC PC Engine (Beetle SuperGrafx)
 * NEC PC Engine CD-ROM (Beetle SuperGrafx)
 * IGS PolyGame Master (FB Alpha 2012)
-* Pico-8 (FAKE-08)
+* Pico-8 (Native / FAKE-08)
 * Pokémon Mini (PokeMini)
 * [Ported games](https://github.com/cobaltgit/Quark-Gluons/releases/tag/ports)
 * Sony PlayStation (PCSX-ReARMed)
@@ -109,3 +109,4 @@ This project is licenced under [CC-BY-SA-4.0](https://creativecommons.org/licens
 * **[Marcoosio101](https://github.com/Marcoosio101):** testing and issue reporting, default theme design
 * **[ryanmsartor](https://github.com/ryanmsartor/):** Quark Store domain for byte-patched MainUI
 * **[spycat88](https://github.com/spycat88):** Quark Burner for Windows
+* **[sagotch](https://github.com/sagotch):** SDL2 build for native PICO-8 support

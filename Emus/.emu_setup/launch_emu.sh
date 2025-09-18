@@ -62,6 +62,35 @@ run_mp3() {
     rm /tmp/stay_awake
 }
 
+run_pico8() {
+    cd "$EMU_DIR"
+
+    if [ "$CORE" != "native" ]; then
+        run_retroarch
+        return
+    fi
+
+    if [ ! -f "/mnt/SDCARD/BIOS/Pico-8/pico8.dat" ] || [ ! -f "/mnt/SDCARD/BIOS/Pico-8/pico8_dyn" ]; then
+        display -d 1500 -t "PICO-8 binaries not found. Falling back to FAKE-08. Splore will not work."
+        CORE="fake08" run_retroarch
+        return
+    fi
+
+    SPLORE_LAUNCHER="☆ Splore.p8"
+    PICO8_LOG="/mnt/SDCARD/System/log/pico8.log"
+
+    export HOME="$EMU_DIR"
+    export PATH="$EMU_DIR/bin:/mnt/SDCARD/BIOS/Pico-8:$PATH"
+    export LD_LIBRARY_PATH="$EMU_DIR/lib:$LD_LIBRARY_PATH"
+    export SDL_VIDEODRIVER=fbcon
+
+    if [ "$(basename "$ROM_FILE")" = "$SPLORE_LAUNCHER" ]; then
+        pico8_dyn -splore -root_path "/mnt/SDCARD/Roms/PICO8" > "$PICO8_LOG" 2>&1
+    else
+        pico8_dyn -run "$ROM_FILE" > "$PICO8_LOG" 2>&1
+    fi
+}
+
 ROM_FILE="$(readlink -f "$1")"
 
 if [ "$CPU_MODE" = "smart" ]; then
@@ -78,6 +107,7 @@ case "$EMU" in
     "MP3") run_mp3 ;;
     "OPENBOR") run_openbor ;;
     "PORTS") run_port ;;
+    "PICO8") run_pico8 ;;
     *) run_retroarch ;;
 esac
 
