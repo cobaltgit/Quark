@@ -11,17 +11,14 @@
     SYNCTHING_ENABLED="$(get_setting "network" "syncthing")"
     SSH_ENABLED="$(get_setting "network" "ssh")"
 
-    if { ! $DUFS_ENABLED; } && [ "$(jq -r '.description' "$DUFS_APP_CONFIG")" != "Turned off" ]; then
-        echo -E "$(jq '.description = "Turned off"' "$DUFS_APP_CONFIG")" > "$DUFS_APP_CONFIG"
-    fi
-
-    if { ! $SYNCTHING_ENABLED; } && [ "$(jq -r '.description' "$SYNCTHING_APP_CONFIG")" != "Turned off" ]; then
-        echo -E "$(jq '.description = "Turned off"' "$SYNCTHING_APP_CONFIG")" > "$SYNCTHING_APP_CONFIG"
-    fi
-
-    if { ! $SSH_ENABLED; } && [ "$(jq -r '.description' "$SSH_APP_CONFIG")" != "Turned off" ]; then
-        echo -E "$(jq '.description = "Turned off"' "$SSH_APP_CONFIG")" > "$SSH_APP_CONFIG"
-    fi
+    for SERVICE in DUFS SYNCTHING SSH; do
+        eval "SERVICE_ENABLED=\$${SERVICE}_ENABLED"
+        eval "SERVICE_CONFIG=\$${SERVICE}_APP_CONFIG"
+        
+        if [ "$SERVICE_ENABLED" != "true" ] && ! jq -e '.description == "Turned off"' "$SERVICE_CONFIG"; then
+            echo "$(jq '.description = "Turned off"' "$SERVICE_CONFIG")" > "$SERVICE_CONFIG"
+        fi
+    done
 
     if ! { $DUFS_ENABLED || $SYNCTHING_ENABLED || $SSH_ENABLED; }; then # exit if wifi is disabled system-wide or all network services are disabled
         exit 0
