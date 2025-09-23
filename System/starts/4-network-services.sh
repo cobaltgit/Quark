@@ -16,7 +16,7 @@
         eval "SERVICE_CONFIG=\$${SERVICE}_APP_CONFIG"
         
         if [ "$SERVICE_ENABLED" != "true" ] && ! jq -e '.description == "Turned off"' "$SERVICE_CONFIG"; then
-            echo "$(jq '.description = "Turned off"' "$SERVICE_CONFIG")" > "$SERVICE_CONFIG"
+            echo -E "$(jq '.description = "Turned off"' "$SERVICE_CONFIG")" > "$SERVICE_CONFIG"
         fi
     done
 
@@ -27,17 +27,11 @@
     IP="$(ip addr show wlan0 | awk '/inet[^6]/ {split($2, a, "/"); print a[1]}')"
 
     if [ -z "$IP" ] || ! ping -c 1 -W 3 1.1.1.1; then
-        if $DUFS_ENABLED; then
-            echo -E "$(jq '.description = "Not connected"' "$DUFS_APP_CONFIG")" > "$DUFS_APP_CONFIG"
-        fi
-
-        if $SYNCTHING_ENABLED; then
-            echo -E "$(jq '.description = "Not connected"' "$SYNCTHING_APP_CONFIG")" > "$SYNCTHING_APP_CONFIG"
-        fi
-
-        if $SSH_ENABLED; then
-            echo -E "$(jq '.description = "Not connected"' "$SSH_APP_CONFIG")" > "$SSH_APP_CONFIG"
-        fi
+        for SERVICE in DUFS SYNCTHING SSH; do
+            eval "SERVICE_ENABLED=\$${SERVICE}_ENABLED"
+            eval "SERVICE_CONFIG=\$${SERVICE}_APP_CONFIG"
+            echo -E "$(jq '.description = "Not connected"' "$SERVICE_CONFIG")" > "$SERVICE_CONFIG"
+        done
     fi
 
     while [ "$(awk -F ':' '/wifi/ {print $2}' "/mnt/UDISK/system.json" | sed 's/^[[:space:]]*//; s/[",]//g')" -eq 0 ] || \
