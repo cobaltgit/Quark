@@ -34,9 +34,11 @@ BTN_SOUND_APP="/mnt/SDCARD/Apps/BtnSoundToggle"
 
     # toggle button sound
     if [ $(get_setting "user" "btn-sound") = "false" ]; then
+        update_setting "user" "btn-sound" "false"
         sed -i -e 's|\[ON\]|\[OFF\]|' -e 's|icon-on.png|icon-off.png|' "$BTN_SOUND_APP/config.json"
         find /mnt/SDCARD/Themes -name 'click.wav' -type f -exec mv "{}" "{}.off" \;
     else
+        update_setting "user" "btn-sound" "true"
         sed -i -e 's|\[ON\]|\[OFF\]|' -e 's|icon-on.png|icon-off.png|' "$BTN_SOUND_APP/config.json"
         find /mnt/SDCARD/Themes -name 'click.wav.off' -type f -exec sh -c 'mv "$1" "${1%.wav.off}.wav"' _ {} \;
     fi
