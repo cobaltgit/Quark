@@ -27,8 +27,7 @@ fi
 
 log_message "BootLogo: Updating boot logo..." "$LOG_FILE"
 display -t "Updating bootlogo..."
-dd if=$BOOTLOGO of=/dev/by-name/bootlogo bs=65536 >> "$LOG_FILE" 2>&1
-if [ $? -eq 0 ]; then
+if dd if=$BOOTLOGO of=/dev/by-name/bootlogo bs=65536 >> "$LOG_FILE" 2>&1; then
     log_message "BootLogo: update success" "$LOG_FILE"
     display -d 2000 -t "Boot logo update success."
 else
