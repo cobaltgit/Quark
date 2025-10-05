@@ -10,12 +10,12 @@
   "extlist": "p8|png",
   "launchlist": [
     {
-      "name": "Core: Native",
-      "launch": "/mnt/SDCARD/Emus/.emu_setup/core_switch.sh"
-    },
-    {
       "name": "CPU: Smart",
       "launch": "/mnt/SDCARD/Emus/.emu_setup/cpu_switch.sh"
+    },
+    {
+      "name": "Core: Native",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/core_switch.sh"
     },
     {
       "name": "Import carts",

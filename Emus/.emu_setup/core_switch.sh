@@ -15,6 +15,12 @@ case "$EMU" in
             "nestopia") NEW_CORE="fceumm" DISPLAY="Core: FCEUmm" ;;
         esac
         ;;
+    "GB"|"GBC")
+        case "$CORE" in
+            "gambatte") NEW_CORE="mgba" DISPLAY="Core: mGBA" ;;
+            "mgba") NEW_CORE="gambatte" DISPLAY="Core: Gambatte" ;;
+        esac
+        ;;
     "GBA")
         case "$CORE" in
             "gpsp") NEW_CORE="mgba" DISPLAY="Core: mGBA" ;;
