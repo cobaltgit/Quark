@@ -19,7 +19,7 @@ elif [ "$BOOTLOGO_RESOLUTION" != "240x320" ]; then
     log_message "BootLogo: expected 240x320 resolution, got $BOOTLOGO_RESOLUTION" "$LOG_FILE"
     display -d 2000 -t "Boot logo must be 240x320 resolution. Exiting..."
     exit 1 
-elif [ "$BOOTLOGO_DEPTH" != "16-TrueColor" ] || [ "$BOOTLOGO_DEPTH" != "16-Palette" ]; then
+elif [ "$BOOTLOGO_DEPTH" != "16-TrueColor" ] && [ "$BOOTLOGO_DEPTH" != "16-Palette" ]; then
     log_message "BootLogo: must be 16-bit RGB565 (16-TrueColor or 16-Palette), got $BOOTLOGO_DEPTH" "$LOG_FILE"
     display -d 2000 -t "Boot logo must be a 16-bit (RGB565) image. Exiting..."
     exit 1 
