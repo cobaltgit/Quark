@@ -15,7 +15,6 @@
         eval "SERVICE_ENABLED=\$${SERVICE}_ENABLED"
         eval "SERVICE_CONFIG=\$${SERVICE}_APP_CONFIG"
 
-        log_message "$SERVICE: $SERVICE_ENABLED ($SERVICE_CONFIG)" "/mnt/SDCARD/System/log/syslog.log"
         if [ "$SERVICE_ENABLED" != "true" ] && ! jq -e '.description == "Turned off"' "$SERVICE_CONFIG"; then
             echo -E "$(jq '.description = "Turned off"' "$SERVICE_CONFIG")" > "$SERVICE_CONFIG"
         fi
@@ -31,7 +30,7 @@
         for SERVICE in DUFS SYNCTHING SSH; do
             eval "SERVICE_ENABLED=\$${SERVICE}_ENABLED"
             eval "SERVICE_CONFIG=\$${SERVICE}_APP_CONFIG"
-            [ "$SERVICE_ENABLED" = "true"] && \
+            [ "$SERVICE_ENABLED" = "true" ] && \
                 echo -E "$(jq '.description = "Not connected"' "$SERVICE_CONFIG")" > "$SERVICE_CONFIG"
         done
     fi
