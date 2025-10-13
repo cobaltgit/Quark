@@ -15,6 +15,12 @@ case "$EMU" in
             "nestopia") NEW_CORE="fceumm" DISPLAY="Core: FCEUmm" ;;
         esac
         ;;
+    "GB"|"GBC")
+        case "$CORE" in
+            "gambatte") NEW_CORE="mgba" DISPLAY="Core: mGBA" ;;
+            "mgba") NEW_CORE="gambatte" DISPLAY="Core: Gambatte" ;;
+        esac
+        ;;
     "GBA")
         case "$CORE" in
             "gpsp") NEW_CORE="mgba" DISPLAY="Core: mGBA" ;;
@@ -25,6 +31,18 @@ case "$EMU" in
         case "$CORE" in
             "mame2003_plus") NEW_CORE="km_mame2003_xtreme_amped" DISPLAY="Core: Xtreme" ;;
             "km_mame2003_xtreme_amped") NEW_CORE="mame2003_plus" DISPLAY="Core: Plus" ;;
+        esac
+        ;;
+    "NGP"|"NGPC")
+        case "$CORE" in
+            "race") NEW_CORE="mednafen_ngp" DISPLAY="Core: Beetle" ;;
+            "mednafen_ngp") NEW_CORE="race" DISPLAY="Core: RACE" ;;
+        esac
+        ;;
+    "PICO8")
+        case "$CORE" in
+            "native") NEW_CORE="fake08" DISPLAY="Core: FAKE-08" ;;
+            "fake08") NEW_CORE="native" DISPLAY="Core: Native" ;;
         esac
         ;;
     "SFC")

@@ -48,13 +48,20 @@ setup_syncthing() {
 setup_dropbear() {
     display -t "Setting up SSH..."
 
-    ROOT_SHADOW="$(awk -F ":" '/root/ {print $2}' "/etc/shadow")"
-
     mkdir -p "$DROPBEAR_KEY_DIR"
     [ ! -f "$DROPBEAR_KEY_DIR/dropbear_rsa_host_key" ] && dropbearmulti dropbearkey -t rsa -f "$DROPBEAR_KEY_DIR/dropbear_rsa_host_key"
     [ ! -f "$DROPBEAR_KEY_DIR/dropbear_ecdsa_host_key" ] && dropbearmulti dropbearkey -t ecdsa -f "$DROPBEAR_KEY_DIR/dropbear_ecdsa_host_key"
     [ ! -f "$DROPBEAR_KEY_DIR/dropbear_ed25519_host_key" ] && dropbearmulti dropbearkey -t ed25519 -f "$DROPBEAR_KEY_DIR/dropbear_ed25519_host_key"
-    echo -e "quark\nquark" | passwd root
+
+    if mount | grep -q "/dev/root.*\(ro[,)]"; then
+        if ! e2fsck -p /dev/root; then
+            display -d 2000 -t "Failed to set root password: root filesystem has errors."
+            exit 1
+        fi
+        mount -o remount,rw /dev/root /
+    fi
+
+    echo -e "quark\nquark" | passwd root || display -d 2000 -t "Failed to set root password."
 
     kill_display
 }

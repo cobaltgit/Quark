@@ -49,6 +49,27 @@ set_cpuclock() {
     chmod a-w /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
 }
 
+# kill_cmd_to_run: kill all child processes of /tmp/cmd_to_run.sh
+kill_cmd_to_run() {
+    local cmd_to_run_pid=$(ps | awk '/\/tmp\/cmd_to_run.sh/ {print $1}')
+    if [ -z $cmd_to_run_pid ]; then return; fi
+
+    local pids="$cmd_to_run_pid"
+
+    # aggregate all PIDs before killing
+    get_all_children() {
+        local p=$1
+        local children=$(grep -l "^PPid:\s*$p$" /proc/*/status 2>/dev/null | cut -d/ -f3)
+        for child in $children; do
+            pids="$pids $child"
+            get_all_children $child
+        done
+    }
+    
+    get_all_children $cmd_to_run_pid
+    kill $pids
+}
+
 # get_setting: gets a setting from quark.ini.
 # Args:
 # 1. the section to look underneath

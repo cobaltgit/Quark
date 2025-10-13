@@ -11,17 +11,14 @@
     SYNCTHING_ENABLED="$(get_setting "network" "syncthing")"
     SSH_ENABLED="$(get_setting "network" "ssh")"
 
-    if { ! $DUFS_ENABLED; } && [ "$(jq -r '.description' "$DUFS_APP_CONFIG")" != "Turned off" ]; then
-        echo -E "$(jq '.description = "Turned off"' "$DUFS_APP_CONFIG")" > "$DUFS_APP_CONFIG"
-    fi
+    for SERVICE in DUFS SYNCTHING SSH; do
+        eval "SERVICE_ENABLED=\$${SERVICE}_ENABLED"
+        eval "SERVICE_CONFIG=\$${SERVICE}_APP_CONFIG"
 
-    if { ! $SYNCTHING_ENABLED; } && [ "$(jq -r '.description' "$SYNCTHING_APP_CONFIG")" != "Turned off" ]; then
-        echo -E "$(jq '.description = "Turned off"' "$SYNCTHING_APP_CONFIG")" > "$SYNCTHING_APP_CONFIG"
-    fi
-
-    if { ! $SSH_ENABLED; } && [ "$(jq -r '.description' "$SSH_APP_CONFIG")" != "Turned off" ]; then
-        echo -E "$(jq '.description = "Turned off"' "$SSH_APP_CONFIG")" > "$SSH_APP_CONFIG"
-    fi
+        if [ "$SERVICE_ENABLED" != "true" ] && ! jq -e '.description == "Turned off"' "$SERVICE_CONFIG"; then
+            echo -E "$(jq '.description = "Turned off"' "$SERVICE_CONFIG")" > "$SERVICE_CONFIG"
+        fi
+    done
 
     if ! { $DUFS_ENABLED || $SYNCTHING_ENABLED || $SSH_ENABLED; }; then # exit if wifi is disabled system-wide or all network services are disabled
         exit 0
@@ -30,17 +27,12 @@
     IP="$(ip addr show wlan0 | awk '/inet[^6]/ {split($2, a, "/"); print a[1]}')"
 
     if [ -z "$IP" ] || ! ping -c 1 -W 3 1.1.1.1; then
-        if $DUFS_ENABLED; then
-            echo -E "$(jq '.description = "Not connected"' "$DUFS_APP_CONFIG")" > "$DUFS_APP_CONFIG"
-        fi
-
-        if $SYNCTHING_ENABLED; then
-            echo -E "$(jq '.description = "Not connected"' "$SYNCTHING_APP_CONFIG")" > "$SYNCTHING_APP_CONFIG"
-        fi
-
-        if $SSH_ENABLED; then
-            echo -E "$(jq '.description = "Not connected"' "$SSH_APP_CONFIG")" > "$SSH_APP_CONFIG"
-        fi
+        for SERVICE in DUFS SYNCTHING SSH; do
+            eval "SERVICE_ENABLED=\$${SERVICE}_ENABLED"
+            eval "SERVICE_CONFIG=\$${SERVICE}_APP_CONFIG"
+            [ "$SERVICE_ENABLED" = "true" ] && \
+                echo -E "$(jq '.description = "Not connected"' "$SERVICE_CONFIG")" > "$SERVICE_CONFIG"
+        done
     fi
 
     while [ "$(awk -F ':' '/wifi/ {print $2}' "/mnt/UDISK/system.json" | sed 's/^[[:space:]]*//; s/[",]//g')" -eq 0 ] || \

@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -x
-
 . /mnt/SDCARD/System/scripts/helpers.sh
 . /mnt/SDCARD/System/scripts/networkHelpers.sh
 

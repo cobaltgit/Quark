@@ -1,0 +1,6 @@
+{
+    "label":"Button Sound [ON]",
+    "icon":"icon-on.png",
+    "launch":"launch.sh",
+    "description":"Toggle MainUI navigation sound"
+}
