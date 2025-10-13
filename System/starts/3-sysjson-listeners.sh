@@ -15,7 +15,7 @@ while true; do
     if [ "$NEW_THEME_PATH" != "$THEME_PATH" ]; then
         killall -9 MainUI
         if [ -f "$NEW_THEME_PATH/skin/bootlogo.bmp" ]; then
-            exec /mnt/SDCARD/Apps/BootLogo/bootlogo.sh "$NEW_THEME_PATH/skin/bootlogo.bmp"
+            /mnt/SDCARD/Apps/BootLogo/bootlogo.sh "$NEW_THEME_PATH/skin/bootlogo.bmp"
         fi
         cat /dev/zero > /dev/fb0
         sync
