@@ -1,3 +1,5 @@
+#!/bin/sh
+
 . /mnt/SDCARD/System/scripts/helpers.sh
 
 BOOTLOGO_MAX_BYTES=524288 # 512KiB
@@ -25,7 +27,7 @@ fi
 
 log_message "BootLogo: Updating boot logo..." "$LOG_FILE"
 display -t "Updating bootlogo..."
-if dd if=$BOOTLOGO of=/dev/by-name/bootlogo bs=65536 >> "$LOG_FILE" 2>&1; then
+if dd if="$BOOTLOGO" of=/dev/by-name/bootlogo bs=65536 >> "$LOG_FILE" 2>&1; then
     log_message "BootLogo: update success" "$LOG_FILE"
     display -d 2000 -t "Boot logo update success! Rebooting..."
     cat /dev/zero > /dev/fb0
