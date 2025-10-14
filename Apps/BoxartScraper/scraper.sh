@@ -242,7 +242,7 @@ for SYSTEM in "$ROMS_DIR"/*/; do
 
     mkdir -p "${SYSTEM}Imgs"
 
-    ROM_LIST=$(find "$SYSTEM" -maxdepth 1 -type f -regex ".*\\.\\($(echo "$ROM_EXTS" | sed 's/ /\\|/g')\\)\$")
+    ROM_LIST=$(find "$SYSTEM" -maxdepth 2 -type f -regex ".*\\.\\($(echo "$ROM_EXTS" | sed 's/ /\\|/g')\\)\$")
     
     if [ -z "$ROM_LIST" ]; then
         log_message "Scraper: no ROM files found for $SYS_NAME, skipping..." "$SCRAPER_LOG"
