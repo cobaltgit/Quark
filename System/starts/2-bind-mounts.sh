@@ -39,7 +39,7 @@ BTN_SOUND_APP="/mnt/SDCARD/Apps/BtnSoundToggle"
         find /mnt/SDCARD/Themes -name 'click.wav' -type f -exec mv "{}" "{}.off" \;
     else
         update_setting "user" "btn-sound" "true"
-        sed -i -e 's|\[ON\]|\[OFF\]|' -e 's|icon-on.png|icon-off.png|' "$BTN_SOUND_APP/config.json"
+        sed -i -e 's|\[OFF\]|\[ON\]|' -e 's|icon-off.png|icon-on.png|' "$BTN_SOUND_APP/config.json"
         find /mnt/SDCARD/Themes -name 'click.wav.off' -type f -exec sh -c 'mv "$1" "${1%.wav.off}.wav"' _ {} \;
     fi
 } &
