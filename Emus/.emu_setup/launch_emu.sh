@@ -91,6 +91,16 @@ run_pico8() {
     fi
 }
 
+run_ebook() {
+    EMU_DIR="/mnt/SDCARD/Apps/PixelReader"
+    export HOME="$EMU_DIR"
+    export LD_LIBRARY_PATH="$HOME/lib:$LD_LIBRARY_PATH"
+
+    cd "$HOME"
+
+    ./reader "$ROM_FILE"
+}
+
 ROM_FILE="$(readlink -f "$1")"
 
 if [ "$CPU_MODE" = "smart" ]; then
@@ -104,6 +114,7 @@ else
 fi
 
 case "$EMU" in
+    "EBOOKS") run_ebook ;;
     "MP3") run_mp3 ;;
     "OPENBOR") run_openbor ;;
     "PORTS") run_port ;;

@@ -1,0 +1,6 @@
+{
+"label":"Pixel Reader",
+"icon":"icon.png",
+"launch":"launch.sh",
+"description":"Minimalist e-reader | Supports .epub/.txt formats"
+}
