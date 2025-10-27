@@ -56,6 +56,7 @@ Below is a list of systems that Quark supports, along with the emulator core the
 * Nintendo Game Boy Advance (gpSP / mGBA)
 * Nintendo/St.GIGA Satellaview (Snes9x)
 * Sega Game Gear (PicoDrive / Genesis Plus GX)
+* [Game Tank](https://gametank.zone/) ([gametank_libretro](https://github.com/dwbrite/gametank_libretro))
 * MADrigal's Simulators (GW)
 * Intellivision (FreeIntv)
 * Atari Lynx (Handy)
