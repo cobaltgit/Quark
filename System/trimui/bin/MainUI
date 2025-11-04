@@ -11,9 +11,7 @@ QUICKSAVE_LOG="/mnt/SDCARD/System/log/quicksave.log"
     echo "2-1" > /sys/bus/usb/drivers/usb/bind # re-attach USB-C audio after MainUI has a chance to initialise the audio subsystem
 } &
 
-if [ -f "/tmp/.quicksave" ]; then
-    display -t "It's now safe to turn off your Smart"
-elif [ -f "$QUICKSAVE_CMD_TO_RUN" ]; then
+if [ -f "$QUICKSAVE_CMD_TO_RUN" ] && ! [ -f "/tmp/.quicksave" ]; then
     mv "$QUICKSAVE_CMD_TO_RUN" /tmp/cmd_to_run.sh
     /tmp/cmd_to_run.sh
 fi
