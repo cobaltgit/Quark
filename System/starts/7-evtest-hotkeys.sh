@@ -81,5 +81,24 @@ screenshot_hotkey() {
     done
 }
 
+quicksave_hotkey() {
+    SELECT_PRESSED=false
+    MENU_L_PRESSED=false
+
+    evtest /dev/input/event0 | while read line; do
+        case "$line" in
+            *"EV_KEY"*"KEY_RIGHTCTRL"*"value 1") SELECT_PRESSED=true ;;
+            *"EV_KEY"*"KEY_RIGHTCTRL"*"value 0") SELECT_PRESSED=false ;;
+            *"EV_KEY"*"KEY_PAGEUP"*"value 1") MENU_L_PRESSED=true ;;
+            *"EV_KEY"*"KEY_PAGEUP"*"value 0") MENU_L_PRESSED=false ;;
+        esac
+
+        if $SELECT_PRESSED && $MENU_L_PRESSED; then
+            /bin/sh /mnt/SDCARD/System/scripts/quicksave.sh
+        fi
+    done
+}
+
 reboot_hotkey &
 screenshot_hotkey &
+quicksave_hotkey &
