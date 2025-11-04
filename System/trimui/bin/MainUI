@@ -1,7 +1,5 @@
 #!/bin/sh
 
-. /mnt/SDCARD/System/scripts/helpers.sh
-
 QUICKSAVE_CMD_TO_RUN="/mnt/SDCARD/Saves/.quicksave.sh"
 QUICKSAVE_LOG="/mnt/SDCARD/System/log/quicksave.log"
 
