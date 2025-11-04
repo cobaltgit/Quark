@@ -10,7 +10,7 @@ QUICKSAVE_CMD_TO_RUN="/mnt/SDCARD/Saves/.quicksave.sh"
 
 if [ -f "$QUICKSAVE_CMD_TO_RUN" ]; then
     mv "$QUICKSAVE_CMD_TO_RUN" /tmp/cmd_to_run.sh
-    /bin/sh "$QUICKSAVE_CMD_TO_RUN"
+    /bin/sh /tmp/cmd_to_run.sh
 fi
 
 /mnt/SDCARD/System/trimui/bin/MainUI.bin # hand over to MainUI as normal
