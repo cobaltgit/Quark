@@ -14,3 +14,4 @@ if [ -f "$QUICKSAVE_CMD_TO_RUN" ]; then
 fi
 
 /mnt/SDCARD/System/trimui/bin/MainUI.bin # hand over to MainUI as normal
+

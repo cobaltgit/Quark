@@ -1,4 +1,6 @@
 #!/bin/sh
+# alternative to MENU Force Save
+# relies on auto save/load state
 
 SAVED_CMD_TO_RUN="/mnt/SDCARD/Saves/.quicksave.sh"
 
