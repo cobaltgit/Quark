@@ -94,7 +94,7 @@ quicksave_hotkey() {
         esac
 
         if $SELECT_PRESSED && $MENU_L_PRESSED; then
-            /bin/sh /mnt/SDCARD/System/scripts/quicksave.sh
+            /mnt/SDCARD/System/scripts/quicksave.sh
         fi
     done
 }
