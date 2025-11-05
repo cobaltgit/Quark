@@ -1,0 +1,14 @@
+#!/bin/sh
+# alternative to MENU Force Save
+# relies on auto save/load state
+
+SAVED_CMD_TO_RUN="/mnt/SDCARD/Saves/.quicksave.sh"
+
+. /mnt/SDCARD/System/scripts/helpers.sh
+
+if grep -q "/mnt/SDCARD/Emus" /tmp/cmd_to_run.sh; then
+  cp /tmp/cmd_to_run.sh "$SAVED_CMD_TO_RUN"
+  touch /tmp/.quicksave
+  killall ra32.trimui ra32.trimui_sdl drastic
+  sync
+fi
