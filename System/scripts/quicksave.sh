@@ -9,6 +9,7 @@ SAVED_CMD_TO_RUN="/mnt/SDCARD/Saves/.quicksave.sh"
 if grep -q "/mnt/SDCARD/Emus" /tmp/cmd_to_run.sh; then
   cp /tmp/cmd_to_run.sh "$SAVED_CMD_TO_RUN"
   touch /tmp/.quicksave
-  killall ra32.trimui ra32.trimui_sdl drastic
+  killall -15 ra32.trimui ra32.trimui_sdl drastic
   sync
+  LD_LIBRARY_PATH="/usr/trimui/lib" display -t "It's now safe to turn off your Smart"
 fi

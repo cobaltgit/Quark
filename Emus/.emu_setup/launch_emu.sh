@@ -132,7 +132,3 @@ esac
 
 set_cpuclock --mode smart # reset cpu clock
 
-if [ -f "/tmp/.quicksave" ]; then
-    log_message "Displaying quicksave screen from launch_emu!" "/mnt/SDCARD/System/log/quicksave.log"
-    display -t "It's now safe to turn off your Smart" > /mnt/SDCARD/display.log 2>&1
-fi
