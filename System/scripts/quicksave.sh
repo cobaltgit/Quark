@@ -17,8 +17,9 @@ if grep -q "/mnt/SDCARD/Emus" /tmp/cmd_to_run.sh && ! [ -f "/tmp/.quicksave" ]; 
         killall -q -0 ra32.trimui_sdl ||
         killall -q -0 drastic; do
         sleep 0.5
+        killall ra32.trimui ra32.trimui_sdl drastic
     done
   fi
   sync
-  LD_LIBRARY_PATH="/usr/trimui/lib" display -t "It's now safe to turn off your Smart"
+  LD_LIBRARY_PATH="/usr/trimui/lib" display -p -t "It's now safe to turn off your Smart"
 fi

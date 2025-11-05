@@ -119,6 +119,7 @@ display() {
             "-f"|"--font") DISPLAY_FONT="$2"; shift ;;
             "-d"|"--duration") DISPLAY_DURATION=$2; shift ;;
             "-t"|"--text") DISPLAY_TEXT=$2; shift ;;
+            "-p"|"--persist") PERSIST=1 ;;
         esac
         shift
     done
@@ -130,7 +131,9 @@ display() {
     kill_display
 
     DISPLAY_CMD="display.elf -d $DISPLAY_DURATION -b \"$DISPLAY_BG\" -f \"$DISPLAY_FONT\" \"$DISPLAY_TEXT\""
-    if [ $DISPLAY_DURATION -eq 0 ]; then
+    if [ "$PERSIST" = 1 ]; then
+        eval "$DISPLAY_CMD"
+    elif [ $DISPLAY_DURATION -eq 0 ]; then
         eval "$DISPLAY_CMD" &
     else
         eval "$DISPLAY_CMD"

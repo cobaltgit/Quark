@@ -1,7 +1,8 @@
 #!/bin/sh
 
+. /mnt/SDCARD/System/scripts/helpers.sh
+
 QUICKSAVE_CMD_TO_RUN="/mnt/SDCARD/Saves/.quicksave.sh"
-QUICKSAVE_LOG="/mnt/SDCARD/System/log/quicksave.log"
 
 {
     echo "2-1" > /sys/bus/usb/drivers/usb/unbind # "detach" the USB-C audio device
@@ -9,9 +10,18 @@ QUICKSAVE_LOG="/mnt/SDCARD/System/log/quicksave.log"
     echo "2-1" > /sys/bus/usb/drivers/usb/bind # re-attach USB-C audio after MainUI has a chance to initialise the audio subsystem
 } &
 
-if [ -f "$QUICKSAVE_CMD_TO_RUN" ] && ! [ -f "/tmp/.quicksave" ]; then
-    mv "$QUICKSAVE_CMD_TO_RUN" /tmp/cmd_to_run.sh
-    /tmp/cmd_to_run.sh
-fi
+if ! [ -f "/tmp/.quicksave" ]; then
+    if [ -f "$QUICKSAVE_CMD_TO_RUN" ]; then
+        mv "$QUICKSAVE_CMD_TO_RUN" /tmp/cmd_to_run.sh
+        /tmp/cmd_to_run.sh
+    fi
 
-/mnt/SDCARD/System/trimui/bin/MainUI.bin # hand over to MainUI as normal
+    # check again
+    if ! [ -f "/tmp/.quicksave" ]; then
+        /mnt/SDCARD/System/trimui/bin/MainUI.bin # hand over to MainUI as normal
+    else
+        while true; do sleep 86400; done # stop busylooping when performing a quicksave
+    fi
+else
+    while true; do sleep 86400; done # ditto
+fi
