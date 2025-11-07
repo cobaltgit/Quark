@@ -1,9 +1,10 @@
 #!/bin/sh
-# evtest hotkey listeners
+# evdev hotkey listeners
 
 . /mnt/SDCARD/System/scripts/helpers.sh
 
-reboot_hotkey() {
+# todo: integrate into quark-hotkeyd
+reboot_hotkey() { 
     BOTH_PRESSED_TIME=0
     MAX_PRESS_LENGTH=10
     KEY_97_PRESSED=0
@@ -61,44 +62,5 @@ reboot_hotkey() {
     done
 }
 
-screenshot_hotkey() {
-    SELECT_PRESSED=false
-    MENU_R_PRESSED=false
-
-    evtest /dev/input/event0 | while read line; do
-        case "$line" in
-            *"EV_KEY"*"KEY_RIGHTCTRL"*"value 1") SELECT_PRESSED=true ;;
-            *"EV_KEY"*"KEY_RIGHTCTRL"*"value 0") SELECT_PRESSED=false ;;
-            *"EV_KEY"*"KEY_PAGEDOWN"*"value 1") MENU_R_PRESSED=true ;;
-            *"EV_KEY"*"KEY_PAGEDOWN"*"value 0") MENU_R_PRESSED=false ;;
-        esac
-
-        if $SELECT_PRESSED && $MENU_R_PRESSED; then
-            echo default-on > /sys/devices/platform/sunxi-led/leds/led2/trigger
-            fbscreenshot "/mnt/SDCARD/Saves/screenshots/$(date +"Screenshot_%Y%m%d_%H%M%S.png")"
-            echo none > /sys/devices/platform/sunxi-led/leds/led2/trigger
-        fi
-    done
-}
-
-quicksave_hotkey() {
-    SELECT_PRESSED=false
-    MENU_L_PRESSED=false
-
-    evtest /dev/input/event0 | while read line; do
-        case "$line" in
-            *"EV_KEY"*"KEY_RIGHTCTRL"*"value 1") SELECT_PRESSED=true ;;
-            *"EV_KEY"*"KEY_RIGHTCTRL"*"value 0") SELECT_PRESSED=false ;;
-            *"EV_KEY"*"KEY_PAGEUP"*"value 1") MENU_L_PRESSED=true ;;
-            *"EV_KEY"*"KEY_PAGEUP"*"value 0") MENU_L_PRESSED=false ;;
-        esac
-
-        if $SELECT_PRESSED && $MENU_L_PRESSED; then
-            /mnt/SDCARD/System/scripts/quicksave.sh
-        fi
-    done
-}
-
 reboot_hotkey &
-screenshot_hotkey &
-quicksave_hotkey &
+quark-hotkeyd &
