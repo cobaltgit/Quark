@@ -12,12 +12,11 @@ if grep -q "/mnt/SDCARD/Emus" /tmp/cmd_to_run.sh && ! [ -f "/tmp/.quicksave" ]; 
   if pgrep pico8_dyn >/dev/null 2>&1; then
       killall -15 pico8_dyn
   else
-    killall ra32.trimui ra32.trimui_sdl drastic
+    killall ra32.trimui ra32.trimui_sdl
     while killall -q -0 ra32.trimui ||
-        killall -q -0 ra32.trimui_sdl ||
-        killall -q -0 drastic; do
+        ra32.trimui_sdl; do
         sleep 0.5
-        killall ra32.trimui ra32.trimui_sdl drastic
+        killall ra32.trimui ra32.trimui_sdl
     done
   fi
   sync
