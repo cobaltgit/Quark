@@ -63,4 +63,4 @@ reboot_hotkey() {
 }
 
 reboot_hotkey &
-quark-hotkeyd &
+

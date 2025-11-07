@@ -14,7 +14,7 @@ if grep -q "/mnt/SDCARD/Emus" /tmp/cmd_to_run.sh && ! [ -f "/tmp/.quicksave" ]; 
   else
     killall ra32.trimui ra32.trimui_sdl
     while killall -q -0 ra32.trimui ||
-        ra32.trimui_sdl; do
+        killall -q -0 ra32.trimui_sdl; do
         sleep 0.5
         killall ra32.trimui ra32.trimui_sdl
     done
