@@ -152,8 +152,3 @@ log_message() {
     fi
 }
 
-# Take a screenshot of framebuffer and rotate to the correct orientation
-fbscreenshot() {
-    SCREENSHOT="${1:-"/mnt/SDCARD/Saves/screenshots/$(date +"Screenshot_%Y%m%d_%H%M%S.png")"}"
-    fbgrab -a - | magick convert - -rotate 90 -alpha set "$SCREENSHOT"
-}

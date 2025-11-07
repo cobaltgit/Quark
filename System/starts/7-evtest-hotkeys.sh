@@ -75,7 +75,7 @@ screenshot_hotkey() {
 
         if $SELECT_PRESSED && $MENU_R_PRESSED; then
             echo default-on > /sys/devices/platform/sunxi-led/leds/led2/trigger
-            fbscreenshot
+            fbscreenshot "/mnt/SDCARD/Saves/screenshots/$(date +"Screenshot_%Y%m%d_%H%M%S.png")"
             echo none > /sys/devices/platform/sunxi-led/leds/led2/trigger
         fi
     done
