@@ -13,10 +13,17 @@ Installation is as simple as extracting the [latest release](https://github.com/
 
 ### Global
 
+**Stock hotkeys**
+
 * SELECT + L/R: Volume control
 * START + L/R: Brightness control
 * MENU + L/R: L2/R2
-* SELECT + MENU + R: screenshot (does not work in RetroArch, use SELECT + A instead in this case)
+
+**Additional hotkeys added to Quark**
+
+* SELECT + MENU + R: framebuffer screenshot (does not work in RetroArch, use SELECT + A instead in this case)
+* SELECT + MENU + L: quicksave, will automatically load on reboot (RetroArch only)
+* START + MENU + L: kills the current application
 * SELECT + START held for 10 seconds: reboot
 
 ### RetroArch
