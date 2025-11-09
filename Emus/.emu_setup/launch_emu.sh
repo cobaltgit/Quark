@@ -90,7 +90,6 @@ run_pico8() {
         pico8_dyn -splore -root_path "/mnt/SDCARD/Roms/PICO8" > "$PICO8_LOG" 2>&1
     else
         pico8_dyn -run "$ROM_FILE" > "$PICO8_LOG" 2>&1
-        kill $EVTEST_PID
     fi
 }
 
