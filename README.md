@@ -7,7 +7,8 @@ Installation is as simple as extracting the [latest release](https://github.com/
 * RetroArch cores updated to their latest versions from source
 * CPU profiles configured for best performance/battery life balance
 * RetroArch overlays for handheld systems
-* Support for network services, including Syncthing, SSH and file transfer over SFTP or HTTP!
+* Network services, including Syncthing, SSH and file transfer over SFTP or HTTP!
+* Support for native PICO-8 with Splore
 
 ## Hotkeys
 
@@ -24,14 +25,14 @@ Installation is as simple as extracting the [latest release](https://github.com/
 * SELECT + MENU + R: framebuffer screenshot (does not work in RetroArch, use SELECT + A instead in this case)
 * SELECT + MENU + L: quicksave, will automatically load on reboot (RetroArch only)
 * START + MENU + L: kills the current application
-* SELECT + START held for 10 seconds: reboot
+* SELECT + START held for 10 seconds: reboot system
 
 ### RetroArch
 
 * SELECT + B: exit to MainUI
 * SELECT + A: take screenshot (saves in `Saves/screenshots`)
 * SELECT + Y: toggle frame rate display
-* SELECT + X: open RA menu
+* SELECT + X: open RA menu (alternative to MENU)
 * SELECT + D-Pad Down: slow-motion
 * SELECT + D-Pad Up: fast-forward
 * SELECT + D-Pad Right: save state in current slot
@@ -59,7 +60,7 @@ Below is a list of systems that Quark supports, along with the emulator core the
 * EasyRPG
 * Nintendo Entertainment System (FCEUmm / Nestopia)
 * Nintendo Family Computer Disk System (FCEUmm / Nestopia)
-* Nintendo Game Boy / Game Boy Color (Gambatte)
+* Nintendo Game Boy / Game Boy Color (Gambatte / mGBA)
 * Nintendo Game Boy Advance (gpSP / mGBA)
 * Nintendo/St.GIGA Satellaview (Snes9x)
 * Sega Game Gear (PicoDrive / Genesis Plus GX)
