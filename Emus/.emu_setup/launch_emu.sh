@@ -97,6 +97,7 @@ run_ebook() {
     EMU_DIR="/mnt/SDCARD/Apps/PixelReader"
     export HOME="$EMU_DIR"
     export LD_LIBRARY_PATH="$HOME/lib:$LD_LIBRARY_PATH"
+    export SDL_VIDEO_FBCON_ROTATION="CCW"
 
     cd "$HOME"
 
