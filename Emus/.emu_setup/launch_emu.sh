@@ -57,6 +57,8 @@ run_mp3() {
 
     echo 1 > /tmp/stay_awake
 
+    display -d 2000 -t "This MP3 player has been deprecated in favour of the ffplay gluon and may be removed in a future release."
+
     ./mp3player.elf "$ROM_FILE"
 
     rm /tmp/stay_awake
