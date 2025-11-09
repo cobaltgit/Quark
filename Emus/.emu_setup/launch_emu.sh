@@ -89,13 +89,6 @@ run_pico8() {
     if [ "$(basename "$ROM_FILE")" = "$SPLORE_LAUNCHER" ]; then
         pico8_dyn -splore -root_path "/mnt/SDCARD/Roms/PICO8" > "$PICO8_LOG" 2>&1
     else
-        evtest /dev/input/event0 | while read line; do
-            case "$line" in # pressing MENU gets you stuck in the console. Let's have it exit PICO-8 instead
-                *"EV_KEY"*"KEY_ESC"*"value 1") killall pico8_dyn ;;
-            esac
-        done &
-        EVTEST_PID=$!
-        
         pico8_dyn -run "$ROM_FILE" > "$PICO8_LOG" 2>&1
         kill $EVTEST_PID
     fi
