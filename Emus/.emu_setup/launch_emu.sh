@@ -27,7 +27,7 @@ run_retroarch() {
             NET_PARAM=
         else
             case "$CORE" in
-                a5200|ardens|atari800|bluemsx|dosbox_pure|easyrpg|ecwolf|fake08|fbalpha2012_cps3|freechaf|freeintv|fuse|gw|hatari|neocd|pcsx_rearmed|pokemini|potator|prboom|prosystem|px68k|tic80|tyrquake|uae4arm|vice_x64|vice_xvic)
+                a5200|ardens|atari800|bluemsx|dosbox_pure|easyrpg|ecwolf|fake08|fbalpha2012_cps3|freechaf|freeintv|fuse|gametank|gw|hatari|neocd|pcsx_rearmed|pokemini|potator|prboom|prosystem|px68k|tic80|tyrquake|uae4arm|vice_x64|vice_xvic)
                     NET_PARAM= ;;
             esac
         fi
