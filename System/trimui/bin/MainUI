@@ -3,6 +3,7 @@
 . /mnt/SDCARD/System/scripts/helpers.sh
 
 QUICKSAVE_CMD_TO_RUN="/mnt/SDCARD/Saves/.quicksave.sh"
+SAVED_MAINUI_STATE="/mnt/SDCARD/Saves/.mainui_state"
 
 {
     echo "2-1" > /sys/bus/usb/drivers/usb/unbind # "detach" the USB-C audio device
@@ -13,6 +14,7 @@ QUICKSAVE_CMD_TO_RUN="/mnt/SDCARD/Saves/.quicksave.sh"
 if ! [ -f "/tmp/.quicksave" ]; then
     if [ -f "$QUICKSAVE_CMD_TO_RUN" ]; then
         mv "$QUICKSAVE_CMD_TO_RUN" /tmp/cmd_to_run.sh
+        mv "$SAVED_MAINUI_STATE" /tmp/state.json
         /tmp/cmd_to_run.sh
         rm -f /tmp/cmd_to_run.sh
     fi
