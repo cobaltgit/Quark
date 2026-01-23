@@ -4,12 +4,38 @@
 
 QUICKSAVE_CMD_TO_RUN="/mnt/SDCARD/Saves/.quicksave.sh"
 SAVED_MAINUI_STATE="/mnt/SDCARD/Saves/.mainui_state"
+BOOT_VIDEO="/mnt/SDCARD/System/etc/bootvideo.mp4"
 
-{
-    echo "2-1" > /sys/bus/usb/drivers/usb/unbind # "detach" the USB-C audio device
-    sleep 1
-    echo "2-1" > /sys/bus/usb/drivers/usb/bind # re-attach USB-C audio after MainUI has a chance to initialise the audio subsystem
-} &
+start_mainui() {
+    cycle_usb_audio
+
+    if [ -f "/tmp/.play_bootvideo" ] && [ -f "$BOOT_VIDEO" ]; then
+        EMU_DIR="/mnt/SDCARD/Emus/MEDIA"
+
+        cd "$EMU_DIR"
+
+        echo 1 > /tmp/stay_awake
+        evtest --grab /dev/input/event0 & # disable controls
+        EVTEST_PID="$!"
+
+        LD_LIBRARY_PATH="lib:$LD_LIBRARY_PATH" ./ffplay -autoexit -x 320 -y 240 -vf "transpose=2" -fs -i "$BOOT_VIDEO" >/dev/null 2>&1
+
+        kill -9 $EVTEST_PID # re-enable controls
+        rm -f /tmp/stay_awake /tmp/.play_bootvideo
+
+        cycle_usb_audio
+    fi
+
+    /mnt/SDCARD/System/trimui/bin/MainUI.bin > /mnt/SDCARD/MainUI.log 2>&1 # hand over to MainUI as normal
+}
+
+cycle_usb_audio () {
+    {
+        echo "2-1" > /sys/bus/usb/drivers/usb/unbind # "detach" the USB-C audio device
+        sleep 1
+        echo "2-1" > /sys/bus/usb/drivers/usb/bind # re-attach USB-C audio after MainUI has a chance to initialise the audio subsystem
+    } &
+}
 
 if ! [ -f "/tmp/.quicksave" ]; then
     if [ -f "$QUICKSAVE_CMD_TO_RUN" ]; then
@@ -21,7 +47,7 @@ if ! [ -f "/tmp/.quicksave" ]; then
 
     # check again
     if ! [ -f "/tmp/.quicksave" ]; then
-        /mnt/SDCARD/System/trimui/bin/MainUI.bin # hand over to MainUI as normal
+        start_mainui
     else
         while true; do sleep 86400; done # stop busylooping when performing a quicksave
     fi
