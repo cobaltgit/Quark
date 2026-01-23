@@ -9,7 +9,7 @@ BOOT_VIDEO="/mnt/SDCARD/System/etc/bootvideo.mp4"
 start_mainui() {
     cycle_usb_audio
 
-    if [ -f "/tmp/.play_bootvideo" ] && [ -f "$BOOT_VIDEO" ]; then
+    if [ -f "/tmp/.play_bootvideo" ] && [ -f "$BOOT_VIDEO" ] && [ "$QUICKLOADING" != "true" ]; then
         FFPLAY_DIR="/mnt/SDCARD/Emus/MEDIA"
 
         echo 1 > /tmp/stay_awake
@@ -37,6 +37,7 @@ cycle_usb_audio () {
 
 if ! [ -f "/tmp/.quicksave" ]; then
     if [ -f "$QUICKSAVE_CMD_TO_RUN" ]; then
+        QUICKLOADING=true
         mv "$QUICKSAVE_CMD_TO_RUN" /tmp/cmd_to_run.sh
         mv "$SAVED_MAINUI_STATE" /tmp/state.json
         /tmp/cmd_to_run.sh
