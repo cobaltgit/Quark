@@ -1,5 +1,7 @@
 #!/bin/sh
 
+. /mnt/SDCARD/System/scripts/helpers.sh
+
 RA_DIR=/mnt/SDCARD/RetroArch
 cd $RA_DIR/
 

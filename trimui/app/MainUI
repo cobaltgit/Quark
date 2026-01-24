@@ -6,8 +6,6 @@ QUICKSAVE_CMD_TO_RUN="/mnt/SDCARD/Saves/.quicksave.sh"
 SAVED_MAINUI_STATE="/mnt/SDCARD/Saves/.mainui_state"
 BOOT_VIDEO="/mnt/SDCARD/System/etc/bootvideo.mp4"
 
-export LD_LIBRARY_PATH="/lib:/usr/lib:/usr/trimui/lib"
-
 start_mainui() {
     cycle_usb_audio
 
