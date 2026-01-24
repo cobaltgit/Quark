@@ -1,7 +1,7 @@
 {
   "label": "MEDIA",
   "icon": "icon.png",
-  "launch": "launch.sh",
+  "launch": "../.emu_setup/launch_emu.sh",
   "rompath": "../../Roms/MEDIA",
   "imgpath": "../../Roms/MEDIA/Imgs",
   "useswap": 0,

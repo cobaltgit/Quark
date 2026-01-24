@@ -52,18 +52,6 @@ run_openbor() {
     ./OpenBOR.trimui "$ROM_FILE"
 }
 
-run_mp3() {
-    cd "$EMU_DIR"
-
-    echo 1 > /tmp/stay_awake
-
-    display -d 2000 -t "This MP3 player has been deprecated in favour of the ffplay gluon and may be removed in a future release."
-
-    ./mp3player.elf "$ROM_FILE"
-
-    rm /tmp/stay_awake
-}
-
 run_pico8() {
     cd "$EMU_DIR"
 
@@ -104,6 +92,24 @@ run_ebook() {
     ./reader "$ROM_FILE"
 }
 
+run_ffplay() {
+    export HOME="$EMU_DIR"
+    export PATH="$EMU_DIR:$PATH"
+    export LD_LIBRARY_PATH="$EMU_DIR/lib:$LD_LIBRARY_PATH"
+    cd "$EMU_DIR"
+
+    if [ "$EMU" = "MP3" ]; then
+        display -d 1500 -t "The MP3 player has been deprecated in favour of ffplay."
+    fi
+
+    echo 1 > /tmp/stay_awake
+    cat /dev/zero > /dev/fb0
+
+    ffplay -x 320 -y 240 -vf "transpose=2" -fs -i "$ROM_FILE" >/dev/null 2>&1
+
+    rm -f /tmp/stay_awake
+}
+
 ROM_FILE="$(readlink -f "$1")"
 
 if [ "$CPU_MODE" = "smart" ]; then
@@ -122,8 +128,8 @@ case "$EMU" in
     "OPENBOR") run_openbor ;;
     "PORTS") run_port ;;
     "PICO8") run_pico8 ;;
+    "MEDIA"|"MP3") run_ffplay ;;
     *) run_retroarch ;;
 esac
 
 set_cpuclock --mode smart # reset cpu clock
-
