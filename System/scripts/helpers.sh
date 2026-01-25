@@ -6,7 +6,7 @@ export PATH="/mnt/SDCARD/System/bin:$PATH"
 
 # set_cpuclock: sets CPU governor and frequency, write locks to prevent interference and keep changes
 # Possible modes
-# - smart: modified conservative governor that responds better to usage spikes, balancing performance with battery life. Minimum frequency can be specified by the user (--min-freq arg) or defaults to 816mhz
+# - smart: modified conservative governor that responds better to usage spikes, balancing performance with battery life. Min/max frequencies can be specified by the user, defaults to 816-1344MHz
 # - performance: constant 1344mhz frequency, best for fast forwarding retro systems without too much heat
 # - overclock: constant 1536mhz frequency, best suited for harder to run games (i.e. SNES SuperFX or 3D PSX)
 set_cpuclock() {
@@ -18,7 +18,7 @@ set_cpuclock() {
         case $1 in
             "--mode") MODE="$2"; shift ;;
             "--min-freq") MIN_FREQ="$2"; shift ;;
-            "--max-freq") MAX_FREQ="$3"; shift ;;
+            "--max-freq") MAX_FREQ="$2"; shift ;;
         esac
         shift
     done
