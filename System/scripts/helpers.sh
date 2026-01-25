@@ -119,7 +119,7 @@ display() {
             "-f"|"--font") DISPLAY_FONT="$2"; shift ;;
             "-d"|"--duration") DISPLAY_DURATION=$2; shift ;;
             "-t"|"--text") DISPLAY_TEXT=$2; shift ;;
-            "-p"|"--persist") PERSIST=1 ;;
+            "-p"|"--persist") PERSIST=1; shift ;;
         esac
         shift
     done
