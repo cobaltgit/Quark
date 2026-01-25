@@ -3,8 +3,8 @@
 
 . /mnt/SDCARD/System/scripts/helpers.sh
 
-SRC_DIR="/mnt/SDCARD/System/trimui"
-DEST_DIR="/usr/trimui"
+SDCARD_TRIMUI_DIR="/mnt/SDCARD/trimui"
+EMMC_TRIMUI_DIR="/usr/trimui"
 
 GUESTMODE_APP="/mnt/SDCARD/Apps/GuestMode"
 BTN_SOUND_APP="/mnt/SDCARD/Apps/BtnSoundToggle"
@@ -14,10 +14,9 @@ BTN_SOUND_APP="/mnt/SDCARD/Apps/BtnSoundToggle"
 
     mount -o bind "/mnt/SDCARD/System/scripts/usb_storage_disabled.sh" "/usr/trimui/apps/usb_storage/launch.sh" # disable USB storage app
     mount -o bind "/mnt/SDCARD" "/mnt/UDISK/Apps" # app store will install onto SD card
-    mount -o bind "$SRC_DIR/bin/MainUI" "$DEST_DIR/bin/MainUI" # patched MainUI for appstore
-    mount -o bind "$SRC_DIR/res/lang" "$DEST_DIR/res/lang"
-    
-    mount -o bind "/mnt/SDCARD/System/etc/resolv.conf" "/etc/resolv.conf" 
+    mount -o bind "$SDCARD_TRIMUI_DIR/res/lang" "$EMMC_TRIMUI_DIR/res/lang"
+
+    mount -o bind "/mnt/SDCARD/System/etc/resolv.conf" "/etc/resolv.conf"
     mount -o bind "/mnt/SDCARD/System/etc/passwd" "/etc/passwd"
     mount -o bind "/mnt/SDCARD/System/etc/shadow" "/etc/shadow"
 

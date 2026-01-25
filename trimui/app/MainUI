@@ -7,9 +7,10 @@ SAVED_MAINUI_STATE="/mnt/SDCARD/Saves/.mainui_state"
 BOOT_VIDEO="/mnt/SDCARD/System/etc/bootvideo.mp4"
 
 start_mainui() {
+
     cycle_usb_audio
 
-    if [ -f "/tmp/.play_bootvideo" ] && [ -f "$BOOT_VIDEO" ] && [ "$QUICKLOADING" != "true" ]; then
+    if [ -f "/tmp/.play_bootvideo" ] && [ -f "$BOOT_VIDEO" ]; then
         FFPLAY_DIR="/mnt/SDCARD/Emus/MEDIA"
 
         echo 1 > /tmp/stay_awake
@@ -24,7 +25,8 @@ start_mainui() {
         cycle_usb_audio
     fi
 
-    /mnt/SDCARD/System/trimui/bin/MainUI.bin # hand over to MainUI as normal
+    cd /usr/trimui/bin
+    exec /mnt/SDCARD/System/bin/MainUI # hand over to MainUI as normal
 }
 
 cycle_usb_audio () {
@@ -35,21 +37,18 @@ cycle_usb_audio () {
     } &
 }
 
-if ! [ -f "/tmp/.quicksave" ]; then
+if [ -f "/tmp/.quicksave" ]; then
+    exec display.elf -d 0 \
+      -b "/mnt/SDCARD/System/res/quarkbg.png" \
+      -f "/mnt/SDCARD/System/res/TwCenMT.ttf" \
+      "It's now safe to turn off your Smart"
+else
     if [ -f "$QUICKSAVE_CMD_TO_RUN" ]; then
-        QUICKLOADING=true
+        rm -f /tmp/.play_bootvideo
         mv "$QUICKSAVE_CMD_TO_RUN" /tmp/cmd_to_run.sh
         mv "$SAVED_MAINUI_STATE" /tmp/state.json
-        /tmp/cmd_to_run.sh
-        rm -f /tmp/cmd_to_run.sh
+        exec sh -c "/tmp/cmd_to_run.sh; rm -f /tmp/cmd_to_run.sh"
     fi
 
-    # check again
-    if ! [ -f "/tmp/.quicksave" ]; then
-        start_mainui
-    else
-        while true; do sleep 86400; done # stop busylooping when performing a quicksave
-    fi
-else
-    while true; do sleep 86400; done # ditto
+    start_mainui
 fi

@@ -1,7 +1,7 @@
 #!/bin/sh
 # Helper functions for Quark
 
-export LD_LIBRARY_PATH="/mnt/SDCARD/System/lib:$LD_LIBRARY_PATH"
+export LD_LIBRARY_PATH="/lib:/usr/lib:/usr/trimui/lib:/mnt/SDCARD/System/lib:$LD_LIBRARY_PATH"
 export PATH="/mnt/SDCARD/System/bin:$PATH"
 
 # set_cpuclock: sets CPU governor and frequency, write locks to prevent interference and keep changes
@@ -65,7 +65,7 @@ kill_cmd_to_run() {
             get_all_children $child
         done
     }
-    
+
     get_all_children $cmd_to_run_pid
     kill $pids
 }
@@ -90,12 +90,12 @@ update_setting() {
     KEY="$2"
     NEW_VALUE="$3"
     INI_FILE="/mnt/SDCARD/System/etc/quark.ini"
-    
+
     if ! grep -q "^\[$SECTION\]" "$INI_FILE"; then # create section if non-existent
         echo "" >> "$INI_FILE"
         echo "[$SECTION]" >> "$INI_FILE"
     fi
-    
+
     if grep -q "^\[$SECTION\]" "$INI_FILE" && ! sed -n "/\[$SECTION\]/,/^\[/p" "$INI_FILE" | grep -q "^$KEY *="; then
         sed -i "/\[$SECTION\]/a\\$KEY=$NEW_VALUE" "$INI_FILE"
     else
@@ -119,7 +119,7 @@ display() {
             "-f"|"--font") DISPLAY_FONT="$2"; shift ;;
             "-d"|"--duration") DISPLAY_DURATION=$2; shift ;;
             "-t"|"--text") DISPLAY_TEXT=$2; shift ;;
-            "-p"|"--persist") PERSIST=1 ;;
+            "-p"|"--persist") PERSIST=1; shift ;;
         esac
         shift
     done
@@ -151,4 +151,3 @@ log_message() {
         printf '[%s] %s\n' "$(date '+%Y-%m-%d %H:%M:%S')" "$MESSAGE" >> "$LOGFILE"
     fi
 }
-
