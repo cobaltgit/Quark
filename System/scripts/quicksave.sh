@@ -2,8 +2,8 @@
 # alternative to MENU Force Save
 # relies on auto save/load state
 
-SAVED_CMD_TO_RUN="/mnt/SDCARD/Saves/.quicksave.sh"
-SAVED_MAINUI_STATE="/mnt/SDCARD/Saves/.mainui_state"
+SAVED_CMD_TO_RUN="/mnt/SDCARD/Saves/quicksave_cmd_to_run.sh"
+SAVED_MAINUI_STATE="/mnt/SDCARD/Saves/quicksave_mainui_state.json"
 
 . /mnt/SDCARD/System/scripts/helpers.sh
 
