@@ -45,7 +45,7 @@ if [ -f "/tmp/.quicksave" ]; then
 else
     if [ -f "$QUICKSAVE_CMD_TO_RUN" ]; then
         rm -f /tmp/.play_bootvideo
-        mv "$QUICKSAVE_CMD_TO_RUN" /tmp/cmd_to_run.$$
+        mv "$QUICKSAVE_CMD_TO_RUN" /tmp/cmd_to_run.sh
         mv "$SAVED_MAINUI_STATE" /tmp/state.json
         exec sh -c "/tmp/cmd_to_run.sh; rm -f /tmp/cmd_to_run.sh"
     fi
