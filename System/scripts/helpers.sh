@@ -18,21 +18,21 @@ set_cpuclock() {
         case $1 in
             "--mode") MODE="$2"; shift ;;
             "--min-freq") MIN_FREQ="$2"; shift ;;
+            "--max-freq") MAX_FREQ="$3"; shift ;;
         esac
         shift
     done
 
     case "$MODE" in
         "smart")
-            [ -z "$MIN_FREQ" ] && MIN_FREQ=816000 # default minimum frequency
             echo conservative > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
             echo 50 >/sys/devices/system/cpu/cpufreq/conservative/down_threshold
             echo 75 >/sys/devices/system/cpu/cpufreq/conservative/up_threshold
             echo 3 >/sys/devices/system/cpu/cpufreq/conservative/freq_step
             echo 1 >/sys/devices/system/cpu/cpufreq/conservative/sampling_down_factor
             echo 400000 >/sys/devices/system/cpu/cpufreq/conservative/sampling_rate
-            echo "$MIN_FREQ" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
-            echo 1344000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
+            echo "${MIN_FREQ:-816000}" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
+            echo "${MAX_FREQ:-1344000}" > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
             ;;
         "performance")
             echo performance > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
