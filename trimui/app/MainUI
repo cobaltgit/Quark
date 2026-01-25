@@ -37,7 +37,7 @@ cycle_usb_audio () {
 }
 
 if [ -f "/tmp/.quicksave" ]; then
-    killall keymon trimui_btmanager evtest quark-hotkeyd sysjson-monitor &
+    killall keymon trimui_btmanager quark-hotkeyd sysjson-monitor &
     set_cpuclock --mode smart --min-freq 60000 --max-freq 60000 # put the CPU into a low power state
     exec display.elf -d 0 \
       -b "/mnt/SDCARD/System/res/quarkbg.png" \
