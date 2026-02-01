@@ -13,12 +13,19 @@ requires "nimPNG >= 0.3.1"
 import std/[json, os, strutils, strformat]
 
 
-const thirdPartyBins = @["third-party/dropbear/dropbearmulti", "third-party/jq/jq", "third-party/evtest/evtest", "third-party/gesftpserver/gesftpserver", "third-party/dufs/target/armv7-unknown-linux-musleabihf/release/dufs", "third-party/syncthing"]
+const thirdPartyBins = @[
+  "modules/third-party/dropbear/dropbearmulti", 
+  "modules/third-party/jq/jq", 
+  "modules/third-party/evtest/evtest", 
+  "modules/third-party/gesftpserver/gesftpserver", 
+  "modules/third-party/dufs/target/armv7-unknown-linux-musleabihf/release/dufs", 
+  "modules/third-party/syncthing"
+]
 const Threads = gorge("nproc")
 const Root = getCurrentDir()
 
 task syncthing, "Download and prepare latest Syncthing ARMv7 binary":
-  cd(Root & "/third-party")
+  cd(Root & "/modules/third-party")
   
   let apiUrl = "https://api.github.com/repos/syncthing/syncthing/releases/latest"
   
@@ -55,7 +62,7 @@ task syncthing, "Download and prepare latest Syncthing ARMv7 binary":
   rmDir(extractedDir)
 
 task dropbear, "Build dropbear server with zig cc":
-    cd(Root & "/third-party/dropbear")
+    cd(Root & "/modules/third-party/dropbear")
     exec "make clean || true"
     exec """
     ./configure --host=arm-linux-musleabihf --disable-zlib --enable-static \
@@ -66,7 +73,7 @@ task dropbear, "Build dropbear server with zig cc":
     exec &"make -j {Threads} PROGRAMS='dropbear dropbearkey scp' MULTI=1"
 
 task jq, "Build jq with zig cc":
-    cd("third-party/jq")
+    cd(Root & "/modules/third-party/jq")
     exec "make clean || true"
     exec "autoreconf -i"
     exec &"""
@@ -82,7 +89,7 @@ task jq, "Build jq with zig cc":
     exec &"make -j {Threads}"
 
 task evtest, "Build evtest with zig cc":
-    cd(Root & "/third-party/evtest")
+    cd(Root & "/modules/third-party/evtest")
     exec "make clean || true"
     exec "./autogen.sh"
     exec """
@@ -94,7 +101,7 @@ task evtest, "Build evtest with zig cc":
     exec &"make -j {Threads}"
 
 task gesftpserver, "Build gesftpserver with zig cc":
-    cd(Root & "/third-party/gesftpserver")
+    cd(Root & "/modules/third-party/gesftpserver")
     exec "make clean || true"
     exec "./autogen.sh"
     exec &"""
@@ -107,7 +114,7 @@ task gesftpserver, "Build gesftpserver with zig cc":
     exec &"make -j {Threads}"
 
 task dufs, "Build dufs with cargo-zigbuild":
-    cd(Root & "/third-party/dufs")
+    cd(Root & "/modules/third-party/dufs")
     exec "cross clean || true"
     exec "cross build --target armv7-unknown-linux-musleabihf --release"
 
