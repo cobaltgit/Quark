@@ -121,7 +121,7 @@ task thirdparty, "Build all third-party software":
 
 task base, "Prepare base zip for distribution":
     var zipName: string
-    when defined(release):
+    when defined(nightly):
         echo "Building in nightly mode"
         let gitHash = gorge("git rev-parse --short=8 HEAD")
         zipName = &"Quark-{gitHash}.zip"
