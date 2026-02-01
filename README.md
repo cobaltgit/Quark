@@ -107,7 +107,7 @@ Below is a list of systems that Quark supports, along with the emulator core the
 
 ## Licence
 
-This project is licenced under [CC-BY-SA-4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.en)
+This project is licenced under the [GNU General Public License, version 3.0](https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ## Credits
 

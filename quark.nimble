@@ -1,7 +1,7 @@
 version        = "1.7.0"
 author         = "cobaltgit"
 description    = "Quark stock mod for TrimUI Smart"
-license        = "MIT"
+license        = "GPL-3.0"
 srcDir         = "src"
 binDir         = "build"
 bin            = @["fbscreenshot/fbscreenshot", "quark_hotkeyd/quark_hotkeyd", "sysjson_monitor/sysjson_monitor"]
