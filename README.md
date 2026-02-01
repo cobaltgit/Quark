@@ -109,6 +109,7 @@ What you'll need for Quark development:
 * [autoconf](https://www.gnu.org/software/autoconf/) and [automake](https://www.gnu.org/software/automake/)
 * [GNU make](https://www.gnu.org/software/make/)
 * [LLVM](https://llvm.org/) (for `llvm-strip` et al)
+* `zip`, `tar` CLI tools
 
 To build a base ZIP, just run:
 ```sh
