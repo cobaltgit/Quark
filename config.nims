@@ -12,3 +12,4 @@ switch("clang.linkerexe", "zigcc")
 
 switch("passC", "-target arm-linux-gnueabihf.2.23 -mcpu=cortex_a7 -Os")
 switch("passL", "-target arm-linux-gnueabihf.2.23 -mcpu=cortex_a7 -Os")
+
