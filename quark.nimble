@@ -135,6 +135,7 @@ task base, "Prepare base zip for distribution":
     else:
         zipName = &"Quark-{version}-BASE.zip"
 
+    rmDir("dist")
     cpDir(Root & "/static", Root & "/dist")
     exec "nimble build"
     for b in bin:
@@ -144,3 +145,25 @@ task base, "Prepare base zip for distribution":
         mvFile(&"{Root}/{tpb}", &"dist/System/bin/{tpb.split('/')[^1]}")
     cd("dist")
     exec &"zip -9r {Root}/{zipName} *"
+
+task full, "Prepare full zip for distribution (release only)":
+    let zipName = &"Quark-{version}-FULL.zip"
+    rmDir("dist")
+    cpDir(Root & "/static", Root & "/dist")
+    exec "nimble build"
+    for b in bin:
+        mvFile(&"{Root}/{binDir}/{b}", &"dist/System/bin/{b.split('/')[^1]}")
+    exec "nimble thirdparty"
+    for tpb in thirdPartyBins:
+        mvFile(&"{Root}/{tpb}", &"dist/System/bin/{tpb.split('/')[^1]}")
+
+    for category in @["Systems", "Themes"]:
+      cd(Root & "/modules/gluons/" & category)
+      echo getCurrentDir()
+      for d in listDirs("."):
+        cd(&"{Root}/modules/gluons/{category}/{d}/mnt/SDCARD")
+        exec &"cp -R * {Root}/dist"
+        
+    cd(Root & "/dist")
+    exec &"zip -9r {Root}/{zipName} *"
+    
