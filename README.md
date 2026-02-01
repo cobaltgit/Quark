@@ -98,6 +98,23 @@ Below is a list of systems that Quark supports, along with the emulator core the
 * Sharp X68000 (PX68K)
 * Sinclair ZX Spectrum (FUSE)
 
+## Development
+
+What you'll need for Quark development:
+* [Nim](https://nim-lang.org/) (some core components)
+	* [zigcc](https://github.com/enthus1ast/zigcc) (for cross-compiling core components)
+* [Zig](https://ziglang.org/) (for all cross-compilation)
+* [Rust](https://rust-lang.org/) (for compiling dufs)
+	* [Cross](https://github.com/cross-rs/cross) (for dufs cross-compilation)
+* [autoconf](https://www.gnu.org/software/autoconf/) and [automake](https://www.gnu.org/software/automake/)
+* [GNU make](https://www.gnu.org/software/make/)
+* [LLVM](https://llvm.org/) (for `llvm-strip` et al)
+
+To build a base ZIP, just run:
+```sh
+$ nimble base
+```
+
 ## Known Issues
 
 * Sega CD games have no CD audio playback when using `.chd` format games using the PicoDrive core. Either revert to an older version of PicoDrive or use the Genesis Plus GX core to remedy this.
