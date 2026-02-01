@@ -2,7 +2,7 @@
 
 . /mnt/SDCARD/Updater/updateHelpers.sh
 
-BACKUP_LOCATION="/mnt/SDCARD/Saves/QuarkBackup_$(date +%Y%m%d).tar.zst"
+BACKUP_LOCATION="/mnt/SDCARD/Saves/QuarkBackup_$(date +%Y%m%d).tar.gz"
 BACKUP_LOG="/mnt/SDCARD/Updater/updater.log"
 
 export PATH="$(dirname "$0")/bin:$PATH"
@@ -10,10 +10,10 @@ export PATH="$(dirname "$0")/bin:$PATH"
 if [ "$1" = "--restore" ]; then
     display -t "Restoring user data..."
 
-    BACKUP_TO_RESTORE="$(ls -t /mnt/SDCARD/Saves/QuarkBackup_*.tar.zst | head -1)"
+    BACKUP_TO_RESTORE="$(ls -t /mnt/SDCARD/Saves/QuarkBackup_*.tar.gz | head -1)"
     log_message "Updater: restoring backup $BACKUP_TO_RESTORE..."
     sync
-    if /mnt/SDCARD/Updater/bin/zstd -d --stdout "$BACKUP_TO_RESTORE" | tar xv -C / >> "$BACKUP_LOG" 2>&1; then
+    if tar xzvf "$BACKUP_TO_RESTORE" -C / >> "$BACKUP_LOG" 2>&1; then
         log_message "Updater: successfully restored backup"
         display_msg -d 1500 -t "Successfully restored user data"
     else
@@ -35,7 +35,7 @@ else
     log_message "Creating backup of user data - $BACKUP_LOCATION"
     display_msg -t "Backing up user data..."
 
-    if ( tar cvT backup_list.txt | zstd -9 > "$BACKUP_LOCATION" ) >> "$BACKUP_LOG" 2>&1; then
+    if tar -czvf "$BACKUP_LOCATION" -T backup_list.txt >> "$BACKUP_LOG" 2>&1; then
         log_message "Updater: successfully backed up files" "$BACKUP_LOG"
         display_msg -d 1500 -t "Successfully backed up user data"
     else

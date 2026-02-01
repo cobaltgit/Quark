@@ -10,7 +10,7 @@ fi
 . /mnt/SDCARD/Updater/updateHelpers.sh
 
 UPDATER_APP_CONFIG="/mnt/SDCARD/Apps/QuarkUpdater/config.json"
-UPDATE_PKG="$(ls -t /mnt/SDCARD/Quark_Update_*.tar.zst | head -1)" # get most recent update file
+UPDATE_PKG="$(ls -t /mnt/SDCARD/Quark_Update_*.zip | head -1)" # get most recent update file
 LOG_FILE="/mnt/SDCARD/Updater/updater.log"
 SDCARD_TEST_FILE="/mnt/SDCARD/.test_$$"
 SDCARD_UNHEALTHY=false
@@ -96,7 +96,7 @@ display_msg -t "Extracting update package, this should take no more than 2 minut
 
 sync
 
-if ! /mnt/SDCARD/Updater/bin/zstd -d --stdout "$UPDATE_PKG" | dd bs=64k | tar xv -C /mnt/SDCARD/ >> "$LOG_FILE" 2>&1; then
+if ! unzip -o -d / "$UPDATE_PKG" >> "$LOG_FILE" 2>&1; then
     log_message "Updater: update package extracted with errors." "$LOG_FILE"
     display_msg -d 1500 -t "Update package extracted with errors. Check the log for details"
 else
