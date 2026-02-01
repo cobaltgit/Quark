@@ -71,7 +71,7 @@ task jq, "Build jq with zig cc":
     exec "autoreconf -i"
     exec &"""
     ./configure --host=arm-linux-musleabihf --with-oniguruma=builtin \
-		--enable-static --disable-shared \
+        --enable-static --disable-shared \
         CC="zig cc -target arm-linux-musleabihf -mcpu=cortex_a7" \
         LD="zig cc -target arm-linux-musleabihf -mcpu=cortex_a7" \
         AR="zig ar" \
@@ -121,8 +121,8 @@ task thirdparty, "Build all third-party software":
 
 task base, "Prepare base zip for distribution":
     var zipName: string
-    echo "nightly defined? ", defined(nightly)
-    if defined(nightly):
+    when defined(release):
+        echo "Building in nightly mode"
         let gitHash = gorge("git rev-parse --short=8 HEAD")
         zipName = &"Quark-{gitHash}.zip"
     else:
@@ -130,10 +130,10 @@ task base, "Prepare base zip for distribution":
 
     cpDir(Root & "/static", Root & "/dist")
     exec "nimble build"
-    exec "nimble thirdparty"
     for b in bin:
-        cpFile(&"{Root}/{binDir}/{b}", &"dist/System/bin/{b.split('/')[^1]}")
+        mvFile(&"{Root}/{binDir}/{b}", &"dist/System/bin/{b.split('/')[^1]}")
+    exec "nimble thirdparty"
     for tpb in thirdPartyBins:
-        cpFile(&"{Root}/{tpb}", &"dist/System/bin/{tpb.split('/')[^1]}")
+        mvFile(&"{Root}/{tpb}", &"dist/System/bin/{tpb.split('/')[^1]}")
     cd("dist")
     exec &"zip -9r {Root}/{zipName} *"
