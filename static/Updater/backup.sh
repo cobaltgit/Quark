@@ -40,7 +40,7 @@ else
         display_msg -d 1500 -t "Successfully backed up user data"
     else
         log_message "Updater: failed to back up files" "$BACKUP_LOG"
-        display_msg -d 1500 -t "Failed to back up user data"
+        display_msg -d 1500 -t "User data backed up with errors. Check the log for details"
     fi
 fi
 
