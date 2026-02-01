@@ -133,7 +133,7 @@ task base, "Prepare base zip for distribution":
         let gitHash = gorge("git rev-parse --short=8 HEAD")
         zipName = &"Quark-{gitHash}.zip"
     else:
-        zipName = &"Quark-{version}-BASE.zip"
+        zipName = &"Quark-v{version}-BASE.zip"
 
     rmDir("dist")
     cpDir(Root & "/static", Root & "/dist")
@@ -146,17 +146,12 @@ task base, "Prepare base zip for distribution":
     cd("dist")
     exec &"zip -9r {Root}/{zipName} *"
 
-task full, "Prepare full zip for distribution (release only)":
-    let zipName = &"Quark-{version}-FULL.zip"
-    rmDir("dist")
-    cpDir(Root & "/static", Root & "/dist")
-    exec "nimble build"
-    for b in bin:
-        mvFile(&"{Root}/{binDir}/{b}", &"dist/System/bin/{b.split('/')[^1]}")
-    exec "nimble thirdparty"
-    for tpb in thirdPartyBins:
-        mvFile(&"{Root}/{tpb}", &"dist/System/bin/{tpb.split('/')[^1]}")
-
+task full, "Prepare base and full zips for distribution (release only)":
+    let baseZip = &"Quark-v{version}-BASE.zip"
+    if not fileExists(baseZip):
+        exec "nimble base"
+        
+    let zipName = &"Quark-v{version}-FULL.zip"
     for category in @["Systems", "Themes"]:
       cd(Root & "/modules/gluons/" & category)
       echo getCurrentDir()
@@ -166,4 +161,30 @@ task full, "Prepare full zip for distribution (release only)":
         
     cd(Root & "/dist")
     exec &"zip -9r {Root}/{zipName} *"
+
+task updater, "Prepare updater package":
+    let updateZip = &"Quark_Update_v{version}.zip"
+    let baseZip = &"Quark-v{version}-BASE.zip"
+    let updaterZip = &"Quark-v{version}-Updater.zip"
     
+    if not fileExists(baseZip):
+        exec "nimble base"
+    
+    cpFile(baseZip, updateZip)
+    exec &"zip --delete {updateZip} 'Updater/*'"
+    
+    let tempDir = "dist_updater_temp"
+    rmDir(tempDir)
+    mkDir(tempDir)
+    
+    cpDir("dist/Apps", &"{tempDir}/Apps")
+    cpDir("dist/Updater", &"{tempDir}/Updater")
+    
+    mvFile(updateZip, &"{tempDir}/{updateZip}")
+    
+    cd(tempDir)
+    exec &"zip -9r {Root}/{updaterZip} *"
+    
+    # Cleanup
+    cd(Root)
+    rmDir(tempDir)
