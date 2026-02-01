@@ -100,7 +100,10 @@ Below is a list of systems that Quark supports, along with the emulator core the
 
 ## Development
 
+### Checklist
+
 What you'll need for Quark development:
+	
 * [Nim](https://nim-lang.org/) (some core components)
 	* [zigcc](https://github.com/enthus1ast/zigcc) (for cross-compiling core components)
 * [Zig](https://ziglang.org/) (for all cross-compilation)
@@ -111,9 +114,13 @@ What you'll need for Quark development:
 * [LLVM](https://llvm.org/) (for `llvm-strip` et al)
 * `zip`, `tar` CLI tools
 
-To build a base ZIP, just run:
+### Building
+
 ```sh
-$ nimble base
+$ nimble base # build base zip
+$ nimble updater # build base + update zips 
+$ nimble full # build base + full + update zips (for releases)
+$ NIGHTLY=1 nimble full # build base + full + update zips, git hash displays as version (for nightly workflow)
 ```
 
 ## Known Issues
