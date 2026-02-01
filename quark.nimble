@@ -70,14 +70,25 @@ task jq, "Build jq with zig cc":
     exec "make clean || true"
     exec "autoreconf -i"
     exec &"""
-    ./configure --host=arm-linux-musleabihf --with-oniguruma=builtin \
-        --disable-shared --enable-static \
-        CC="zig cc -target arm-linux-musleabihf -mcpu=cortex_a7" \
-        LD="zig cc -target arm-linux-musleabihf -mcpu=cortex_a7" \
+    ./configure --host=arm-linux-gnueabihf --with-oniguruma=builtin \
+        CC="zig cc -target arm-linux-gnueabihf.2.23 -mcpu=cortex_a7" \
+        LD="zig cc -target arm-linux-gnueabihf.2.23 -mcpu=cortex_a7" \
         AR="zig ar" \
         RANLIB="zig ranlib" \
         CFLAGS='-Os -flto=thin' \
-        LDFLAGS='-s -static -flto=thin'
+        LDFLAGS='-s -flto=thin'
+    """
+    exec &"make -j {Threads}"
+
+task evtest, "Build evtest with zig cc":
+    cd(Root & "/third-party/evtest")
+    exec "make clean || true"
+    exec "./autogen.sh"
+    exec """
+    ./configure --host=arm-linux-gnueabihf \
+        CC='zig cc -target arm-linux-gnueabihf.2.23 -mcpu=cortex_a7' \
+        CFLAGS='-Os -flto=thin' \
+        LDFLAGS='-s -flto=thin'
     """
     exec &"make -j {Threads}"
 
@@ -86,12 +97,11 @@ task gesftpserver, "Build gesftpserver with zig cc":
     exec "make clean || true"
     exec "./autogen.sh"
     exec &"""
-    ./configure --host=arm-linux-musleabihf --with-oniguruma=builtin \
-        --disable-shared --enable-static \
-        CC="zig cc -target arm-linux-musleabihf -mcpu=cortex_a7" \
-        LD="zig cc -target arm-linux-musleabihf -mcpu=cortex_a7" \
+    ./configure --host=arm-linux-gnueabihf \
+        CC="zig cc -target arm-linux-gnueabihf.2.23 -mcpu=cortex_a7" \
+        LD="zig cc -target arm-linux-gnueabihf.2.23 -mcpu=cortex_a7" \
         CFLAGS='-Os -flto=thin' \
-        LDFLAGS='-s -static -flto=thin'
+        LDFLAGS='-s -flto=thin'
     """
     exec &"make -j {Threads}"
 
@@ -102,6 +112,7 @@ task dufs, "Build dufs with cargo-zigbuild":
 
 task thirdparty, "Build all third-party software":
     exec "nimble jq"
+    exec "nimble evtest"
     exec "nimble dropbear"
     exec "nimble gesftpserver"
     exec "nimble dufs"

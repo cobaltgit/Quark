@@ -10,3 +10,6 @@
 [submodule "third-party/dufs"]
 	path = third-party/dufs
 	url = https://github.com/sigoden/dufs
+[submodule "third-party/evtest"]
+	path = third-party/evtest
+	url = https://github.com/freedesktop-unofficial-mirror/evtest
