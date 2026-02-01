@@ -113,7 +113,7 @@ task gesftpserver, "Build gesftpserver with zig cc":
     """
     exec &"make -j {Threads}"
 
-task dufs, "Build dufs with cargo-zigbuild":
+task dufs, "Build dufs with cross":
     cd(Root & "/modules/third-party/dufs")
     exec "cross clean || true"
     exec "cross build --target armv7-unknown-linux-musleabihf --release"
@@ -188,3 +188,9 @@ task updater, "Prepare updater package":
     
     cd(Root)
     rmDir(tempDir)
+
+task cleanup, "Cleanup all":
+    exec "nimble clean"
+    rmDir("build")
+    rmDir("dist")
+    exec "rm Quark-*.zip"
