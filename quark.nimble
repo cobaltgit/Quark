@@ -13,7 +13,7 @@ requires "nimPNG >= 0.3.1"
 import std/[json, os, strutils, strformat]
 
 
-const thirdPartyBins = @["third-party/dropbear/dropbearmulti", "third-party/jq/jq", "third-party/gesftpserver/gesftpserver", "third-party/dufs/target/armv7-unknown-linux-musleabihf/release/dufs", "third-party/syncthing"]
+const thirdPartyBins = @["third-party/dropbear/dropbearmulti", "third-party/jq/jq", "third-party/evtest/evtest", "third-party/gesftpserver/gesftpserver", "third-party/dufs/target/armv7-unknown-linux-musleabihf/release/dufs", "third-party/syncthing"]
 const Threads = gorge("nproc")
 const Root = getCurrentDir()
 
@@ -70,9 +70,10 @@ task jq, "Build jq with zig cc":
     exec "make clean || true"
     exec "autoreconf -i"
     exec &"""
-    ./configure --host=arm-linux-gnueabihf --with-oniguruma=builtin \
-        CC="zig cc -target arm-linux-gnueabihf.2.23 -mcpu=cortex_a7" \
-        LD="zig cc -target arm-linux-gnueabihf.2.23 -mcpu=cortex_a7" \
+    ./configure --host=arm-linux-musleabihf --with-oniguruma=builtin \
+		--enable-static --disable-shared \
+        CC="zig cc -target arm-linux-musleabihf -mcpu=cortex_a7" \
+        LD="zig cc -target arm-linux-musleabihf -mcpu=cortex_a7" \
         AR="zig ar" \
         RANLIB="zig ranlib" \
         CFLAGS='-Os -flto=thin' \
