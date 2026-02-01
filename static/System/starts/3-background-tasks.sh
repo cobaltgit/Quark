@@ -4,5 +4,5 @@
 
 touch /tmp/.play_bootvideo
 
-sysjson-monitor & # Listens for system changes
-quark-hotkeyd & # Hotkey listeners
+sysjson_monitor & # Listens for system changes
+quark_hotkeyd & # Hotkey listeners
