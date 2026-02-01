@@ -175,9 +175,10 @@ task updater, "Prepare updater package":
     
     let tempDir = "dist_updater_temp"
     rmDir(tempDir)
-    mkDir(tempDir)
+    mkDir(tempDir & "/Apps")
     
-    cpDir("dist/Apps", &"{tempDir}/Apps")
+    cpDir("dist/Apps/QuarkUpdater", &"{tempDir}/Apps/QuarkUpdater")
+    
     cpDir("dist/Updater", &"{tempDir}/Updater")
     
     mvFile(updateZip, &"{tempDir}/{updateZip}")
@@ -185,6 +186,5 @@ task updater, "Prepare updater package":
     cd(tempDir)
     exec &"zip -9r {Root}/{updaterZip} *"
     
-    # Cleanup
     cd(Root)
     rmDir(tempDir)

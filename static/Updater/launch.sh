@@ -96,7 +96,7 @@ display_msg -t "Extracting update package, this should take no more than 2 minut
 
 sync
 
-if ! unzip -o -d / "$UPDATE_PKG" >> "$LOG_FILE" 2>&1; then
+if ! unzip -o -d /mnt/SDCARD "$UPDATE_PKG" >> "$LOG_FILE" 2>&1; then
     log_message "Updater: update package extracted with errors." "$LOG_FILE"
     display_msg -d 1500 -t "Update package extracted with errors. Check the log for details"
 else
