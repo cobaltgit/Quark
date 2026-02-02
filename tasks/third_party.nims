@@ -37,7 +37,7 @@ task syncthing, "Download and prepare latest Syncthing ARMv7 binary":
   let extractedDir = fileName.replace(".tar.gz", "")
   let binaryPath = extractedDir / "syncthing"
 
-  exec "llvm-strip -s " & binaryPath
+  exec "arm-linux-gnueabihf-strip -s " & binaryPath
   exec "chmod +x " & binaryPath
   mvFile(binaryPath, "syncthing")
   rmFile(fileName)

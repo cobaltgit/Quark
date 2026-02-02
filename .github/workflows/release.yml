@@ -1,0 +1,114 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+      
+      - name: Set up Nim
+        uses: jiro4989/setup-nim-action@v2
+        with:
+          nim-version: '2.2.6'
+      
+      - name: Install Zig
+        uses: goto-bus-stop/setup-zig@v2
+        with:
+          version: 0.15.2
+      
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          override: true
+      
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install cmake llvm -y
+          rustup target add armv7-unknown-linux-musleabihf
+          cargo install cargo-zigbuild
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+      
+      - name: Install Nim zigcc wrapper
+        run: nimble install zigcc
+      
+      - name: Extract version
+        id: version
+        run: |
+          VERSION=$(grep '^version' quark.nimble | cut -d'"' -f2)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Version: $VERSION"
+      
+      - name: Build project
+        run: nimble full -y
+      
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          release_name: Quark v${{ steps.version.outputs.version }}
+          body: |
+            ## Quark v${{ steps.version.outputs.version }}
+            
+            ### Downloads
+            - **BASE**: Core system files only
+            - **FULL**: Includes all themes and system gluons
+            - **Updater**: Update package for OTA/easy update
+            
+            See the [README](https://github.com/${{ github.repository }}) for installation instructions.
+          draft: false
+          prerelease: false
+      
+      - name: Upload BASE zip
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./Quark-v${{ steps.version.outputs.version }}-BASE.zip
+          asset_name: Quark-v${{ steps.version.outputs.version }}-BASE.zip
+          asset_content_type: application/zip
+      
+      - name: Upload FULL zip
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./Quark-v${{ steps.version.outputs.version }}-FULL.zip
+          asset_name: Quark-v${{ steps.version.outputs.version }}-FULL.zip
+          asset_content_type: application/zip
+      
+      - name: Upload Updater zip
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./Quark-v${{ steps.version.outputs.version }}-Updater.zip
+          asset_name: Quark-v${{ steps.version.outputs.version }}-Updater.zip
+          asset_content_type: application/zip
+
+      - name: Upload OTA update file via SFTP
+        uses: Dylan700/sftp-upload-action@latest
+        with:
+          server: q.sartor.vip
+          username: debian
+          key: ${{secrets.SFTP_KEY}}
+          port: 22
+          uploads: |
+            ./Quark-v${{ steps.version.outputs.version }}-Updater.zip => /var/www/qstore/store/packages/vip.sartor.q.latest.zip

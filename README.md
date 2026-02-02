@@ -111,7 +111,7 @@ What you'll need for Quark development:
 	* [cargo-zigbuild](https://github.com/rust-cross/cargo-zigbuild) (for dufs cross-compilation)
 * [autoconf](https://www.gnu.org/software/autoconf/) and [automake](https://www.gnu.org/software/automake/)
 * [GNU make](https://www.gnu.org/software/make/)
-* [LLVM](https://llvm.org/) (for `llvm-strip` et al)
+* [GNU binutils](https://www.gnu.org/software/binutils) (for cross `strip`)
 * `zip`, `tar` CLI tools
 
 ### Building
