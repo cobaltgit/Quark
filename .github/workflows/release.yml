@@ -103,12 +103,26 @@ jobs:
           asset_name: Quark-v${{ steps.version.outputs.version }}-Updater.zip
           asset_content_type: application/zip
 
-      - name: Upload OTA update file via SFTP
-        uses: Dylan700/sftp-upload-action@latest
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
         with:
-          server: q.sartor.vip
-          username: debian
-          key: ${{secrets.SFTP_KEY}}
-          port: 22
-          uploads: |
-            ./Quark-v${{ steps.version.outputs.version }}-Updater.zip => /var/www/qstore/store/packages/vip.sartor.q.latest.zip
+          name: Quark-${{ steps.hash.outputs.hash }}-BASE
+          path: Quark-${{ steps.hash.outputs.hash }}-BASE.zip
+          retention-days: 30
+
+      - name: Upload via SFTP
+        env:
+          SFTP_KEY: ${{ secrets.SFTP_KEY }}
+        run: |
+          # Save SSH key to file
+          echo "$SFTP_KEY" > /tmp/sftp_key
+          chmod 600 /tmp/sftp_key
+          
+          # Upload file
+          sftp -o StrictHostKeyChecking=accept-new -i /tmp/sftp_key debian@q.sartor.vip <<EOF
+          put Quark-${{ steps.version.outputs.version }}-Updater.zip /var/www/qstore/store/packages/vip.sartor.q.stable.zip
+          bye
+          EOF
+          
+          # Clean up key
+          rm /tmp/sftp_key

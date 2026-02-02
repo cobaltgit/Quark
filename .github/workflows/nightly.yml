@@ -35,7 +35,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install cmake binutils-arm-linux-gnueabihf -y
+          sudo apt-get install cmake binutils-arm-linux-gnueabihf openssh-client -y
           rustup target add armv7-unknown-linux-musleabihf
           cargo install cargo-zigbuild
           echo "$HOME/.cargo/bin" >> $GITHUB_PATH
@@ -43,30 +43,54 @@ jobs:
       - name: Install Nim zigcc wrapper
         run: nimble install zigcc
       
-      - name: Get commit hash
+      - name: Get commit info
         id: hash
         run: |
           HASH=$(git rev-parse --short=8 HEAD)
+          COMMIT_MSG=$(git log -1 --pretty=%B | head -n 1)
           echo "hash=$HASH" >> $GITHUB_OUTPUT
-          echo "Commit: $HASH"
+          echo "commit_msg=$COMMIT_MSG" >> $GITHUB_OUTPUT
+          echo "Commit: $HASH - $COMMIT_MSG"
     
       - name: Build nightly
-        run: NIGHTLY=1 nimble updater -y
+        run: NIGHTLY=1 nimble updater -y    
       
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
+      - name: Delete old continuous release
+        run: gh release delete continuous -y --cleanup-tag
+      
+      - name: Create continuous release
+        uses: softprops/action-gh-release@v1
         with:
-          name: Quark-${{ steps.hash.outputs.hash }}-BASE
-          path: Quark-${{ steps.hash.outputs.hash }}-BASE.zip
-          retention-days: 30
+          tag_name: nightly
+          name: Continuous build
+          prerelease: true
+          body: |
+            Automated build of the latest commit. Do note that these builds are not stable.  
+            For stable releases, see the [releases page](https://github.com/${{ github.repository }}/releases).
+            
+            **Commit:** `${{ steps.hash.outputs.hash }}`
+            **Message:** ${{ steps.hash.outputs.commit_msg }}
+            **Built:** ${{ github.event.head_commit.timestamp }}
+            
+          files: |
+            Quark-${{ steps.hash.outputs.hash }}-BASE.zip
+            Quark-${{ steps.hash.outputs.hash }}-Updater.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload OTA update file via SFTP
-        uses: Dylan700/sftp-upload-action@latest
-        with:
-          server: q.sartor.vip
-          username: debian
-          key: ${{secrets.SFTP_KEY}}
-          port: 22
-          uploads: |
-            ./Quark-${{ steps.hash.outputs.hash }}-Updater.zip => /var/www/qstore/store/packages/vip.sartor.q.nightly.zip
-
+      - name: Upload via SFTP
+        env:
+          SFTP_KEY: ${{ secrets.SFTP_KEY }}
+        run: |
+          # Save SSH key to file
+          echo "$SFTP_KEY" > /tmp/sftp_key
+          chmod 600 /tmp/sftp_key
+          
+          # Upload file
+          sftp -o StrictHostKeyChecking=accept-new -i /tmp/sftp_key debian@q.sartor.vip <<EOF
+          put Quark-${{ steps.hash.outputs.hash }}-Updater.zip /var/www/qstore/store/packages/vip.sartor.q.nightly.zip
+          bye
+          EOF
+          
+          # Clean up key
+          rm /tmp/sftp_key
