@@ -95,10 +95,10 @@ task gesftpserver, "Build gesftpserver with zig cc":
   """
   exec &"make -j {Threads}"
 
-task dufs, "Build dufs with cross":
+task dufs, "Build dufs with cargo zigbuild":
   cd(Root & "/modules/third-party/dufs")
-  exec "cross clean || true"
-  exec "cross build --target armv7-unknown-linux-musleabihf --release"
+  exec "cargo clean || true"
+  exec "AWS_LC_SYS_NO_JITTER_ENTROPY=1 cargo zigbuild --target armv7-unknown-linux-musleabihf --release"
 
 task thirdparty, "Build all third-party software":
   exec "nimble jq"

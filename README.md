@@ -108,7 +108,7 @@ What you'll need for Quark development:
 	* [zigcc](https://github.com/enthus1ast/zigcc) (for cross-compiling core components)
 * [Zig](https://ziglang.org/) (for all cross-compilation)
 * [Rust](https://rust-lang.org/) (for compiling dufs)
-	* [Cross](https://github.com/cross-rs/cross) (for dufs cross-compilation)
+	* [cargo-zigbuild](https://github.com/rust-cross/cargo-zigbuild) (for dufs cross-compilation)
 * [autoconf](https://www.gnu.org/software/autoconf/) and [automake](https://www.gnu.org/software/automake/)
 * [GNU make](https://www.gnu.org/software/make/)
 * [LLVM](https://llvm.org/) (for `llvm-strip` et al)
