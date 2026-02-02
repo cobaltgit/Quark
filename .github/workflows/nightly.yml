@@ -57,6 +57,9 @@ jobs:
       
       - name: Delete old continuous release
         run: gh release delete continuous -y --cleanup-tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+
       
       - name: Create continuous release
         uses: softprops/action-gh-release@v1
