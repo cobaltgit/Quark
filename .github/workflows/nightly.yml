@@ -68,5 +68,5 @@ jobs:
           key: ${{secrets.SFTP_KEY}}
           port: 22
           uploads: |
-            ./Quark-${{ steps.version.outputs.version }}-Updater.zip => /var/www/qstore/store/packages/vip.sartor.q.nightly.zip
+            ./Quark-${{ steps.hash.outputs.hash }}-Updater.zip => /var/www/qstore/store/packages/vip.sartor.q.nightly.zip
 
