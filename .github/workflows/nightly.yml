@@ -56,7 +56,7 @@ jobs:
         run: NIGHTLY=1 nimble updater -y    
       
       - name: Delete old continuous release
-        run: gh release delete continuous -y --cleanup-tag
+        run: "gh release delete continuous -y --cleanup-tag || true"
         env:
           GH_TOKEN: ${{ github.token }}
 
