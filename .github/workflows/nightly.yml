@@ -1,8 +1,5 @@
 name: Nightly
 
-permissions:
-  contents: write
-
 on:
   push:
     branches:
