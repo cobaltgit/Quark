@@ -35,7 +35,7 @@ jobs:
       - name: Install dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install cmake llvm -y
+          sudo apt-get install cmake -y
           rustup target add armv7-unknown-linux-musleabihf
           cargo install cargo-zigbuild
           echo "$HOME/.cargo/bin" >> $GITHUB_PATH
