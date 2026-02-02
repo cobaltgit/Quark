@@ -72,7 +72,7 @@ jobs:
             See the [README](https://github.com/${{ github.repository }}) for installation instructions.
           draft: false
           prerelease: false
-      
+
       - name: Upload BASE zip
         uses: actions/upload-release-asset@v1
         env:
@@ -82,7 +82,7 @@ jobs:
           asset_path: ./Quark-v${{ steps.version.outputs.version }}-BASE.zip
           asset_name: Quark-v${{ steps.version.outputs.version }}-BASE.zip
           asset_content_type: application/zip
-      
+
       - name: Upload FULL zip
         uses: actions/upload-release-asset@v1
         env:
@@ -92,7 +92,7 @@ jobs:
           asset_path: ./Quark-v${{ steps.version.outputs.version }}-FULL.zip
           asset_name: Quark-v${{ steps.version.outputs.version }}-FULL.zip
           asset_content_type: application/zip
-      
+
       - name: Upload Updater zip
         uses: actions/upload-release-asset@v1
         env:

@@ -1,5 +1,8 @@
 name: Nightly
 
+permissions:
+  contents: write
+
 on:
   push:
     branches:
@@ -59,14 +62,15 @@ jobs:
         run: "gh release delete continuous -y --cleanup-tag || true"
         env:
           GH_TOKEN: ${{ github.token }}
-
       
       - name: Create continuous release
-        uses: softprops/action-gh-release@v1
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: nightly
-          name: Continuous build
-          prerelease: true
+          release_name: "Continuous build"
           body: |
             Automated build of the latest commit. Do note that these builds are not stable.  
             For stable releases, see the [releases page](https://github.com/${{ github.repository }}/releases).
@@ -75,11 +79,28 @@ jobs:
             **Message:** ${{ steps.hash.outputs.commit_msg }}
             **Built:** ${{ github.event.head_commit.timestamp }}
             
-          files: |
-            Quark-${{ steps.hash.outputs.hash }}-BASE.zip
-            Quark-${{ steps.hash.outputs.hash }}-Updater.zip
+          draft: false
+          prerelease: true
+
+      - name: Upload BASE zip
+        uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./Quark-${{ steps.hash.outputs.hash }}-BASE.zip
+          asset_name: Quark-${{ steps.hash.outputs.hash }}-BASE.zip
+          asset_content_type: application/zip
+
+      - name: Upload Updater zip
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./Quark-${{ steps.hash.outputs.hash }}-Updater.zip
+          asset_name: Quark-${{ steps.hash.outputs.hash }}-Updater.zip
+          asset_content_type: application/zip
 
       - name: Upload via SFTP
         env:
