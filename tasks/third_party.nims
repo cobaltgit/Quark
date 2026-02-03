@@ -48,7 +48,10 @@ task dropbear, "Build dropbear server with zig cc":
   exec "make clean || true"
   exec """
   ./configure --host=arm-linux-musleabihf --disable-zlib --enable-static \
-      CC='zig cc -target arm-linux-musleabihf -mcpu=cortex_a7' \
+      CC="zig cc -target arm-linux-musleabihf -mcpu=cortex_a7" \
+      LD="zig cc -target arm-linux-musleabihf -mcpu=cortex_a7" \
+      AR="zig ar" \
+      RANLIB="zig ranlib" \
       CFLAGS='-Os -flto=thin' \
       LDFLAGS='-s -static -flto=thin'
   """
@@ -77,6 +80,9 @@ task evtest, "Build evtest with zig cc":
   exec """
   ./configure --host=arm-linux-gnueabihf \
       CC="zig cc -target arm-linux-gnueabihf.2.23 -mcpu=cortex_a7" \
+      LD="zig cc -target arm-linux-gnueabihf.2.23 -mcpu=cortex_a7" \
+      AR="zig ar" \
+      RANLIB="zig ranlib" \
       CFLAGS="-Os -flto=thin" \
       LDFLAGS="-s -flto=thin"
   """
@@ -90,6 +96,8 @@ task gesftpserver, "Build gesftpserver with zig cc":
   ./configure --host=arm-linux-gnueabihf \
       CC="zig cc -target arm-linux-gnueabihf.2.23 -mcpu=cortex_a7" \
       LD="zig cc -target arm-linux-gnueabihf.2.23 -mcpu=cortex_a7" \
+      AR="zig ar" \
+      RANLIB="zig ranlib" \
       CFLAGS="-Os -flto=thin" \
       LDFLAGS="-s -flto=thin"
   """
