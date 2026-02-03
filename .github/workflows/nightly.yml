@@ -34,14 +34,15 @@ jobs:
 
       - name: Install LLVM 20
         run: |
-          wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key | sudo apt-key add -
-          sudo add-apt-repository "deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-20 main"
-          sudo apt-get update
-          sudo apt-get install -y llvm-20 clang-20 lld-20
-          
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          sudo ./llvm.sh 20
+
       - name: Set LLVM 20 as default
         run: |
+          sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-20 100
           sudo update-alternatives --install /usr/bin/llvm-config llvm-config /usr/bin/llvm-config-20 100
+          sudo update-alternatives --install /usr/bin/ld.lld ld.lld /usr/bin/ld.lld-20 100
           sudo update-alternatives --install /usr/bin/lld lld /usr/bin/lld-20 100
       
       - name: Install dependencies

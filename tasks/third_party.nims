@@ -66,7 +66,7 @@ task jq, "Build jq with zig cc":
       AR="zig ar" \
       RANLIB="zig ranlib" \
       CFLAGS='-Os -flto=thin' \
-      LDFLAGS='-s -static -flto=thin || (cat config.log && exit 1)'
+      LDFLAGS='-s -static -flto=thin'
   """
   exec &"make -j {Threads}"
 
@@ -78,7 +78,7 @@ task evtest, "Build evtest with zig cc":
   ./configure --host=arm-linux-gnueabihf \
       CC="zig cc -target arm-linux-gnueabihf.2.23 -mcpu=cortex_a7" \
       CFLAGS="-Os -flto=thin" \
-      LDFLAGS="-s -static -flto=thin || (cat config.log && exit 1)"
+      LDFLAGS="-s -flto=thin"
   """
   exec &"make -j {Threads}"
 
@@ -91,7 +91,7 @@ task gesftpserver, "Build gesftpserver with zig cc":
       CC="zig cc -target arm-linux-gnueabihf.2.23 -mcpu=cortex_a7" \
       LD="zig cc -target arm-linux-gnueabihf.2.23 -mcpu=cortex_a7" \
       CFLAGS="-Os -flto=thin" \
-      LDFLAGS="-s -static -flto=thin || (cat config.log && exit 1)"
+      LDFLAGS="-s -flto=thin"
   """
   exec &"make -j {Threads}"
 
@@ -101,9 +101,9 @@ task dufs, "Build dufs with cargo zigbuild":
   exec "AWS_LC_SYS_NO_JITTER_ENTROPY=1 cargo zigbuild --target armv7-unknown-linux-musleabihf --release"
 
 task thirdparty, "Build all third-party software":
-  exec "nimble jq" --verbose
-  exec "nimble evtest" --verbose
-  exec "nimble dropbear" --verbose
-  exec "nimble gesftpserver" --verbose
-  exec "nimble dufs" --verbose
-  exec "nimble syncthing" --verbose
+  exec "nimble jq --verbose"
+  exec "nimble evtest --verbose"
+  exec "nimble dropbear --verbose"
+  exec "nimble gesftpserver --verbose"
+  exec "nimble dufs --verbose" 
+  exec "nimble syncthing --verbose"
