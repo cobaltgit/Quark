@@ -101,9 +101,9 @@ task dufs, "Build dufs with cargo zigbuild":
   exec "AWS_LC_SYS_NO_JITTER_ENTROPY=1 cargo zigbuild --target armv7-unknown-linux-musleabihf --release"
 
 task thirdparty, "Build all third-party software":
-  exec "nimble jq"
-  exec "nimble evtest"
-  exec "nimble dropbear"
-  exec "nimble gesftpserver"
-  exec "nimble dufs"
-  exec "nimble syncthing"
+  exec "nimble jq" --verbose
+  exec "nimble evtest" --verbose
+  exec "nimble dropbear" --verbose
+  exec "nimble gesftpserver" --verbose
+  exec "nimble dufs" --verbose
+  exec "nimble syncthing" --verbose
