@@ -53,7 +53,7 @@ jobs:
           echo "Commit: $HASH - $COMMIT_MSG"
     
       - name: Build nightly
-        run: NIGHTLY=1 nimble updater -y    
+        run: NIGHTLY=1 nimble updater -y --verbose
       
       - name: Delete old continuous release
         run: "gh release delete continuous -y --cleanup-tag || true"

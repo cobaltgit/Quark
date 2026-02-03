@@ -76,9 +76,9 @@ task evtest, "Build evtest with zig cc":
   exec "./autogen.sh"
   exec """
   ./configure --host=arm-linux-gnueabihf \
-      CC='zig cc -target arm-linux-gnueabihf.2.23 -mcpu=cortex_a7' \
-      CFLAGS='-Os -flto=thin' \
-      LDFLAGS='-s -static -flto=thin -fuse-ld=lld'
+      CC="zig cc -target arm-linux-gnueabihf.2.23 -mcpu=cortex_a7" \
+      CFLAGS="-Os -flto=thin" \
+      LDFLAGS="-s -static -flto=thin -fuse-ld=lld"
   """
   exec &"make -j {Threads}"
 
@@ -90,8 +90,8 @@ task gesftpserver, "Build gesftpserver with zig cc":
   ./configure --host=arm-linux-gnueabihf \
       CC="zig cc -target arm-linux-gnueabihf.2.23 -mcpu=cortex_a7" \
       LD="zig cc -target arm-linux-gnueabihf.2.23 -mcpu=cortex_a7" \
-      CFLAGS='-Os -flto=thin' \
-      LDFLAGS='-s -static -flto=thin -fuse-ld=lld'
+      CFLAGS="-Os -flto=thin" \
+      LDFLAGS="-s -static -flto=thin -fuse-ld=lld"
   """
   exec &"make -j {Threads}"
 
