@@ -52,8 +52,8 @@ task dropbear, "Build dropbear server with zig cc":
       LD="zig cc -target arm-linux-musleabihf -mcpu=cortex_a7" \
       AR="zig ar" \
       RANLIB="zig ranlib" \
-      CFLAGS='-Os -flto=thin' \
-      LDFLAGS='-s -static -flto=thin'
+      CFLAGS='-Os -ffunction-sections -fdata-sections -fomit-frame-pointer -flto=thin' \
+      LDFLAGS='-s -static -flto=thin -Wl,--gc-sections'
   """
   exec &"make -j {Threads} PROGRAMS='dropbear dropbearkey scp' MULTI=1"
 
