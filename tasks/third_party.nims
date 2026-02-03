@@ -50,7 +50,7 @@ task dropbear, "Build dropbear server with zig cc":
   ./configure --host=arm-linux-musleabihf --disable-zlib --enable-static \
       CC='zig cc -target arm-linux-musleabihf -mcpu=cortex_a7' \
       CFLAGS='-Os -flto=thin' \
-      LDFLAGS='-s -static -flto=thin'
+      LDFLAGS='-s -static -flto=thin -fuse-ld=lld'
   """
   exec &"make -j {Threads} PROGRAMS='dropbear dropbearkey scp' MULTI=1"
 
@@ -66,7 +66,7 @@ task jq, "Build jq with zig cc":
       AR="zig ar" \
       RANLIB="zig ranlib" \
       CFLAGS='-Os -flto=thin' \
-      LDFLAGS='-s -flto=thin'
+      LDFLAGS='-s -static -flto=thin -fuse-ld=lld'
   """
   exec &"make -j {Threads}"
 
@@ -78,7 +78,7 @@ task evtest, "Build evtest with zig cc":
   ./configure --host=arm-linux-gnueabihf \
       CC='zig cc -target arm-linux-gnueabihf.2.23 -mcpu=cortex_a7' \
       CFLAGS='-Os -flto=thin' \
-      LDFLAGS='-s -flto=thin'
+      LDFLAGS='-s -static -flto=thin -fuse-ld=lld'
   """
   exec &"make -j {Threads}"
 
@@ -91,7 +91,7 @@ task gesftpserver, "Build gesftpserver with zig cc":
       CC="zig cc -target arm-linux-gnueabihf.2.23 -mcpu=cortex_a7" \
       LD="zig cc -target arm-linux-gnueabihf.2.23 -mcpu=cortex_a7" \
       CFLAGS='-Os -flto=thin' \
-      LDFLAGS='-s -flto=thin'
+      LDFLAGS='-s -static -flto=thin -fuse-ld=lld'
   """
   exec &"make -j {Threads}"
 
