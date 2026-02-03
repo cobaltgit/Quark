@@ -50,7 +50,7 @@ task dropbear, "Build dropbear server with zig cc":
   ./configure --host=arm-linux-musleabihf --disable-zlib --enable-static \
       CC='zig cc -target arm-linux-musleabihf -mcpu=cortex_a7' \
       CFLAGS='-Os -flto=thin' \
-      LDFLAGS='-s -static -flto=thin || (cat config.log && exit 1)'
+      LDFLAGS='-s -static -flto=thin'
   """
   exec &"make -j {Threads} PROGRAMS='dropbear dropbearkey scp' MULTI=1"
 
