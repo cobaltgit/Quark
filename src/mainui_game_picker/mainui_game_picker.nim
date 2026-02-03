@@ -57,7 +57,6 @@ proc getRoms(systemPath: string): seq[string] =
     if hasExtension(f, extset):
       result.add(f)
 
-
 proc main() =
   randomize(getTime().toUnix)
 

@@ -1,4 +1,4 @@
-import std/[posix, strformat, strutils, times, os, sets, options, monotimes]
+import std/[posix, strformat, strutils, times, osproc, os, sets, options, monotimes]
 from std/monotimes import MonoTime
 
 from ../common import fbscreenshot
@@ -182,7 +182,7 @@ proc screenshotHandler() =
   setLed(2, false)
 
 proc quicksaveHandler() =
-  discard execl("/bin/sh", "sh", "/mnt/SDCARD/System/scripts/quicksave.sh", nil)
+  discard startProcess("/bin/sh", args = @["/mnt/SDCARD/System/scripts/quicksave.sh"])
 
 proc killHandler() =
   killCmdToRun()
