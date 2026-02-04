@@ -1,6 +1,7 @@
 switch("cpu", "arm")
 switch("os", "linux")
 
+switch("threads", "off")
 switch("define", "release")
 switch("define", "strip")
 switch("opt", "size")
