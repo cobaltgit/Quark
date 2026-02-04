@@ -26,35 +26,61 @@ jobs:
         with:
           version: 0.15.2
       
-      - name: Install Rust
-        uses: actions-rs/toolchain@v1
+      - name: Cache Zig
+        uses: actions/cache@v4
         with:
-          toolchain: stable
-          override: true
-
-      - name: Install LLVM 20
-        run: |
-          wget https://apt.llvm.org/llvm.sh
-          chmod +x llvm.sh
-          sudo ./llvm.sh 20
-
-      - name: Set LLVM 20 as default
-        run: |
-          sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-20 100
-          sudo update-alternatives --install /usr/bin/llvm-config llvm-config /usr/bin/llvm-config-20 100
-          sudo update-alternatives --install /usr/bin/ld.lld ld.lld /usr/bin/ld.lld-20 100
-          sudo update-alternatives --install /usr/bin/lld lld /usr/bin/lld-20 100
+          path: |
+            ~/.cache/zig
+            ${{ github.workspace }}/zig-cache
+          key: ${{ runner.os }}-zig-0.15.2-${{ hashFiles('**/*.zig', 'build.zig', 'build.zig.zon') }}
+          restore-keys: |
+            ${{ runner.os }}-zig-0.15.2-
+      
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: armv7-unknown-linux-musleabihf
       
       - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install cmake binutils-arm-linux-gnueabihf openssh-client -y
-          rustup target add armv7-unknown-linux-musleabihf
-          cargo install cargo-zigbuild
+      
+      - name: Install cargo-zigbuild
+        run: |
+          if ! command -v cargo-zigbuild &> /dev/null; then
+            cargo install cargo-zigbuild
+          fi
           echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
+      - name: Cache Cargo
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
       
       - name: Install Nim zigcc wrapper
-        run: nimble install zigcc
+        run: |
+          if ! nimble path zigcc &> /dev/null 2>&1; then
+            nimble install zigcc -y
+          fi
+
+      - name: Cache Nim packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.nimble
+            ~/.cache/nim
+          key: ${{ runner.os }}-nimble-${{ hashFiles('*.nimble') }}
+          restore-keys: |
+            ${{ runner.os }}-nimble-
       
       - name: Extract version
         id: version
