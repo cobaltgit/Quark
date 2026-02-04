@@ -20,6 +20,16 @@ jobs:
         uses: jiro4989/setup-nim-action@v2
         with:
           nim-version: '2.2.6'
+
+      - name: Cache Nim packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.nimble
+            ~/.cache/nim
+          key: ${{ runner.os }}-nimble-${{ hashFiles('*.nimble') }}
+          restore-keys: |
+            ${{ runner.os }}-nimble-
       
       - name: Install Zig
         uses: goto-bus-stop/setup-zig@v2
@@ -40,18 +50,6 @@ jobs:
         uses: dtolnay/rust-toolchain@stable
         with:
           targets: armv7-unknown-linux-musleabihf
-      
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install cmake binutils-arm-linux-gnueabihf openssh-client -y
-      
-      - name: Install cargo-zigbuild
-        run: |
-          if ! command -v cargo-zigbuild &> /dev/null; then
-            cargo install cargo-zigbuild
-          fi
-          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
 
       - name: Cache Cargo
         uses: actions/cache@v4
@@ -66,21 +64,23 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cargo-
       
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install cmake binutils-arm-linux-gnueabihf openssh-client -y
+      
+      - name: Install cargo-zigbuild
+        run: |
+          if ! command -v cargo-zigbuild &> /dev/null; then
+            cargo install cargo-zigbuild
+          fi
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+      
       - name: Install Nim zigcc wrapper
         run: |
           if ! nimble path zigcc &> /dev/null 2>&1; then
             nimble install zigcc -y
           fi
-
-      - name: Cache Nim packages
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.nimble
-            ~/.cache/nim
-          key: ${{ runner.os }}-nimble-${{ hashFiles('*.nimble') }}
-          restore-keys: |
-            ${{ runner.os }}-nimble-
       
       - name: Get commit info
         id: hash
