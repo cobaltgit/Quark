@@ -2,7 +2,7 @@ import std/[os, json, strutils, parseopt]
 
 # Get version from command line
 var appVersion = "unknown"
-var langDir = "static/trimui/res/lang"
+var langDir = "dist/trimui/res/lang"
 
 var p = initOptParser()
 while true:
@@ -17,10 +17,22 @@ while true:
   else: discard
 
 proc updateLangFile(path: string) =
-  # Use readFile + parseJson instead of parseFile (which uses C FFI)
   let content = parseJson(readFile(path))
   var updated = content
-  updated["30"] = %("Device Info - QUARK " & appVersion)
+  
+  if updated.hasKey("30"):
+    let originalText = updated["30"].getStr()
+    
+    let quarkPos = originalText.find("QUARK")
+    if quarkPos >= 0:
+      let prefix = originalText[0 ..< quarkPos + 5]
+      updated["30"] = %(prefix & " " & appVersion)
+    else:
+      echo "  Warning: 'QUARK' not found in ", path
+      updated["30"] = %(originalText & " - QUARK " & appVersion)
+  else:
+    updated["30"] = %("Device Info - QUARK " & appVersion)
+  
   writeFile(path, pretty(updated, indent=1) & "\n")
 
 echo "Updating localisation files in: ", langDir
