@@ -575,3 +575,8 @@ type
     kind*: uint16
     code*: KeyCode
     value*: int32
+
+proc pollReadable*(fd: cint, timeoutMs: cint): bool =
+  var pfd = TPollfd(fd: fd, events: POLLIN, revents: 0)
+  let rc = poll(addr pfd, 1, timeoutMs)
+  result = rc > 0 and (pfd.revents and POLLIN) != 0

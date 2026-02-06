@@ -1,8 +1,7 @@
 import std/[posix, strformat, strutils, times, osproc, os, sets, options, monotimes]
 from std/monotimes import MonoTime
 
-from ../common import fbscreenshot
-from evdev import InputEvent, EventKind, KeyCode
+import ../common/[fbscreenshot, evdev, led]
 
 const 
   InputDev = "/dev/input/event0"
@@ -170,7 +169,7 @@ proc killCmdToRun() =
       discard kill(Pid(pid), SIGTERM)
 
 proc screenshotHandler() =
-  setLed(2, true)
+  setLedTrigger(LedColour.Green, LedTrigger.On)
   let now = now()
   let filename = &"/mnt/SDCARD/Saves/screenshots/Screenshot_{now.year:04}{ord(now.month):02}{now.monthday:02}_{now.hour:02}{now.minute:02}{now.second:02}.png"
   
@@ -179,7 +178,7 @@ proc screenshotHandler() =
   except:
     discard
   
-  setLed(2, false)
+  setLedTrigger(LedColour.Green, LedTrigger.Off)
 
 proc quicksaveHandler() =
   discard startProcess("/bin/sh", args = @["/mnt/SDCARD/System/scripts/quicksave.sh"])
@@ -192,11 +191,6 @@ proc rebootHandler() =
   sleep(500)
   sync()
   discard execl("/mnt/SDCARD/System/bin/reboot", "reboot", nil)
-
-proc pollReadable(fd: cint, timeoutMs: cint): bool =
-  var pfd = TPollfd(fd: fd, events: POLLIN, revents: 0)
-  let rc = poll(addr pfd, 1, timeoutMs)
-  result = rc > 0 and (pfd.revents and POLLIN) != 0
 
 proc main() =
   let fd = posix.open(InputDev, O_RDONLY or O_NONBLOCK)

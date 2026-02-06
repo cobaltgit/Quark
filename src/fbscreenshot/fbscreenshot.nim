@@ -1,5 +1,5 @@
 import std/[cmdline, strformat]
-from ../common import fbscreenshot
+import ../common/fbscreenshot
 
 when isMainModule:
   if paramCount() < 1:
