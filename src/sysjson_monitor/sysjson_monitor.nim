@@ -1,4 +1,5 @@
 import std/[os, strutils, tables, posix, osproc, inotify, options]
+import ../common/bootlogo
 
 const
   MaxBufSize = 8192
@@ -80,12 +81,10 @@ proc main() =
   var themePath = getThemePath(json).get("")
   var volume = getVolume(json).get(0)
 
-  # inotify_init returns a FileHandle (alias to cint)
   let inotifyFd = inotify_init()
   if inotifyFd < 0:
     quit("Failed to init inotify")
 
-  # add watches using low-level API
   let sysJsonWd = inotify_add_watch(inotifyFd, "/mnt/UDISK/system.json", IN_MODIFY)
   if sysJsonWd < 0:
     quit("Failed to add watch for system.json")
@@ -97,14 +96,12 @@ proc main() =
   var buffer: array[MaxBufSize, byte]
 
   while true:
-    # read blocks until events occur
     let n = read(inotifyFd, buffer.addr, MaxBufSize)
     if n <= 0:
       continue
 
-    # iterate events
     for ePtr in inotify_events(buffer.addr, n):
-      let e = ePtr  # ptr InotifyEvent
+      let e = ePtr
 
       let name =
         if e.len > 0:
@@ -122,7 +119,10 @@ proc main() =
             let bootlogoPath = themePath & "skin/bootlogo.bmp"
 
             if fileExists(bootlogoPath):
-              discard execl("/mnt/SDCARD/System/bin/bootlogo", "bootlogo", cstring(bootlogoPath), nil)
+              try:
+                writeBootlogo(bootlogoPath)
+              except:
+                discard
 
             sync()
             discard execl("/mnt/SDCARD/System/bin/reboot", "reboot", nil)
