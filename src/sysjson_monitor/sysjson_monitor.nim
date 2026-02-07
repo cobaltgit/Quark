@@ -52,19 +52,6 @@ proc getInt(config: SystemConfig, key: string): Option[int] =
 proc getSystemJson(): SystemConfig =
   parseSystemJson(readFile("/mnt/UDISK/system.json"))
 
-proc getVolume(config: SystemConfig): Option[int] =
-  config.getInt("vol")
-
-proc getThemePath(config: SystemConfig): Option[string] =
-  let pathOpt = config.getString("theme")
-  if pathOpt.isSome:
-    var p = pathOpt.get()
-    if not p.endsWith('/'):
-      p.add('/')
-    some(p)
-  else:
-    none(string)
-
 proc isCharacterDevice(path: string): bool =
   var st: Stat
   stat(path, st) == 0 and S_ISCHR(st.st_mode)
@@ -77,9 +64,9 @@ proc setVolume(volume: int64) =
   discard execCmd("amixer -c 1 sset PCM " & $volPercent & "%")
 
 proc main() =
-  let json = getSystemJson()
-  var themePath = getThemePath(json).get("")
-  var volume = getVolume(json).get(0)
+  var json = getSystemJson()
+  var themePath = json.getString("theme").get("")
+  var volume = json.getInt("vol").get(0)
 
   let inotifyFd = inotify_init()
   if inotifyFd < 0:
@@ -107,16 +94,14 @@ proc main() =
         if e.len > 0:
           $cast[cstring](addr e.name)
         else:
-          ""
+          "" 
 
       if e.wd == sysJsonWd and (e.mask and IN_MODIFY.uint32) != 0:
         try:
-          let json2 = getSystemJson()
-
-          let newThemePath = getThemePath(json2)
+          let newThemePath = json.getString("theme")
           if newThemePath.isSome and newThemePath.get() != themePath:
             themePath = newThemePath.get()
-            let bootlogoPath = themePath & "skin/bootlogo.bmp"
+            let bootlogoPath = themePath & "/skin/bootlogo.bmp"
 
             if fileExists(bootlogoPath):
               try:
@@ -127,24 +112,22 @@ proc main() =
             sync()
             discard reboot(RB_AUTOBOOT)
 
-          let newVolume = getVolume(json2)
+          let newVolume = json.getInt("vol")
           if newVolume.isSome and newVolume.get() != volume:
             volume = newVolume.get()
             setVolume(volume)
         except:
           stderr.writeLine("Error reading JSON")
 
-      elif e.wd == devWd and (e.mask and IN_CREATE.uint32) != 0:
-        if name == "audio1":
-          if isCharacterDevice("/dev/audio1"):
-            sleep(100)
-            try:
-              let json3 = getSystemJson()
-              let vol = getVolume(json3)
-              if vol.isSome:
-                setVolume(vol.get())
-            except:
-              stderr.writeLine("Error setting volume on device creation")
+      elif e.wd == devWd and (e.mask and IN_CREATE.uint32) != 0 and 
+        name == "audio1" and isCharacterDevice("/dev/audio1"):
+          sleep(100)
+          try:
+            let vol = json.getInt("vol")
+            if vol.isSome:
+              setVolume(vol.get())
+          except:
+            stderr.writeLine("Error setting volume on device creation")
 
 
 when isMainModule:
