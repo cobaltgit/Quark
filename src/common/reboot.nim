@@ -1,7 +1,7 @@
 import std/posix
 
 const
-  SYS_reboot = cast[clong](142)
+  SYS_reboot = cast[clong](88)
     
   LINUX_REBOOT_MAGIC1 = cast[clong](0xfee1dead'u32)
   LINUX_REBOOT_MAGIC2 = cast[clong](0x28121969'u32)
