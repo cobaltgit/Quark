@@ -1,4 +1,4 @@
-import std/[cmdline, strformat]
+import std/cmdline
 import ../common/bootlogo
 
 when isMainModule:
@@ -9,7 +9,7 @@ when isMainModule:
   
   try:
     writeBootlogo(input)
-    echo &"Bootlogo written successfully!"
+    echo "Bootlogo written successfully!"
   except Exception as e:
     stderr.writeLine(e.msg)
     quit(1)
