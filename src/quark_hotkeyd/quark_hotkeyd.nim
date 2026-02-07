@@ -1,7 +1,8 @@
-import std/[posix, strformat, strutils, times, osproc, os, sets, options, monotimes]
+import std/[posix, times, options, monotimes]
 from std/monotimes import MonoTime
 
-import ../common/[fbscreenshot, evdev, led]
+import ../common/evdev
+import handlers
 
 const 
   InputDev = "/dev/input/event0"
@@ -94,103 +95,6 @@ proc shouldFire(self: var HotkeyEvent, chordDown: bool): bool =
       self.state.armedAt = none(MonoTime)
       self.state.fired = false
       return false
-
-proc setLed(led: int, on: bool) =
-  let ledPath = &"/sys/devices/platform/sunxi-led/leds/led{led}/trigger"
-  let ledStatus = if on: "default-on" else: "none"
-  
-  try:
-    writeFile(ledPath, ledStatus)
-  except IOError:
-    discard
-
-proc getProcessChildren(ppid: int, pids: var HashSet[int]) =
-  for kind, path in walkDir("/proc"):
-    if kind == pcDir:
-      let name = path.extractFilename()
-      if name.len > 0 and name[0].isDigit:
-        try:
-          let pid = parseInt(name)
-          let statPath = &"/proc/{pid}/stat"
-          if fileExists(statPath):
-            let stat = readFile(statPath)
-            var fields = 0
-            var parentPid = 0
-            var inParen = false
-            var field = ""
-            
-            for c in stat:
-              if c == '(':
-                inParen = true
-              elif c == ')':
-                inParen = false
-              elif c == ' ' and not inParen:
-                inc fields
-                if fields == 3:
-                  try:
-                    parentPid = parseInt(field)
-                  except ValueError:
-                    discard
-                  break
-                field = ""
-              else:
-                if not inParen or fields > 0:
-                  field.add(c)
-            
-            if parentPid == ppid:
-              pids.incl(pid)
-              getProcessChildren(pid, pids)
-        except:
-          discard
-
-proc killCmdToRun() =
-  var cmdPid = -1
-  
-  for kind, path in walkDir("/proc"):
-    if kind == pcDir:
-      let name = path.extractFilename()
-      if name.len > 0 and name[0].isDigit:
-        try:
-          let cmdlinePath = path / "cmdline"
-          if fileExists(cmdlinePath):
-            let cmdline = readFile(cmdlinePath)
-            if "/tmp/cmd_to_run.sh" in cmdline:
-              cmdPid = parseInt(name)
-              break
-        except:
-          discard
-  
-  if cmdPid > 0:
-    var tree = initHashSet[int]()
-    tree.incl(cmdPid)
-    getProcessChildren(cmdPid, tree)
-    
-    for pid in tree:
-      discard kill(Pid(pid), SIGTERM)
-
-proc screenshotHandler() =
-  setLedTrigger(LedColour.Green, LedTrigger.On)
-  let now = now()
-  let filename = &"/mnt/SDCARD/Saves/screenshots/Screenshot_{now.year:04}{ord(now.month):02}{now.monthday:02}_{now.hour:02}{now.minute:02}{now.second:02}.png"
-  
-  try:
-    fbscreenshot(filename)
-  except:
-    discard
-  
-  setLedTrigger(LedColour.Green, LedTrigger.Off)
-
-proc quicksaveHandler() =
-  discard startProcess("/bin/sh", args = @["/mnt/SDCARD/System/scripts/quicksave.sh"])
-
-proc killHandler() =
-  killCmdToRun()
-
-proc rebootHandler() =
-  killCmdToRun()
-  sleep(500)
-  sync()
-  discard execl("/mnt/SDCARD/System/bin/reboot", "reboot", nil)
 
 proc main() =
   let fd = posix.open(InputDev, O_RDONLY or O_NONBLOCK)

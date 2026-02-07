@@ -1,5 +1,5 @@
 import std/[os, strutils, tables, posix, osproc, inotify, options]
-import ../common/bootlogo
+import ../common/[bootlogo, reboot]
 
 const
   MaxBufSize = 8192
@@ -125,7 +125,7 @@ proc main() =
                 discard
 
             sync()
-            discard execl("/mnt/SDCARD/System/bin/reboot", "reboot", nil)
+            discard reboot(RB_AUTOBOOT)
 
           let newVolume = getVolume(json2)
           if newVolume.isSome and newVolume.get() != volume:

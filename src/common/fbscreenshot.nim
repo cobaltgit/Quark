@@ -11,7 +11,7 @@ const
     for i in 0..31:
       arr[i] = uint8((i shl 3) or (i shr 2))
     arr
-  
+
   SixToEight: array[64, uint8] = block:
     var arr: array[64, uint8]
     for i in 0..63:
@@ -48,3 +48,4 @@ proc fbscreenshot*(output: string) =
       rotatedPixels[dstIdx + 3] = 255
   
   discard savePNG32(output, rotatedPixels, FbHeight, FbWidth)
+
