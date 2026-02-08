@@ -5,7 +5,6 @@ const
   REQUIRED_HEIGHT = 320
   MAX_BOOTLOGO_SIZE = 524288  # size of /dev/mmcblk0p2
   HEADER_SIZE = 54
-  BMP_SIZE = 153738  # max theoretical size of 240x320 RGB565 bitmap with GIMP V5 header
 
 proc validateBmp(path: string) =
   if not fileExists(path):
