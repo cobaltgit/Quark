@@ -1,56 +1,9 @@
-import std/[os, strutils, tables, posix, osproc, inotify, options]
+import std/[os, posix, osproc, inotify, options]
 import ../common/[bootlogo, reboot]
+import config
 
 const
   MaxBufSize = 8192
-
-type
-  SystemConfig = object
-    values: Table[string, string]
-    
-proc parseSystemJson(input: string): SystemConfig =
-  result.values = initTable[string, string]()
-
-  for line in input.splitLines():
-    let colonPos = line.find(':')
-    if colonPos > 0:
-      let keyPart = line[0..<colonPos]
-        .strip()
-        .strip(chars = {'"', '\t', ' '})
-
-      let valuePart = line[colonPos+1..^1]
-        .strip()
-        .strip(trailing = true, chars = {',', '}', '"'})
-        .strip(leading = true, chars = {'"'})
-        .strip()
-
-      if keyPart.len > 0 and valuePart.len > 0:
-        var isAlphaNum = true
-        for c in keyPart:
-          if not c.isAlphaNumeric:
-            isAlphaNum = false
-            break
-
-        if isAlphaNum:
-          result.values[keyPart] = valuePart
-
-proc getString(config: SystemConfig, key: string): Option[string] =
-  if key in config.values:
-    some(config.values[key])
-  else:
-    none(string)
-
-proc getInt(config: SystemConfig, key: string): Option[int] =
-  if key in config.values:
-    try:
-      some(parseInt(config.values[key]))
-    except ValueError:
-      none(int)
-  else:
-    none(int)
-
-proc getSystemJson(): SystemConfig =
-  parseSystemJson(readFile("/mnt/UDISK/system.json"))
 
 proc isCharacterDevice(path: string): bool =
   var st: Stat
@@ -64,7 +17,7 @@ proc setVolume(volume: int64) =
   discard execCmd("amixer -c 1 sset PCM " & $volPercent & "%")
 
 proc main() =
-  var json = getSystemJson()
+  var json = getConfig()
   var themePath = json.getString("theme").get("")
   var volume = json.getInt("vol").get(0)
 
@@ -94,14 +47,16 @@ proc main() =
         if e.len > 0:
           $cast[cstring](addr e.name)
         else:
-          "" 
+          ""
+          
+      json = getConfig()
 
       if e.wd == sysJsonWd and (e.mask and IN_MODIFY.uint32) != 0:
         try:
           let newThemePath = json.getString("theme")
           if newThemePath.isSome and newThemePath.get() != themePath:
             themePath = newThemePath.get()
-            let bootlogoPath = themePath & "/skin/bootlogo.bmp"
+            let bootlogoPath = themePath & "skin/bootlogo.bmp"
 
             if fileExists(bootlogoPath):
               try:
