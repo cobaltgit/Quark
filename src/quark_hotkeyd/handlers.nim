@@ -23,7 +23,7 @@ proc getProcessChildren(ppid: int, pids: var HashSet[int]) =
                 inParen = false
               elif c == ' ' and not inParen:
                 inc fields
-                if fields == 3:
+                if fields == 4:
                   try:
                     parentPid = parseInt(field)
                   except ValueError:
