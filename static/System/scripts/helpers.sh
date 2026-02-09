@@ -3,6 +3,7 @@
 
 export LD_LIBRARY_PATH="/lib:/usr/lib:/usr/trimui/lib:/mnt/SDCARD/System/lib:$LD_LIBRARY_PATH"
 export PATH="/mnt/SDCARD/System/bin:$PATH"
+export THEME_PATH="$(awk -F'"' '/"theme":/ {print $4}' "/mnt/UDISK/system.json" | sed 's:/*$:/:')"
 
 # set_cpuclock: sets CPU governor and frequency, write locks to prevent interference and keep changes
 # Possible modes

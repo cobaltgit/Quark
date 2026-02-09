@@ -1,6 +1,7 @@
 #!/bin/sh
 
-THEME_PATH="$(awk -F'"' '/"theme":/ {print $4}' "/mnt/UDISK/system.json" | sed 's:/*$:/:')"
+. /mnt/SDCARD/System/scripts/helpers.sh
+
 BOOT_SOUND="$THEME_PATH/sound/boot.wav"
 QUICKSAVE_CMD_TO_RUN="/mnt/SDCARD/Saves/quicksave_cmd_to_run.sh"
 

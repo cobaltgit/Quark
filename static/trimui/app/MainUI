@@ -4,8 +4,6 @@
 
 QUICKSAVE_CMD_TO_RUN="/mnt/SDCARD/Saves/quicksave_cmd_to_run.sh"
 SAVED_MAINUI_STATE="/mnt/SDCARD/Saves/quicksave_mainui_state.json"
-
-THEME_PATH="$(awk -F'"' '/"theme":/ {print $4}' "/mnt/UDISK/system.json" | sed 's:/*$:/:')"
 BOOT_VIDEO="$THEME_PATH/bootvideo.mp4"
 
 start_mainui() {
