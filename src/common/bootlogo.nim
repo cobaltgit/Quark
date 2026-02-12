@@ -1,17 +1,17 @@
 import std/[os, streams]
 
 const
-  REQUIRED_WIDTH = 240
-  REQUIRED_HEIGHT = 320
-  MAX_BOOTLOGO_SIZE = 524288  # size of /dev/mmcblk0p2
-  HEADER_SIZE = 54
+  RequiredWidth = 240
+  RequiredHeight = 320
+  MaxSize = 524288  # size of /dev/mmcblk0p2
+  HeaderSize = 54
 
 proc validateBmp(path: string) =
   if not fileExists(path):
     raise newException(IOError, path & ": no such file")
   
   let fileSize = getFileSize(path)
-  if fileSize > MAX_BOOTLOGO_SIZE:
+  if fileSize > MaxSize:
     raise newException(ValueError, path & ": must be under 512KiB!")
   
   var fs = newFileStream(path, fmRead)
@@ -20,7 +20,7 @@ proc validateBmp(path: string) =
   
   defer: fs.close()
   
-  var header: array[HEADER_SIZE, uint8]
+  var header: array[HeaderSize, uint8]
   if fs.readData(addr header[0], HEADER_SIZE) != HEADER_SIZE:
     raise newException(IOError, path & ": failed to open file")
   
@@ -35,7 +35,7 @@ proc validateBmp(path: string) =
   if bitsPerPixel != 16 or compression != 3:
     raise newException(ValueError, path & ": must be RGB565 format")
   
-  if width != REQUIRED_WIDTH or abs(height) != REQUIRED_HEIGHT:
+  if width != RequiredWidth or abs(height) != RequiredHeight:
     raise newException(ValueError, path & ": must be 240x320 resolution")
 
 proc writeBootlogo*(path: string) =
