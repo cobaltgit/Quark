@@ -39,6 +39,8 @@ proc validateBmp(path: string) =
     raise newException(ValueError, path & ": must be 240x320 resolution")
 
 proc writeBootlogo*(path: string) =
+  validateBmp(path)
+  
   var bmpFile = newFileStream(path, fmRead)
   if bmpFile.isNil:
     raise newException(IOError, path & ": failed to open file")
