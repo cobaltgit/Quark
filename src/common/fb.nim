@@ -1,9 +1,11 @@
+import std/posix
 import nimPNG
 
 const 
   FbWidth = 240
   FbHeight = 320
   FbPixels = FbWidth * FbHeight
+  FbSize = FbPixels * sizeof(uint16)
 
   # RGB565 -> RGB888 lookup tables computed at compile time
   FiveToEight: array[32, uint8] = block:
@@ -18,17 +20,36 @@ const
       arr[i] = uint8((i shl 2) or (i shr 4))
     arr
 
+proc fbclear*() =
+  let fd = open("/dev/fb0", O_RDONLY)
+  if fd < 0:
+    raise newException(IOError, "Unable to open framebuffer")
+
+  defer: discard fd.close()
+  
+  let fbMap = cast[ptr UncheckedArray[uint16]](
+    mmap(nil, FbSize, PROT_READ or PROT_WRITE, MAP_SHARED, fd, 0)
+  )
+
+  if fbMap == cast[ptr UncheckedArray[uint16]](MAP_FAILED):
+    raise newException(IOError, "Unable to map framebuffer")
+
+  defer: discard munmap(fbMap, FbSize)
+
+  zeroMem(fbMap, FbSize)
+  
+
 proc fbscreenshot*(output: string) =
   let fbFile = open("/dev/fb0", fmRead)
   defer: fbFile.close()
   
-  var fbData: array[FbPixels * 2, uint8]
+  var fbData: array[FbSize, uint8]
   let bytesRead = fbFile.readBuffer(addr fbData[0], fbData.len)
   
   if bytesRead != fbData.len:
     raise newException(IOError, "Failed to read complete framebuffer data")
   
-  var rotatedPixels = newSeqUninit[uint8](FbHeight * FbWidth * 4)
+  var rotatedPixels = newSeqUninit[uint8](FbSize * 2)
 
   var srcIdx = 0
   for y in 0..<FbHeight:

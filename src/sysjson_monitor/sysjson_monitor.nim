@@ -2,6 +2,8 @@ import std/[os, posix, osproc, inotify, options]
 import ../common/[bootlogo, reboot]
 import config
 
+from ../common/fb import fbclear
+
 const
   MaxBufSize = 8192
 
@@ -65,6 +67,7 @@ proc main() =
                 discard
 
             sync()
+            fbclear()
             discard reboot(RB_AUTOBOOT)
 
           let newVolume = json.getInt("vol")

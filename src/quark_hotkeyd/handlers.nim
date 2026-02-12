@@ -1,5 +1,5 @@
 import std/[os, osproc, posix, sets, strformat, strutils, times]
-import ../common/[fbscreenshot, led, reboot]
+import ../common/[fb, led, reboot]
 
 proc getProcessChildren(ppid: int, pids: var HashSet[int]) =
   for kind, path in walkDir("/proc"):
@@ -84,4 +84,5 @@ proc rebootHandler*() =
   killHandler()
   sleep(500)
   sync()
+  fbclear()
   discard reboot(RB_AUTOBOOT)
