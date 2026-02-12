@@ -21,11 +21,11 @@ const
     arr
 
 proc fbclear*() =
-  let fd = open("/dev/fb0", O_RDWR)
+  let fd = posix.open("/dev/fb0", O_RDWR)
   if fd < 0:
     raise newException(IOError, "Unable to open framebuffer")
 
-  defer: discard fd.close()
+  defer: discard close(fd)
   
   let fbMap = mmap(nil, FbSize, PROT_READ or PROT_WRITE, MAP_SHARED, fd, 0)
 
@@ -37,7 +37,7 @@ proc fbclear*() =
   zeroMem(fbMap, FbSize)
 
 proc fbscreenshot*(output: string) =
-  let fbFile = open("/dev/fb0", fmRead)
+  let fbFile = system.open("/dev/fb0", fmRead)
   defer: fbFile.close()
   
   var fbData: array[FbSize, uint8]
