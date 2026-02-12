@@ -1,5 +1,5 @@
 import std/[os, posix, osproc, inotify, options]
-import ../common/[bootlogo, reboot]
+import ../common/[bootlogo, process, reboot]
 import config
 
 from ../common/fb import fbclear
@@ -66,8 +66,9 @@ proc main() =
               except:
                 discard
 
-            sync()
+            discard killall("MainUI", SIGKILL)
             fbclear()
+            sync()
             discard reboot(RB_AUTOBOOT)
 
           let newVolume = json.getInt("vol")

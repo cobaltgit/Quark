@@ -2,18 +2,22 @@ import std/[cmdline, os, posix]
 import ../common/[bootlogo, reboot]
 
 when isMainModule:
-  let input = if paramCount() < 1:
-    "bootlogo.bmp"
-  else:
-    paramStr(1)
+  var shouldReboot = false
+  var input = "bootlogo.bmp"
+  
+  for i in 1..paramCount():
+    let param = paramStr(i)
+    if param == "--reboot":
+      shouldReboot = true
+    else:
+      input = param
   
   try:
     writeBootlogo(input)
     echo "Bootlogo written successfully!"
-    if "--reboot" in commandLineParams():
+    if shouldReboot:
       sync()
       discard reboot(RB_AUTOBOOT)
   except Exception as e:
     stderr.writeLine(e.msg)
     quit(1)
-
