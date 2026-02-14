@@ -1,6 +1,6 @@
 import std/[os, posix, strformat, strutils, sets]
 
-proc killall*(processName: string, signal: cint): bool =
+proc killall*(processName: string, signal: cint, excludePid: int = -1): bool =
   var killed = false
   
   for kind, path in walkDir("/proc"):
@@ -8,6 +8,8 @@ proc killall*(processName: string, signal: cint): bool =
       let name = path.extractFilename()
       try:
         let pid = parseInt(name)
+        if pid == excludePid:
+          continue
         
         let commPath = path / "comm"
         if fileExists(commPath):

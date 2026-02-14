@@ -2,22 +2,46 @@ import std/posix
 import nimPNG
 
 const 
-  FbWidth = 240
-  FbHeight = 320
-  FbPixels = FbWidth * FbHeight
-  FbSize = FbPixels * sizeof(uint16)
+  FbWidth* = 240
+  FbHeight* = 320
+  FbPixels* = FbWidth * FbHeight
+  FbSize* = FbPixels * sizeof(uint16)
 
-  # RGB565 -> RGB888 lookup tables computed at compile time
-  FiveToEight: array[32, uint8] = block:
+  # Compile-time lookup tables!
+  FiveToEight*: array[32, uint8] = block:
     var arr: array[32, uint8]
     for i in 0..31:
       arr[i] = uint8((i shl 3) or (i shr 2))
     arr
 
-  SixToEight: array[64, uint8] = block:
+  SixToEight*: array[64, uint8] = block:
     var arr: array[64, uint8]
     for i in 0..63:
       arr[i] = uint8((i shl 2) or (i shr 4))
+    arr
+
+  EightToFive*: array[256, uint8] = block:
+    var arr: array[256, uint8]
+    for i in 0..255:
+      arr[i] = uint8(i shr 3)
+    arr
+  
+  EightToSix*: array[256, uint8] = block:
+    var arr: array[256, uint8]
+    for i in 0..255:
+      arr[i] = uint8(i shr 2)
+    arr
+  
+  RowOffsets*: array[FbHeight, int] = block:
+    var arr: array[FbHeight, int]
+    for y in 0..<FbHeight:
+      arr[y] = y * FbWidth
+    arr
+  
+  RotationXMap*: array[FbHeight, int] = block:
+    var arr: array[FbHeight, int]
+    for x in 0..<FbHeight:
+      arr[x] = 319 - x
     arr
 
 proc fbclear*() =
