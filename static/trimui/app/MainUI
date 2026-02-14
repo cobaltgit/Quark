@@ -39,10 +39,7 @@ cycle_usb_audio () {
 if [ -f "/tmp/.quicksave" ]; then
     killall keymon trimui_btmanager quark_hotkeyd sysjson_monitor &
     set_cpuclock --mode smart --min-freq 60000 --max-freq 60000 # put the CPU into a low power state
-    exec display.elf -d 0 \
-      -b "/mnt/SDCARD/System/res/quarkbg.png" \
-      -f "/mnt/SDCARD/System/res/TwCenMT.ttf" \
-      "It's now safe to turn off your Smart"
+    exec display -p -t "It's now safe to turn off your Smart"
 else
     if [ -f "$QUICKSAVE_CMD_TO_RUN" ]; then
         rm -f /tmp/.play_bootvideo

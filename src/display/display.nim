@@ -131,6 +131,7 @@ proc showUsage(progName: string) =
   stderr.writeLine("  -b  Background PNG image (default: quarkbg.png)")
   stderr.writeLine("  -d  Display duration in milliseconds (default: 0 = forever)")
   stderr.writeLine("  -f  Font file path (default: TwCenMT.ttf)")
+  stderr.writeLine("  -p  Don't fork into the background (only applies if duration is 0)")
 
 proc main() =
   var 
@@ -139,6 +140,7 @@ proc main() =
     duration = 0
     text = ""
     hasText = false
+    persistent = false
 
   discard killall("display", SIGKILL, getpid())
   
@@ -192,6 +194,9 @@ proc main() =
           stderr.writeLine("display: -f requires a font path argument")
           showUsage(getAppFilename())
           quit(1)
+
+      of "p":
+        persistent = true
       
       else:
         stderr.writeLine("display: unknown option -" & option)
@@ -279,20 +284,21 @@ proc main() =
     startY += lineHeight
   
   if duration == 0:
-    let pid = fork()
-    
-    if pid < 0:
-      stderr.writeLine("display: failed to fork")
-      quit(1)
-    elif pid > 0:
-      quit(0)
-    
-    if setsid() < 0:
-      stderr.writeLine("display: failed to create new session")
-    
-    discard close(0)
-    discard close(1)
-    discard close(2)
+    if not persistent:
+      let pid = fork()
+      
+      if pid < 0:
+        stderr.writeLine("display: failed to fork")
+        quit(1)
+      elif pid > 0:
+        quit(0)
+      
+      if setsid() < 0:
+        stderr.writeLine("display: failed to create new session")
+      
+      discard close(0)
+      discard close(1)
+      discard close(2)
     
     while true:
       sleep(1000)
