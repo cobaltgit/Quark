@@ -5,6 +5,7 @@ switch("threads", "off")
 switch("define", "release")
 switch("define", "strip")
 switch("opt", "size")
+switch("mm", "arc")
 
 # run nimble install zigcc!
 switch("cc", "clang")
