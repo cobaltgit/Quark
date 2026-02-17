@@ -1,109 +1,88 @@
 import std/[os, strutils, strformat]
 
+proc isNightly(): bool = getEnv("NIGHTLY") == "1"
+
+proc getBuildVer(): string =
+  if isNightly(): gorge("git rev-parse --short=8 HEAD")
+  else: version
+
+proc getZipName(label, ver: string): string =
+  let prefix = if isNightly(): ver else: "v" & ver
+  &"Quark-{prefix}-{label}.zip"
+
+proc stageAndZip(tempDir, zipTarget: string, populateFn: proc()) =
+  rmDir(tempDir)
+  mkDir(tempDir)
+  populateFn()
+  cd(tempDir)
+  exec &"zip -9r {Root}/{zipTarget} * -x '*.gitkeep'"
+  cd(Root)
+  rmDir(tempDir)
+
 task base, "Prepare base zip for distribution":
-  var zipName: string
-  var ver: string
-  
-  let isNightly = getEnv("NIGHTLY") == "1"
-  
-  if isNightly:
-    echo "Building nightly release"
-    ver = gorge("git rev-parse --short=8 HEAD")
-    zipName = &"Quark-{ver}-BASE.zip"
-  else:
-    echo "Building stable release"
-    ver = version
-    zipName = &"Quark-v{ver}-BASE.zip"
+  let ver = getBuildVer()
+  let zipName = getZipName("BASE", ver)
+
+  if isNightly(): echo "Building nightly release"
+  else: echo "Building stable release"
 
   rmDir("dist")
   cpDir(Root & "/static", Root & "/dist")
-  
-  # Update locales in dist AFTER copying
+
   exec "nim e scripts/updateLocales.nims " & ver & " dist/trimui/res/lang"
-  
+
   exec "nimble build"
   for b in bin:
     mvFile(&"{Root}/{binDir}/{b}", &"dist/System/bin/{b.split('/')[^1]}")
-  
+
   exec "nimble thirdparty"
   for tpb in thirdPartyBins:
     mvFile(&"{Root}/{tpb}", &"dist/System/bin/{tpb.split('/')[^1]}")
-  
+
   cd("dist")
-  exec &"zip -9r {Root}/{zipName} *"
+  exec &"zip -9r {Root}/{zipName} * -x '*.gitkeep'"
 
 task updater, "Prepare updater package":
-  let isNightly = getEnv("NIGHTLY") == "1"
-  var
-    baseZip: string
-    updateZip: string
-    updaterZip: string
-  
-  if isNightly:
-    let ver = gorge("git rev-parse --short=8 HEAD")
-    updateZip = &"Quark_Update_{ver}.zip"
-    baseZip = &"Quark-{ver}-BASE.zip"
-    updaterZip = &"Quark-{ver}-Updater.zip"
-  else:
-    updateZip = &"Quark_Update_v{version}.zip"
-    baseZip = &"Quark-v{version}-BASE.zip"
-    updaterZip = &"Quark-v{version}-Updater.zip"
-  
+  let ver = getBuildVer()
+  let baseZip = getZipName("BASE", ver)
+  let updateZip =
+    if isNightly(): &"Quark_Update_{ver}.zip"
+    else: &"Quark_Update_v{ver}.zip"
+  let updaterZip = getZipName("Updater", ver)
+
   if not fileExists(baseZip):
     exec "nimble base"
 
   cpFile(baseZip, updateZip)
   exec &"zip --delete {updateZip} 'Updater/*'"
-  
-  let tempDir = "dist_updater_temp"
-  rmDir(tempDir)
-  mkDir(tempDir & "/Apps")
-  
-  cpDir("dist/Apps/QuarkUpdater", &"{tempDir}/Apps/QuarkUpdater")
-  cpDir("dist/Updater", &"{tempDir}/Updater")
-  mvFile(updateZip, &"{tempDir}/{updateZip}")
-  
-  cd(tempDir)
-  exec &"zip -9r {Root}/{updaterZip} *"
-  
-  cd(Root)
-  rmDir(tempDir)
+
+  stageAndZip("dist_updater_temp", updaterZip, proc() =
+    mkDir("dist_updater_temp/Apps")
+    cpDir("dist/Apps/QuarkUpdater", "dist_updater_temp/Apps/QuarkUpdater")
+    cpDir("dist/Updater", "dist_updater_temp/Updater")
+    mvFile(updateZip, &"dist_updater_temp/{updateZip}")
+  )
 
 task full, "Prepare base, full and updater zips for release":
-  var
-    baseZip: string
-    fullZip: string
-  let isNightly = getEnv("NIGHTLY") == "1"
-  
-  if isNightly:
-    let ver = gorge("git rev-parse --short=8 HEAD")
-    baseZip = &"Quark-{ver}-BASE.zip"
-    fullZip = &"Quark-{ver}-FULL.zip"
-  else:
-    baseZip = &"Quark-v{version}-BASE.zip"
-    fullZip = &"Quark-v{version}-FULL.zip"
-  
+  let ver = getBuildVer()
+  let baseZip = getZipName("BASE", ver)
+  let fullZip = getZipName("FULL", ver)
+
   if not fileExists(baseZip):
     exec "nimble updater"
-  
+
   echo "Creating full zip from base zip..."
   cpFile(baseZip, fullZip)
-  
-  let tempDir = "dist_full_temp"
-  rmDir(tempDir)
-  mkDir(tempDir)
-  
+
   echo "Copying gluons into zip..."
   for category in @["Systems", "Themes"]:
     let categoryPath = Root & "/modules/gluons/" & category
     if dirExists(categoryPath):
-      cd(categoryPath)
-      for d in listDirs("."):
+      for d in listDirs(categoryPath):
         let gluonPath = &"{categoryPath}/{d}/mnt/SDCARD"
         if dirExists(gluonPath):
           cd(gluonPath)
-          exec &"zip -9ur {Root}/{fullZip} *"
-  
+          exec &"zip -9ur {Root}/{fullZip} * -x '*.gitkeep'"
+
   cd(Root)
-  rmDir(tempDir)
   echo "Full zip created: ", fullZip
