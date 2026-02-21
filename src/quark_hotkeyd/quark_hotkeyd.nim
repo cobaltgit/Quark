@@ -1,10 +1,9 @@
 import std/[posix, times, options, monotimes]
-from std/monotimes import MonoTime
 
 import ../common/evdev
 import handlers
 
-const 
+const
   InputDev = "/dev/input/event0"
 
 type
@@ -39,10 +38,10 @@ proc newKeyBitSet(): KeyBitSet =
 proc set(self: var KeyBitSet, code: KeyCode, down: bool) {.inline.} =
   let idx = uint16(code.ord) shr 6
   let mask = 1'u64 shl (uint16(code.ord) and 63)
-  
+
   if idx >= uint16(self.bits.len):
     return
-  
+
   if down:
     self.bits[idx] = self.bits[idx] or mask
   else:
@@ -51,10 +50,10 @@ proc set(self: var KeyBitSet, code: KeyCode, down: bool) {.inline.} =
 proc get(self: KeyBitSet, code: KeyCode): bool {.inline.} =
   let idx = uint16(code.ord) shr 6
   let bit = uint16(code.ord) and 63
-  
+
   if idx >= uint16(self.bits.len):
     return false
-  
+
   result = ((self.bits[idx] shr bit) and 1) == 1
 
 proc newPressHotkey(keys: seq[KeyCode], callback: proc()): HotkeyEvent =
@@ -75,12 +74,12 @@ proc shouldFire(self: var HotkeyEvent, chordDown: bool): bool =
     let fire = chordDown and not self.state.wasDown
     self.state.wasDown = chordDown
     return fire
-    
+
   of tkHold:
     if chordDown:
       if self.state.fired:
         return false
-      
+
       if self.state.armedAt.isNone:
         self.state.armedAt = some(getMonoTime())
         return false
@@ -101,18 +100,18 @@ proc main() =
   if fd < 0:
     stderr.writeLine "Failed to open input device"
     quit(1)
-  
+
   defer: discard close(fd)
-  
+
   var pressedKeys = newKeyBitSet()
-  
+
   var hotkeys = @[
     newPressHotkey(@[KeyCode.KEY_RIGHTCTRL, KeyCode.KEY_PAGEDOWN], screenshotHandler),
     newPressHotkey(@[KeyCode.KEY_RIGHTCTRL, KeyCode.KEY_PAGEUP], quicksaveHandler),
     newPressHotkey(@[KeyCode.KEY_ENTER, KeyCode.KEY_PAGEUP], killHandler),
     newHoldHotkey(@[KeyCode.KEY_RIGHTCTRL, KeyCode.KEY_ENTER], initDuration(seconds = 10), rebootHandler),
   ]
-  
+
   while true:
     if pollReadable(fd, 250):
       var event: InputEvent
@@ -120,7 +119,7 @@ proc main() =
         let bytesRead = read(fd, addr event, sizeof(InputEvent))
         if bytesRead != sizeof(InputEvent):
           break
-        
+
         if event.kind == EventKind.EV_KEY.ord:
           case event.value
           of 1:
@@ -129,14 +128,14 @@ proc main() =
             pressedKeys.set(event.code, false)
           else:
             discard
-    
+
     for hk in hotkeys.mitems:
       var chordDown = true
       for key in hk.keys:
         if not pressedKeys.get(key):
           chordDown = false
           break
-      
+
       if hk.shouldFire(chordDown):
         hk.callback()
 
