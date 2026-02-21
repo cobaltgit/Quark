@@ -1,4 +1,4 @@
-import std/[os, strutils, strformat]
+import std/[strutils, strformat]
 
 proc isNightly(): bool = getEnv("NIGHTLY") == "1"
 
@@ -32,8 +32,6 @@ task base, "Prepare base zip for distribution":
   exec "nim e scripts/updateLocales.nims " & ver & " dist/trimui/res/lang"
 
   exec "nimble build"
-  for b in bin:
-    mvFile(&"{Root}/{binDir}/{b}", &"dist/System/bin/{b.split('/')[^1]}")
 
   exec "nimble thirdparty"
   for tpb in thirdPartyBins:
