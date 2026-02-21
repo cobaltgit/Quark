@@ -31,7 +31,7 @@ task base, "Prepare base zip for distribution":
 
   exec "nim e scripts/updateLocales.nims " & ver & " dist/trimui/res/lang"
 
-  exec "nimble build"
+  exec "nimble buildBins"
 
   exec "nimble thirdparty"
   for tpb in thirdPartyBins:
