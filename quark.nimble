@@ -22,7 +22,7 @@ include "tasks/locale.nims"
 task buildBins, "Build binaries":
     for exe in bin:
         let binName = exe.split("/")[^1]
-        exec &"nim c -o:{BinDir}/{binName} {srcDir}/{exe}.nim"
+        selfExec &"c -o:{BinDir}/{binName} {srcDir}/{exe}.nim"
 
 task cleanup, "Cleanup all":
   exec "nimble clean"
