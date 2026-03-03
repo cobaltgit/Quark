@@ -29,7 +29,7 @@ task base, "Prepare base zip for distribution":
   rmDir("dist")
   cpDir(Root & "/static", Root & "/dist")
 
-  exec "nim e scripts/updateLocales.nims " & ver & " dist/trimui/res/lang"
+  selfExec "e scripts/updateLocales.nims " & ver & " dist/trimui/res/lang"
 
   exec "nimble buildBins"
 
