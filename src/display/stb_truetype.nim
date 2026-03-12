@@ -1,9 +1,12 @@
+import std/os
+
 {.compile: "stb_truetype.c".}
+{.passC: "-I" & currentSourcePath().splitPath().head.}
 
 type
   stbtt_fontinfo* {.importc, header: "stb_truetype.h".} = object
 
-proc stbtt_InitFont*(info: ptr stbtt_fontinfo, data: ptr UncheckedArray[byte], offset: cint): cint 
+proc stbtt_InitFont*(info: ptr stbtt_fontinfo, data: ptr UncheckedArray[byte], offset: cint): cint
   {.importc, header: "stb_truetype.h".}
 
 proc stbtt_ScaleForPixelHeight*(info: ptr stbtt_fontinfo, pixels: cfloat): cfloat
@@ -12,7 +15,7 @@ proc stbtt_ScaleForPixelHeight*(info: ptr stbtt_fontinfo, pixels: cfloat): cfloa
 proc stbtt_GetFontVMetrics*(info: ptr stbtt_fontinfo, ascent, descent, lineGap: ptr cint)
   {.importc, header: "stb_truetype.h".}
 
-proc stbtt_GetCodepointBitmapBox*(info: ptr stbtt_fontinfo, codepoint: cint, 
+proc stbtt_GetCodepointBitmapBox*(info: ptr stbtt_fontinfo, codepoint: cint,
   scale_x, scale_y: cfloat, ix0, iy0, ix1, iy1: ptr cint)
   {.importc, header: "stb_truetype.h".}
 
