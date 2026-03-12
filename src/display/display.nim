@@ -204,7 +204,7 @@ proc display*(text: string,
       discard close(1)
       discard close(2)
     while true:
-      sleep(86400)
+      discard pause()
   else:
     sleep(duration)
 
