@@ -1,4 +1,4 @@
-import std/[json, os, strutils, strformat]
+import std/[json, os, strutils, strformat, sequtils]
 
 const thirdPartyBins = @[
   "modules/third-party/dropbear/dropbearmulti",
@@ -108,3 +108,37 @@ task dufs, "Build dufs with cargo zigbuild":
 task thirdparty, "Build all third-party software":
   for t in @["jq", "evtest", "dropbear", "gesftpserver", "dufs", "syncthing"]:
     exec &"nimble {t} --verbose"
+
+task buildCores, "Build RetroArch cores using Docker":
+  if findExe("docker") == "":
+    echo "error: docker not found"
+    quit(1)
+
+  if not fileExists(&"{Root}/scripts/cores.txt"):
+    echo "error: core list not found"
+    quit(1)
+
+  let coreList = readFile(&"{Root}/scripts/cores.txt")
+    .splitLines()
+    .filterIt(it.strip() != "" and not it.strip().startsWith("#"))
+    .join(" ")
+
+  echo "Building cores: " & coreList
+
+  mkDir("dist/RetroArch/.retroarch/cores")
+  mkDir("dist/RetroArch/.retroarch/core_info")
+
+  let ccacheDir = getHomeDir() / ".ccache-retroarch"
+  mkDir(ccacheDir)
+
+  try:
+    exec "docker run --rm" &
+      " -e CORES=\"" & coreList & "\"" &
+      " -v \"$(pwd)/dist/RetroArch/.retroarch\":/output" &
+      " -v \"" & ccacheDir & "\":/ccache" &
+      " ghcr.io/cobaltgit/quark-core-builder:latest"
+  except OSError as e:
+    echo "error: core build failed"
+    quit(1)
+
+  echo "Cores built successfully"
