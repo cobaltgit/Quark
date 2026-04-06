@@ -5,7 +5,6 @@ bluemsx
 cap32
 chimerasnes
 dosbox_pure
-ecwolf
 fake08
 fbalpha2012_cps1
 fbalpha2012_cps2
