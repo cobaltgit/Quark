@@ -29,6 +29,20 @@ task base, "Prepare base zip for distribution":
   rmDir("dist")
   cpDir(Root & "/static", Root & "/dist")
 
+  let coresStaging = Root & "/retroarch-cores"
+  let coresDest = Root & "/dist/RetroArch/.retroarch"
+  if dirExists(coresStaging):
+    echo "Staging RetroArch cores from: ", coresStaging
+    mkDir(coresDest)
+    for kind, path in walkDir(coresStaging):
+      let dest = coresDest & "/" & path.splitPath.tail
+      if kind == pcDir:
+        cpDir(path, dest)
+      else:
+        cpFile(path, dest)
+  else:
+    echo "Warning: no RetroArch cores found at ", coresStaging, " - skipping"
+
   selfExec "e scripts/updateLocales.nims " & ver & " dist/trimui/res/lang"
 
   exec "nimble buildBins"

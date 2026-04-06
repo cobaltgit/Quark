@@ -97,7 +97,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: ${{ needs.build-cores.outputs.artifact-name }}
-          path: dist/RetroArch/.retroarch
+          path: retroarch-cores
 
       - name: Build project
         run: nimble full -y
