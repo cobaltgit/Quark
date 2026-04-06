@@ -37,6 +37,9 @@ jobs:
           restore-keys: |
             ccache-retroarch-${{ runner.os }}-
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
       - name: Pull builder image
         run: docker pull ghcr.io/cobaltgit/quark-core-builder:latest
 
