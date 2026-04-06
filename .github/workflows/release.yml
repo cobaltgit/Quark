@@ -6,20 +6,24 @@ on:
       - main
 
 jobs:
+  build-cores:
+    uses: ./.github/workflows/retroarch-build.yml
+
   release:
     runs-on: ubuntu-latest
-    
+    needs: build-cores
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           submodules: recursive
           fetch-depth: 0
-      
+
       - name: Set up Nim
         uses: jiro4989/setup-nim-action@v2
         with:
-          nim-version: '2.2.6'
+          nim-version: "2.2.8"
 
       - name: Cache Nim packages
         uses: actions/cache@v4
@@ -30,12 +34,12 @@ jobs:
           key: ${{ runner.os }}-nimble-${{ hashFiles('*.nimble') }}
           restore-keys: |
             ${{ runner.os }}-nimble-
-      
+
       - name: Install Zig
         uses: goto-bus-stop/setup-zig@v2
         with:
           version: 0.15.2
-      
+
       - name: Cache Zig
         uses: actions/cache@v4
         with:
@@ -45,7 +49,7 @@ jobs:
           key: ${{ runner.os }}-zig-0.15.2-${{ hashFiles('**/*.zig', 'build.zig', 'build.zig.zon') }}
           restore-keys: |
             ${{ runner.os }}-zig-0.15.2-
-      
+
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
         with:
@@ -63,45 +67,41 @@ jobs:
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}
           restore-keys: |
             ${{ runner.os }}-cargo-
-      
+
       - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install cmake binutils-arm-linux-gnueabihf openssh-client -y
-      
+
       - name: Install cargo-zigbuild
         run: |
           if ! command -v cargo-zigbuild &> /dev/null; then
             cargo install cargo-zigbuild
           fi
           echo "$HOME/.cargo/bin" >> $GITHUB_PATH
-      
+
       - name: Install Nim zigcc wrapper
         run: |
           if ! nimble path zigcc &> /dev/null 2>&1; then
             nimble install zigcc -y
           fi
 
-      - name: Cache Nim packages
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.nimble
-            ~/.cache/nim
-          key: ${{ runner.os }}-nimble-${{ hashFiles('*.nimble') }}
-          restore-keys: |
-            ${{ runner.os }}-nimble-
-      
       - name: Extract version
         id: version
         run: |
           VERSION=$(grep '^version' quark.nimble | cut -d'"' -f2)
           echo "version=$VERSION" >> $GITHUB_OUTPUT
           echo "Version: $VERSION"
-      
+
+      - name: Download RetroArch cores
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.build-cores.outputs.artifact-name }}
+          path: dist/RetroArch/.retroarch
+
       - name: Build project
         run: nimble full -y
-      
+
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -112,12 +112,12 @@ jobs:
           release_name: Quark v${{ steps.version.outputs.version }}
           body: |
             ## Quark v${{ steps.version.outputs.version }}
-            
+
             ### Downloads
             - **BASE**: Core system files only
             - **FULL**: Includes all themes and system gluons
             - **Updater**: Update package for OTA/easy update
-            
+
             See the [README](https://github.com/${{ github.repository }}) for installation instructions.
           draft: false
           prerelease: false
@@ -152,26 +152,14 @@ jobs:
           asset_name: Quark-v${{ steps.version.outputs.version }}-Updater.zip
           asset_content_type: application/zip
 
-      - name: Upload artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: Quark-${{ steps.hash.outputs.hash }}-BASE
-          path: Quark-${{ steps.hash.outputs.hash }}-BASE.zip
-          retention-days: 30
-
       - name: Upload via SFTP
         env:
           SFTP_KEY: ${{ secrets.SFTP_KEY }}
         run: |
-          # Save SSH key to file
           echo "$SFTP_KEY" > /tmp/sftp_key
           chmod 600 /tmp/sftp_key
-          
-          # Upload file
           sftp -o StrictHostKeyChecking=accept-new -i /tmp/sftp_key debian@q.sartor.vip <<EOF
-          put Quark-${{ steps.version.outputs.version }}-Updater.zip /var/www/qstore/store/packages/vip.sartor.q.stable.zip
+          put Quark-v${{ steps.version.outputs.version }}-Updater.zip /var/www/qstore/store/packages/vip.sartor.q.stable.zip
           bye
           EOF
-          
-          # Clean up key
           rm /tmp/sftp_key
