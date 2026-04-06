@@ -48,6 +48,7 @@ jobs:
           mkdir -p output
           docker run --rm \
             -e CORES="${{ steps.corelist.outputs.cores }}" \
+            -e CCACHE_DIR=/ccache \
             -v ${{ github.workspace }}/output:/output \
             -v $HOME/.ccache-retroarch:/ccache \
             ghcr.io/cobaltgit/quark-core-builder:latest
