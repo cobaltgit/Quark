@@ -6,20 +6,24 @@ on:
       - devel
 
 jobs:
+  build-cores:
+    uses: ./.github/workflows/build-cores.yml
+
   nightly:
     runs-on: ubuntu-latest
-    
+    needs: build-cores
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           submodules: recursive
           fetch-depth: 0
-      
+
       - name: Set up Nim
         uses: jiro4989/setup-nim-action@v2
         with:
-          nim-version: '2.2.6'
+          nim-version: "2.2.8"
 
       - name: Cache Nim packages
         uses: actions/cache@v4
@@ -30,12 +34,12 @@ jobs:
           key: ${{ runner.os }}-nimble-${{ hashFiles('*.nimble') }}
           restore-keys: |
             ${{ runner.os }}-nimble-
-      
+
       - name: Install Zig
         uses: goto-bus-stop/setup-zig@v2
         with:
           version: 0.15.2
-      
+
       - name: Cache Zig
         uses: actions/cache@v4
         with:
@@ -45,7 +49,7 @@ jobs:
           key: ${{ runner.os }}-zig-0.15.2-${{ hashFiles('**/*.zig', 'build.zig', 'build.zig.zon') }}
           restore-keys: |
             ${{ runner.os }}-zig-0.15.2-
-      
+
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
         with:
@@ -63,25 +67,25 @@ jobs:
           key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}
           restore-keys: |
             ${{ runner.os }}-cargo-
-      
+
       - name: Install dependencies
         run: |
           sudo apt-get update
           sudo apt-get install cmake binutils-arm-linux-gnueabihf openssh-client -y
-      
+
       - name: Install cargo-zigbuild
         run: |
           if ! command -v cargo-zigbuild &> /dev/null; then
             cargo install cargo-zigbuild
           fi
           echo "$HOME/.cargo/bin" >> $GITHUB_PATH
-      
+
       - name: Install Nim zigcc wrapper
         run: |
           if ! nimble path zigcc &> /dev/null 2>&1; then
             nimble install zigcc -y
           fi
-      
+
       - name: Get commit info
         id: hash
         run: |
@@ -90,15 +94,21 @@ jobs:
           echo "hash=$HASH" >> $GITHUB_OUTPUT
           echo "commit_msg=$COMMIT_MSG" >> $GITHUB_OUTPUT
           echo "Commit: $HASH - $COMMIT_MSG"
-    
+
+      - name: Download RetroArch cores
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.build-cores.outputs.artifact-name }}
+          path: dist/RetroArch/.retroarch
+
       - name: Build nightly
         run: NIGHTLY=1 nimble updater -y --verbose
-      
+
       - name: Delete old continuous release
         run: "gh release delete nightly -y --cleanup-tag || true"
         env:
           GH_TOKEN: ${{ github.token }}
-      
+
       - name: Create continuous release
         id: create_release
         uses: actions/create-release@v1
@@ -108,13 +118,13 @@ jobs:
           tag_name: nightly
           release_name: "Continuous build"
           body: |
-            Automated build of the latest commit. Do note that these builds are not stable.  
+            Automated build of the latest commit. Do note that these builds are not stable.
             For stable releases, see the [releases page](https://github.com/${{ github.repository }}/releases).
-            
+
             **Commit:** `${{ steps.hash.outputs.hash }}`
             **Message:** ${{ steps.hash.outputs.commit_msg }}
             **Built:** ${{ github.event.head_commit.timestamp }}
-            
+
           draft: false
           prerelease: true
 
@@ -142,15 +152,10 @@ jobs:
         env:
           SFTP_KEY: ${{ secrets.SFTP_KEY }}
         run: |
-          # Save SSH key to file
           echo "$SFTP_KEY" > /tmp/sftp_key
           chmod 600 /tmp/sftp_key
-          
-          # Upload file
           sftp -o StrictHostKeyChecking=accept-new -i /tmp/sftp_key debian@q.sartor.vip <<EOF
           put Quark-${{ steps.hash.outputs.hash }}-Updater.zip /var/www/qstore/store/packages/vip.sartor.q.nightly.zip
           bye
           EOF
-          
-          # Clean up key
           rm /tmp/sftp_key
