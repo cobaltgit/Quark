@@ -56,10 +56,11 @@ jobs:
       - name: Print ccache stats
         run: |
           docker run --rm \
+            --entrypoint ccache \
             -v $HOME/.ccache-retroarch:/ccache \
             -e CCACHE_DIR=/ccache \
             ghcr.io/cobaltgit/quark-core-builder:latest \
-            ccache --show-stats
+            --show-stats
 
       - name: Upload cores artifact
         uses: actions/upload-artifact@v4
