@@ -1,8 +1,8 @@
 import std/[os, posix, strutils]
 import nimPNG
 
-import ../common/[fb, process]
-import stb_truetype
+import common/[fb, process]
+import common/ffi/stb_truetype
 
 const
   ScreenWidth = 320

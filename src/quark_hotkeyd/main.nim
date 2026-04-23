@@ -121,13 +121,7 @@ proc main() =
           break
 
         if event.kind == EventKind.EV_KEY.ord:
-          case event.value
-          of 1:
-            pressedKeys.set(event.code, true)
-          of 0:
-            pressedKeys.set(event.code, false)
-          else:
-            discard
+          pressedKeys.set(event.code, event.value == 1)
 
     for hk in hotkeys.mitems:
       var chordDown = true

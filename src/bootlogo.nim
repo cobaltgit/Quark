@@ -1,6 +1,6 @@
 import std/[cmdline, os, posix]
-import ../common/[bootlogo, reboot]
-import ../display/display
+import common/[bootlogo, reboot]
+import display
 
 when isMainModule:
   var shouldReboot = false
