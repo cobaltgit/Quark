@@ -2,8 +2,8 @@ name: Release
 
 on:
   push:
-    branches:
-      - main
+    tags:
+      - "v*"
 
 jobs:
   build-cores:
@@ -15,10 +15,17 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
         with:
           submodules: recursive
           fetch-depth: 0
+
+      - name: Extract version from tag
+        id: version
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Version: $VERSION"
 
       - name: Set up Nim
         uses: jiro4989/setup-nim-action@v2
@@ -86,13 +93,6 @@ jobs:
             nimble install zigcc -y
           fi
 
-      - name: Extract version
-        id: version
-        run: |
-          VERSION=$(grep '^version' quark.nimble | cut -d'"' -f2)
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
-          echo "Version: $VERSION"
-
       - name: Download RetroArch cores
         uses: actions/download-artifact@v4
         with:
@@ -102,55 +102,24 @@ jobs:
       - name: Build project
         run: nimble full -y
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Generate release checksums
+        run: |
+          sha256sum Quark-v${{ steps.version.outputs.version }}-BASE.zip > Quark-v${{ steps.version.outputs.version }}-BASE.zip.sha256
+          sha256sum Quark-v${{ steps.version.outputs.version }}-FULL.zip > Quark-v${{ steps.version.outputs.version }}-FULL.zip.sha256
+
+      - name: Create draft release and upload assets
+        uses: softprops/action-gh-release@v2
         with:
-          tag_name: v${{ steps.version.outputs.version }}
-          release_name: Quark v${{ steps.version.outputs.version }}
-          body: |
-            ## Quark v${{ steps.version.outputs.version }}
-
-            ### Downloads
-            - **BASE**: Core system files only
-            - **FULL**: Includes all themes and system gluons
-            - **Updater**: Update package for OTA/easy update
-
-            See the [README](https://github.com/${{ github.repository }}) for installation instructions.
-          draft: false
+          tag_name: ${{ github.ref_name }}
+          name: Quark ${{ github.ref_name }}
+          draft: true
           prerelease: false
-
-      - name: Upload BASE zip
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./Quark-v${{ steps.version.outputs.version }}-BASE.zip
-          asset_name: Quark-v${{ steps.version.outputs.version }}-BASE.zip
-          asset_content_type: application/zip
-
-      - name: Upload FULL zip
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./Quark-v${{ steps.version.outputs.version }}-FULL.zip
-          asset_name: Quark-v${{ steps.version.outputs.version }}-FULL.zip
-          asset_content_type: application/zip
-
-      - name: Upload Updater zip
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./Quark-v${{ steps.version.outputs.version }}-Updater.zip
-          asset_name: Quark-v${{ steps.version.outputs.version }}-Updater.zip
-          asset_content_type: application/zip
+          files: |
+            Quark-v${{ steps.version.outputs.version }}-BASE.zip
+            Quark-v${{ steps.version.outputs.version }}-BASE.zip.sha256
+            Quark-v${{ steps.version.outputs.version }}-FULL.zip
+            Quark-v${{ steps.version.outputs.version }}-FULL.zip.sha256
+            Quark-v${{ steps.version.outputs.version }}-Updater.zip
 
       - name: Upload via SFTP
         env:
