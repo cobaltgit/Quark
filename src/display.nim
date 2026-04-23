@@ -26,17 +26,6 @@ proc fromRGB565(pixel: uint16, r, g, b: var uint8) {.inline.} =
   g = SixToEight[(pixel shr 5) and 0x3F]
   b = FiveToEight[pixel and 0x1F]
 
-proc setPixel(fb: ptr UncheckedArray[uint16], x, y: int, color: uint16) {.inline.} =
-  if x >= 0 and x < ScreenWidth and y >= 0 and y < ScreenHeight:
-    let fbIdx = RowOffsets[RotationXMap[x]] + y
-    fb[fbIdx] = color
-
-proc getPixel(fb: ptr UncheckedArray[uint16], x, y: int): uint16 {.inline.} =
-  if x >= 0 and x < SCREEN_WIDTH and y >= 0 and y < SCREEN_HEIGHT:
-    let fbIdx = RowOffsets[RotationXMap[x]] + y
-    return fb[fbIdx]
-  return 0
-
 proc loadFont(path: string): seq[byte] =
   let f = open(path, fmRead)
   defer: f.close()
@@ -88,38 +77,50 @@ proc renderTextLine(fb: ptr UncheckedArray[uint16], font: ptr stbtt_fontinfo,
   var cr, cg, cb: uint8
   fromRGB565(color, cr, cg, cb)
 
+  var bitmapBuf = newSeqUninit[byte](64 * 64)
+
   for i, ch in text:
     var ix0, iy0, ix1, iy1: cint
     stbtt_GetCodepointBitmapBox(font, cint(ch), scale, scale,
                                 addr ix0, addr iy0, addr ix1, addr iy1)
-
     let w = ix1 - ix0
     let h = iy1 - iy0
 
     if w > 0 and h > 0:
-      var bitmap = newSeqUninit[byte](w * h)
-      stbtt_MakeCodepointBitmap(font, cast[ptr UncheckedArray[byte]](addr bitmap[0]),
-                                w, h, w, scale, scale, cint(ch))
+      let needed = w * h
+      if needed > bitmapBuf.len:
+        bitmapBuf.setLen(needed)
 
-      {.push checks:off.}
-      for by in 0..<h:
-        for bx in 0..<w:
-          let alpha = bitmap[by * w + bx]
-          if alpha > 0:
-            let px = x + int(ix0) + bx
-            let py = baseline + int(iy0) + by
+      stbtt_MakeCodepointBitmap(font,
+        cast[ptr UncheckedArray[byte]](addr bitmapBuf[0]),
+        w, h, w, scale, scale, cint(ch))
 
-            if px >= 0 and px < ScreenWidth and py >= 0 and py < ScreenHeight:
-              let bgPixel = getPixel(fb, px, py)
+      let charX = x + int(ix0)
+      let charY = baseline + int(iy0)
 
-              var bgR, bgG, bgB: uint8
-              fromRGB565(bgPixel, bgR, bgG, bgB)
+      {.push checks: off.}
+      for bx in 0..<w:
+        let px = charX + bx
+        if px < 0 or px >= ScreenWidth: continue
+        let fbBase = FbXBase[px]
 
-              let newR = uint8((uint16(cr) * alpha + uint16(bgR) * (255 - alpha)) div 255)
-              let newG = uint8((uint16(cg) * alpha + uint16(bgG) * (255 - alpha)) div 255)
-              let newB = uint8((uint16(cb) * alpha + uint16(bgB) * (255 - alpha)) div 255)
+        for by in 0..<h:
+          let alpha = bitmapBuf[by * w + bx]
+          if alpha == 0: continue
+          let py = charY + by
+          if py < 0 or py >= ScreenHeight: continue
 
-              setPixel(fb, px, py, toRGB565(newR, newG, newB))
+          if alpha == 255:
+            fb[fbBase + py] = color
+          else:
+            let bgPixel = fb[fbBase + py]
+            var bgR, bgG, bgB: uint8
+            fromRGB565(bgPixel, bgR, bgG, bgB)
+            let inv = 255 - uint16(alpha)
+            let newR = uint8((uint16(cr) * uint16(alpha) + uint16(bgR) * inv) div 255)
+            let newG = uint8((uint16(cg) * uint16(alpha) + uint16(bgG) * inv) div 255)
+            let newB = uint8((uint16(cb) * uint16(alpha) + uint16(bgB) * inv) div 255)
+            fb[fbBase + py] = toRGB565(newR, newG, newB)
       {.pop.}
 
     var advanceWidth, leftSideBearing: cint
@@ -168,7 +169,7 @@ proc display*(text: string,
       let g = png.data[srcIdx + 1]
       let b = png.data[srcIdx + 2]
       srcIdx += 4
-      fb[RowOffsets[RotationXMap[lx]] + ly] = toRGB565(r.uint8, g.uint8, b.uint8)
+      fb[FbXBase[lx] + ly] = toRGB565(r.uint8, g.uint8, b.uint8)
 
   if not fileExists(fontPath):
     raise newException(IOError, "display: font file not found: " & fontPath)
