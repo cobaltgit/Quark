@@ -11,7 +11,7 @@ jobs:
 
   nightly:
     runs-on: ubuntu-latest
-    #needs: build-cores
+    needs: build-cores
 
     steps:
       - name: Checkout code
