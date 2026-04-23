@@ -15,11 +15,10 @@ switch("clang.linkerexe", "zigcc")
 switch("passC",
   "-target arm-linux-gnueabihf.2.23 " &
   "-mcpu=cortex_a7 " &
-  "-Os -ffunction-sections -fdata-sections -fno-unwind-tables -fno-asynchronous-unwind-tables"
+  "-ffunction-sections -fdata-sections -fno-unwind-tables -fno-asynchronous-unwind-tables"
 )
 
 switch("passL",
   "-target arm-linux-gnueabihf.2.23 " &
   "-Wl,--gc-sections -Wl,--strip-all"
 )
-
