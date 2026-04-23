@@ -27,7 +27,7 @@ proc fromRGB565(pixel: uint16, r, g, b: var uint8) {.inline.} =
   b = FiveToEight[pixel and 0x1F]
 
 proc setPixel(fb: ptr UncheckedArray[uint16], x, y: int, color: uint16) {.inline.} =
-  if x >= 0 and x < SCREEN_WIDTH and y >= 0 and y < SCREEN_HEIGHT:
+  if x >= 0 and x < ScreenWidth and y >= 0 and y < ScreenHeight:
     let fbIdx = RowOffsets[RotationXMap[x]] + y
     fb[fbIdx] = color
 
