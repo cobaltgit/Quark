@@ -1,7 +1,7 @@
 import std/posix
 import nimPNG
 
-const 
+const
   FbWidth* = 240
   FbHeight* = 320
   FbPixels* = FbWidth * FbHeight
@@ -25,24 +25,26 @@ const
     for i in 0..255:
       arr[i] = uint8(i shr 3)
     arr
-  
+
   EightToSix*: array[256, uint8] = block:
     var arr: array[256, uint8]
     for i in 0..255:
       arr[i] = uint8(i shr 2)
     arr
-  
+
   RowOffsets*: array[FbHeight, int] = block:
     var arr: array[FbHeight, int]
     for y in 0..<FbHeight:
       arr[y] = y * FbWidth
     arr
-  
+
   RotationXMap*: array[FbHeight, int] = block:
     var arr: array[FbHeight, int]
     for x in 0..<FbHeight:
       arr[x] = 319 - x
     arr
+
+{.push optimization:speed, checks:off, warnings:off.}
 
 proc fbclear*() =
   let fd = posix.open("/dev/fb0", O_RDWR)
@@ -50,7 +52,7 @@ proc fbclear*() =
     raise newException(IOError, "Unable to open framebuffer")
 
   defer: discard close(fd)
-  
+
   let fbMap = mmap(nil, FbSize, PROT_READ or PROT_WRITE, MAP_SHARED, fd, 0)
 
   if fbMap == MAP_FAILED:
@@ -63,14 +65,14 @@ proc fbclear*() =
 proc fbscreenshot*(output: string) =
   let fbFile = system.open("/dev/fb0", fmRead)
   defer: fbFile.close()
-  
+
   var fbData: array[FbSize, uint8]
   let bytesRead = fbFile.readBuffer(addr fbData[0], fbData.len)
-  
+
   if bytesRead != fbData.len:
     raise newException(IOError, "Failed to read complete framebuffer data")
-  
-  var rotatedPixels = newSeqUninit[uint8](FbSize * 2)
+
+  var rotatedPixels = newSeqUninit[uint8](FbPixels * 4)
 
   var srcIdx = 0
   for y in 0..<FbHeight:
@@ -88,6 +90,5 @@ proc fbscreenshot*(output: string) =
       rotatedPixels[dstIdx + 1] = SixToEight[g]
       rotatedPixels[dstIdx + 2] = FiveToEight[b]
       rotatedPixels[dstIdx + 3] = 255
-  
-  discard savePNG32(output, rotatedPixels, FbHeight, FbWidth)
 
+  discard savePNG32(output, rotatedPixels, FbHeight, FbWidth)

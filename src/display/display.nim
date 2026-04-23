@@ -12,6 +12,8 @@ const
   DefaultFont* = "/mnt/SDCARD/System/res/TwCenMT.ttf"
   FontSize = 24.0
 
+{.push optimization:speed, warnings:off.}
+
 var childPid: Pid = -1
 
 proc toRGB565(r, g, b: uint8): uint16 {.inline.} =
@@ -95,10 +97,11 @@ proc renderTextLine(fb: ptr UncheckedArray[uint16], font: ptr stbtt_fontinfo,
     let h = iy1 - iy0
 
     if w > 0 and h > 0:
-      var bitmap = newSeq[byte](w * h)
+      var bitmap = newSeqUninit[byte](w * h)
       stbtt_MakeCodepointBitmap(font, cast[ptr UncheckedArray[byte]](addr bitmap[0]),
                                 w, h, w, scale, scale, cint(ch))
 
+      {.push checks:off.}
       for by in 0..<h:
         for bx in 0..<w:
           let alpha = bitmap[by * w + bx]
@@ -112,12 +115,12 @@ proc renderTextLine(fb: ptr UncheckedArray[uint16], font: ptr stbtt_fontinfo,
               var bgR, bgG, bgB: uint8
               fromRGB565(bgPixel, bgR, bgG, bgB)
 
-              let a = cfloat(alpha) / 255.0
-              let newR = uint8(cfloat(cr) * a + cfloat(bgR) * (1.0 - a))
-              let newG = uint8(cfloat(cg) * a + cfloat(bgG) * (1.0 - a))
-              let newB = uint8(cfloat(cb) * a + cfloat(bgB) * (1.0 - a))
+              let newR = uint8((uint16(cr) * alpha + uint16(bgR) * (255 - alpha)) div 255)
+              let newG = uint8((uint16(cg) * alpha + uint16(bgG) * (255 - alpha)) div 255)
+              let newB = uint8((uint16(cb) * alpha + uint16(bgB) * (255 - alpha)) div 255)
 
               setPixel(fb, px, py, toRGB565(newR, newG, newB))
+      {.pop.}
 
     var advanceWidth, leftSideBearing: cint
     stbtt_GetCodepointHMetrics(font, cint(ch), addr advanceWidth, addr leftSideBearing)
@@ -156,6 +159,8 @@ proc display*(text: string,
 
   let png = loadPNG32(backgroundPath)
 
+  zeroMem(fbMap, FbSize)
+
   var srcIdx = 0
   for ly in 0..<min(png.height, ScreenHeight):
     for lx in 0..<min(png.width, ScreenWidth):
@@ -164,12 +169,6 @@ proc display*(text: string,
       let b = png.data[srcIdx + 2]
       srcIdx += 4
       fb[RowOffsets[RotationXMap[lx]] + ly] = toRGB565(r.uint8, g.uint8, b.uint8)
-
-  if png.width < ScreenWidth or png.height < ScreenHeight:
-    for ly in 0..<ScreenHeight:
-      for lx in 0..<ScreenWidth:
-        if lx >= png.width or ly >= png.height:
-          setPixel(fb, lx, ly, 0)
 
   if not fileExists(fontPath):
     raise newException(IOError, "display: font file not found: " & fontPath)
@@ -207,6 +206,8 @@ proc display*(text: string,
       discard pause()
   else:
     sleep(duration)
+
+{.pop.}
 
 proc showUsage(progName: string) =
   stderr.writeLine("Usage: " & progName & " -t \"text\" [-b background.png] [-d duration_ms] [-f font.ttf]")
