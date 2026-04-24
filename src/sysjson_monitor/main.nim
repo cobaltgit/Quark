@@ -16,8 +16,6 @@ proc setVolume(volume: int64) =
   if not isCharacterDevice("/dev/audio1"):
     return
 
-  let volPercent = volume * 5
-
   var mixer: SndMixerT
   if snd_mixer_open(addr mixer, 0) < 0:
     return
@@ -42,7 +40,7 @@ proc setVolume(volume: int64) =
   var minVol, maxVol: clong
   discard snd_mixer_selem_get_playback_volume_range(elem, addr minVol, addr maxVol)
 
-  let rawVol = minVol + clong((maxVol - minVol) * volPercent div 100)
+  let rawVol = minVol + clong((maxVol - minVol) * volume div 20)
   discard snd_mixer_selem_set_playback_volume_all(elem, rawVol)
 
 proc main() =
