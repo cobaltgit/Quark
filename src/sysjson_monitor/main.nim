@@ -1,5 +1,6 @@
-import std/[os, posix, osproc, inotify, options]
+import std/[os, posix, inotify, options]
 import ../common/[bootlogo, process, reboot]
+import ../common/ffi/amixer
 import config
 
 from ../common/fb import fbclear
@@ -15,8 +16,32 @@ proc setVolume(volume: int64) =
   if not isCharacterDevice("/dev/audio1"):
     return
 
-  let volPercent = volume * 5
-  discard execCmd("amixer -c 1 sset PCM " & $volPercent & "%")
+  var mixer: SndMixerT
+  if snd_mixer_open(addr mixer, 0) < 0:
+    return
+  defer: discard snd_mixer_close(mixer)
+
+  if snd_mixer_attach(mixer, "hw:1") < 0: return
+  if snd_mixer_selem_register(mixer, nil, nil) < 0: return
+  if snd_mixer_load(mixer) < 0: return
+
+  let idSize = snd_mixer_selem_id_sizeof()
+  var idBuf  = alloc0(idSize)
+  defer: dealloc(idBuf)
+  let sid    = cast[SndMixerSelemIdT](idBuf)
+
+  snd_mixer_selem_id_set_index(sid, 0)
+  snd_mixer_selem_id_set_name(sid, "PCM")
+
+  let elem = snd_mixer_find_selem(mixer, sid)
+  if elem == nil:
+    return
+
+  var minVol, maxVol: clong
+  discard snd_mixer_selem_get_playback_volume_range(elem, addr minVol, addr maxVol)
+
+  let rawVol = minVol + clong((maxVol - minVol) * volume div 20)
+  discard snd_mixer_selem_set_playback_volume_all(elem, rawVol)
 
 proc main() =
   var json = getConfig()
@@ -50,7 +75,7 @@ proc main() =
           $cast[cstring](addr e.name)
         else:
           ""
-          
+
       json = getConfig()
 
       if e.wd == sysJsonWd and (e.mask and IN_MODIFY.uint32) != 0:
@@ -78,7 +103,7 @@ proc main() =
         except:
           stderr.writeLine("Error reading JSON")
 
-      elif e.wd == devWd and (e.mask and IN_CREATE.uint32) != 0 and 
+      elif e.wd == devWd and (e.mask and IN_CREATE.uint32) != 0 and
         name == "audio1" and isCharacterDevice("/dev/audio1"):
           sleep(100)
           try:
@@ -91,4 +116,3 @@ proc main() =
 
 when isMainModule:
   main()
-

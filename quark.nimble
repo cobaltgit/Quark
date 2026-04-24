@@ -5,13 +5,20 @@ author         = "cobaltgit"
 description    = "Quark stock mod for TrimUI Smart"
 license        = "GPL-3.0"
 srcDir         = "src"
-bin            = @["fbscreenshot/fbscreenshot", "quark_hotkeyd/quark_hotkeyd", "sysjson_monitor/sysjson_monitor", "mainui_game_picker/mainui_game_picker", "bootlogo/bootlogo", "display/display"]
 
 requires "nim >= 2.0.0"
 requires "nimPNG >= 0.3.1"
 
 const Root = getCurrentDir()
 const BinDir = Root / "dist" / "System" / "bin"
+const Bins = {
+  "fbscreenshot.nim": "fbscreenshot",
+  "quark_hotkeyd/main.nim": "quark_hotkeyd",
+  "sysjson_monitor/main.nim": "sysjson_monitor",
+  "mainui_game_picker.nim": "mainui_game_picker",
+  "bootlogo.nim": "bootlogo",
+  "display.nim": "display",
+}.toTable()
 const Threads = gorge("nproc")
 
 # Import task files
@@ -20,9 +27,8 @@ include "tasks/dist.nims"
 include "tasks/locale.nims"
 
 task buildBins, "Build binaries":
-    for exe in bin:
-        let binName = exe.split("/")[^1]
-        selfExec &"c -o:{BinDir}/{binName} {srcDir}/{exe}.nim"
+    for src, output in Bins:
+        selfExec &"c -o:{BinDir}/{output} {srcDir}/{src}"
 
 task cleanup, "Cleanup all":
   exec "nimble clean"

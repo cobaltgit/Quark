@@ -1,63 +1,58 @@
-import std/[os, posix, strformat, strutils, sets]
+import std/[os, posix, strformat, strutils, sets, tables]
+
+proc getParentPid(pid: int): int =
+  try:
+    let stat = readFile(&"/proc/{pid}/stat")
+    let afterComm = stat.find(')')
+    if afterComm < 0:
+      return -1
+    let fields = stat[afterComm + 2 .. ^1].splitWhitespace()
+    if fields.len >= 2:
+      result = parseInt(fields[1])
+    else:
+      result = -1
+  except CatchableError:
+    result = -1
+
+proc getProcessMap(): Table[string, seq[int]] =
+  result = initTable[string, seq[int]]()
+  for kind, path in walkDir("/proc"):
+    if kind != pcDir:
+      continue
+    let name = path.extractFilename()
+    try:
+      let pid = parseInt(name)
+      let commPath = path / "comm"
+      if fileExists(commPath):
+        let comm = readFile(commPath).strip()
+        if comm notin result:
+          result[comm] = @[]
+        result[comm].add(pid)
+    except CatchableError:
+      continue
 
 proc killall*(processName: string, signal: cint, excludePid: int = -1): bool =
-  var killed = false
-  
-  for kind, path in walkDir("/proc"):
-    if kind == pcDir:
-      let name = path.extractFilename()
-      try:
-        let pid = parseInt(name)
-        if pid == excludePid:
-          continue
-        
-        let commPath = path / "comm"
-        if fileExists(commPath):
-          let comm = readFile(commPath).strip()
-          
-          if comm == processName:
-            if kill(cint(pid), signal) == 0:
-              killed = true
-      except ValueError:
-        continue
-  
-  result = killed
+  let processMap = getProcessMap()
+  if processName notin processMap:
+    return false
+
+  for pid in processMap[processName]:
+    if pid == excludePid:
+      continue
+    if kill(cint(pid), signal) == 0:
+      result = true
 
 proc getProcessChildren*(ppid: int, pids: var HashSet[int]) =
   for kind, path in walkDir("/proc"):
-    if kind == pcDir:
-      let name = path.extractFilename()
-      if name.len > 0 and name[0].isDigit:
-        try:
-          let pid = parseInt(name)
-          let statPath = &"/proc/{pid}/stat"
-          if fileExists(statPath):
-            let stat = readFile(statPath)
-            var fields = 0
-            var parentPid = 0
-            var inParen = false
-            var field = ""
-            
-            for c in stat:
-              if c == '(':
-                inParen = true
-              elif c == ')':
-                inParen = false
-              elif c == ' ' and not inParen:
-                inc fields
-                if fields == 4:
-                  try:
-                    parentPid = parseInt(field)
-                  except ValueError:
-                    discard
-                  break
-                field = ""
-              else:
-                if not inParen or fields > 0:
-                  field.add(c)
-            
-            if parentPid == ppid:
-              pids.incl(pid)
-              getProcessChildren(pid, pids)
-        except:
-          discard
+    if kind != pcDir:
+      continue
+    let name = path.extractFilename()
+    if name.len == 0 or not name[0].isDigit:
+      continue
+    try:
+      let pid = parseInt(name)
+      if getParentPid(pid) == ppid:
+        pids.incl(pid)
+        getProcessChildren(pid, pids)
+    except CatchableError:
+      continue

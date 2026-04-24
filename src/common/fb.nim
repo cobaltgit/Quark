@@ -32,16 +32,10 @@ const
       arr[i] = uint8(i shr 2)
     arr
 
-  RowOffsets*: array[FbHeight, int] = block:
-    var arr: array[FbHeight, int]
-    for y in 0..<FbHeight:
-      arr[y] = y * FbWidth
-    arr
-
-  RotationXMap*: array[FbHeight, int] = block:
+  FbXBase*: array[FbHeight, int] = block:
     var arr: array[FbHeight, int]
     for x in 0..<FbHeight:
-      arr[x] = 319 - x
+      arr[x] = (FbHeight - 1 - x) * FbWidth
     arr
 
 {.push optimization:speed, checks:off, warnings:off.}
@@ -74,18 +68,19 @@ proc fbscreenshot*(output: string) =
 
   var rotatedPixels = newSeqUninit[uint8](FbPixels * 4)
 
-  var srcIdx = 0
-  for y in 0..<FbHeight:
-    for x in 0..<FbWidth:
-      let pixel = uint16(fbData[srcIdx]) or (uint16(fbData[srcIdx + 1]) shl 8)
-      srcIdx += 2
+  for x in 0..<FbWidth:
+    let colBase = x * FbHeight
+    var srcBase = x * 2
+
+    for y in 0..<FbHeight:
+      let pixel = uint16(fbData[srcBase]) or (uint16(fbData[srcBase + 1]) shl 8)
+      srcBase += FbWidth * 2
 
       let r = (pixel shr 11) and 0x1F
       let g = (pixel shr 5) and 0x3F
       let b = pixel and 0x1F
 
-      let dstIdx = (x * FbHeight + (FbHeight - 1 - y)) * 4
-
+      let dstIdx = (colBase + FbHeight - 1 - y) * 4
       rotatedPixels[dstIdx] = FiveToEight[r]
       rotatedPixels[dstIdx + 1] = SixToEight[g]
       rotatedPixels[dstIdx + 2] = FiveToEight[b]
