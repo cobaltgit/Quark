@@ -8,16 +8,20 @@ BACKUP_LOG="/mnt/SDCARD/Updater/updater.log"
 export PATH="$(dirname "$0")/bin:$PATH"
 
 if [ "$1" = "--restore" ]; then
-    display -t "Restoring user data..."
-
     BACKUP_TO_RESTORE="$(ls -t /mnt/SDCARD/Saves/QuarkBackup_*.tar.gz | head -1)"
-    log_message "Updater: restoring backup $BACKUP_TO_RESTORE..."
+    if [ -z "$BACKUP_TO_RESTORE" ]; then
+        log_message "Updater: no backup found to restore" "$BACKUP_LOG"
+        display_msg -d 1500 -t "No backup found to restore"
+        exit 1
+    fi
+    display_msg -t "Restoring user data..."
+    log_message "Updater: restoring backup $BACKUP_TO_RESTORE..." "$BACKUP_LOG"
     sync
     if tar xzvf "$BACKUP_TO_RESTORE" -C / >> "$BACKUP_LOG" 2>&1; then
-        log_message "Updater: successfully restored backup"
+        log_message "Updater: successfully restored backup" "$BACKUP_LOG"
         display_msg -d 1500 -t "Successfully restored user data"
     else
-        log_message "Updater: failed to restore backup"
+        log_message "Updater: failed to restore backup" "$BACKUP_LOG"
         display_msg -d 1500 -t "Failed to restore user data"
     fi
 else
@@ -36,7 +40,7 @@ else
     display_msg -t "Backing up user data..."
 
     if while IFS= read -r f; do [ -e "$f" ] && echo "$f"; done < backup_list.txt | \
-        tar -czvf "$BACKUP_LOCATION" -T - >> "$BACKUP_LOG" 2>&1; then
+        tar -cv -T - 2>>"$BACKUP_LOG" | gzip > "$BACKUP_LOCATION"; then
         log_message "Updater: successfully backed up files" "$BACKUP_LOG"
         display_msg -d 1500 -t "Successfully backed up user data"
     else
