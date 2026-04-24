@@ -116,7 +116,7 @@ proc renderTextLine(fb: ptr UncheckedArray[uint16], font: ptr stbtt_fontinfo,
             let bgPixel = fb[fbBase + py]
             var bgR, bgG, bgB: uint8
             fromRGB565(bgPixel, bgR, bgG, bgB)
-            let inv = 255 - uint16(alpha)
+            let inv = 255'u32 - uint32(alpha)
             let newR = uint8((uint16(cr) * uint16(alpha) + uint16(bgR) * inv) div 255)
             let newG = uint8((uint16(cg) * uint16(alpha) + uint16(bgG) * inv) div 255)
             let newB = uint8((uint16(cb) * uint16(alpha) + uint16(bgB) * inv) div 255)
