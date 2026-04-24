@@ -35,7 +35,8 @@ else
     log_message "Creating backup of user data - $BACKUP_LOCATION"
     display_msg -t "Backing up user data..."
 
-    if tar -czvf "$BACKUP_LOCATION" -T backup_list.txt >> "$BACKUP_LOG" 2>&1; then
+    if while IFS= read -r f; do [ -e "$f" ] && echo "$f"; done < backup_list.txt | \
+        tar -czvf "$BACKUP_LOCATION" -T - >> "$BACKUP_LOG" 2>&1; then
         log_message "Updater: successfully backed up files" "$BACKUP_LOG"
         display_msg -d 1500 -t "Successfully backed up user data"
     else
