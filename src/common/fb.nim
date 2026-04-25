@@ -20,22 +20,10 @@ const
       arr[i] = uint8((i shl 2) or (i shr 4))
     arr
 
-  EightToFive*: array[256, uint8] = block:
-    var arr: array[256, uint8]
-    for i in 0..255:
-      arr[i] = uint8(i shr 3)
-    arr
-
-  EightToSix*: array[256, uint8] = block:
-    var arr: array[256, uint8]
-    for i in 0..255:
-      arr[i] = uint8(i shr 2)
-    arr
-
-  FbXBase*: array[FbHeight, int] = block:
-    var arr: array[FbHeight, int]
+  FbXBase*: array[FbHeight, uint32] = block:
+    var arr: array[FbHeight, uint32]
     for x in 0..<FbHeight:
-      arr[x] = (FbHeight - 1 - x) * FbWidth
+      arr[x] = uint32((FbHeight - 1 - x) * FbWidth)
     arr
 
 {.push optimization:speed, checks:off, warnings:off.}
