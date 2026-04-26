@@ -4,116 +4,138 @@
 #include <arm_neon.h>
 #include <stdint.h>
 
-/* Phase 1: RGBA -> RGB565, 8 pixels at a time.
- * vld4_u8 deinterleaves the four channels for free. */
-void rgba_to_rgb565(const uint8_t* src, uint16_t* dst, int n) {
+/* -------------------------------------------------------------------------
+ * Cortex-A7 notes:
+ *
+ *  - 64-bit NEON unit: q-register (128-bit) ops cost 2 cycles; d-register
+ *    (64-bit) ops cost 1 cycle. The transpose uses d-registers throughout.
+ *    rgba_to_rgb565 must use q-registers for widened intermediates (8 lanes
+ *    of uint16 is 128 bits — there is no narrower option), so no savings
+ *    there, but the 16-pixel unroll saturates each 64-byte cache line.
+ *
+ *  - In-order pipeline: cache misses stall directly. __builtin_prefetch
+ *    issues a PLD instruction to run ahead of the miss.
+ *
+ *  - L1 cache line: 64 bytes = 16 RGBA pixels = 32 RGB565 pixels.
+ * ------------------------------------------------------------------------- */
+
+/* -------------------------------------------------------------------------
+ * Phase 1: RGBA -> RGB565
+ * 16 pixels per iteration = one full 64-byte cache line of RGBA input.
+ * Intermediate values are necessarily q-registers (8×uint16 = 128 bits).
+ * ------------------------------------------------------------------------- */
+void rgba_to_rgb565(const uint8_t* src, uint16_t* dst, int n)
+{
+    /* Prefetch 4 cache lines ahead. On A7 the hardware prefetcher handles
+     * sequential access well, but an explicit prefetch avoids any startup
+     * latency at the beginning of the buffer. */
+    for (; n >= 16; n -= 16, src += 64, dst += 16) {
+        __builtin_prefetch(src + 256, 0, 1);
+
+        /* vld4_u8 deinterleaves RGBA into four d-registers (8 bytes each),
+         * giving us channels for 8 pixels per call at no extra cost. */
+        uint8x8x4_t px0 = vld4_u8(src);
+        uint8x8x4_t px1 = vld4_u8(src + 32);
+
+        /* vmovl_u8: d-reg -> q-reg widen (unavoidable for 16-bit output).
+         * vshlq_n_u16 and vorrq_u16 are q-reg ops (2 cycles each on A7),
+         * but there is no d-register equivalent for this pipeline. */
+        uint16x8_t r0 = vshlq_n_u16(vmovl_u8(vshr_n_u8(px0.val[0], 3)), 11);
+        uint16x8_t g0 = vshlq_n_u16(vmovl_u8(vshr_n_u8(px0.val[1], 2)),  5);
+        uint16x8_t b0 =             vmovl_u8(vshr_n_u8(px0.val[2], 3));
+        vst1q_u16(dst,     vorrq_u16(vorrq_u16(r0, g0), b0));
+
+        uint16x8_t r1 = vshlq_n_u16(vmovl_u8(vshr_n_u8(px1.val[0], 3)), 11);
+        uint16x8_t g1 = vshlq_n_u16(vmovl_u8(vshr_n_u8(px1.val[1], 2)),  5);
+        uint16x8_t b1 =             vmovl_u8(vshr_n_u8(px1.val[2], 3));
+        vst1q_u16(dst + 8, vorrq_u16(vorrq_u16(r1, g1), b1));
+    }
+
+    /* 8-pixel tail */
     for (; n >= 8; n -= 8, src += 32, dst += 8) {
         uint8x8x4_t px = vld4_u8(src);
-
         uint16x8_t r = vshlq_n_u16(vmovl_u8(vshr_n_u8(px.val[0], 3)), 11);
         uint16x8_t g = vshlq_n_u16(vmovl_u8(vshr_n_u8(px.val[1], 2)),  5);
         uint16x8_t b =             vmovl_u8(vshr_n_u8(px.val[2], 3));
-
         vst1q_u16(dst, vorrq_u16(vorrq_u16(r, g), b));
     }
-    /* scalar tail for any remainder */
+
+    /* Scalar tail */
     for (; n > 0; n--, src += 4, dst++)
         *dst = ((uint16_t)(src[0] >> 3) << 11)
              | ((uint16_t)(src[1] >> 2) <<  5)
              |  (uint16_t)(src[2] >> 3);
 }
 
-/* Transpose one 8×8 block of uint16.
- * src_stride: row stride in src (elements, not bytes).
- * dst_stride: column stride in dst — negative for reversed-column layout. */
-static inline void transpose_8x8(
+/* -------------------------------------------------------------------------
+ * Phase 2: 4×4 tiled transpose using d-registers only.
+ *
+ * vtrn_u16 and vtrn_u32 are d-register ops (1 cycle on A7).
+ * vst1_u16 is a d-register store (1 cycle on A7).
+ * The 8×8 version used vtrnq/vst1q (2 cycles each) — this is cheaper.
+ *
+ * src_width and src_height must be multiples of 4.
+ * 240 and 320 are both divisible by 4. ✓
+ * ------------------------------------------------------------------------- */
+static inline void transpose_4x4(
     const uint16_t* src, int src_stride,
           uint16_t* dst, int dst_stride)
 {
-    uint16x8_t r0 = vld1q_u16(src + 0 * src_stride);
-    uint16x8_t r1 = vld1q_u16(src + 1 * src_stride);
-    uint16x8_t r2 = vld1q_u16(src + 2 * src_stride);
-    uint16x8_t r3 = vld1q_u16(src + 3 * src_stride);
-    uint16x8_t r4 = vld1q_u16(src + 4 * src_stride);
-    uint16x8_t r5 = vld1q_u16(src + 5 * src_stride);
-    uint16x8_t r6 = vld1q_u16(src + 6 * src_stride);
-    uint16x8_t r7 = vld1q_u16(src + 7 * src_stride);
+    uint16x4_t r0 = vld1_u16(src + 0 * src_stride);
+    uint16x4_t r1 = vld1_u16(src + 1 * src_stride);
+    uint16x4_t r2 = vld1_u16(src + 2 * src_stride);
+    uint16x4_t r3 = vld1_u16(src + 3 * src_stride);
 
-    /* Round 1: interleave adjacent pairs of u16 */
-    uint16x8x2_t q01 = vtrnq_u16(r0, r1);
-    uint16x8x2_t q23 = vtrnq_u16(r2, r3);
-    uint16x8x2_t q45 = vtrnq_u16(r4, r5);
-    uint16x8x2_t q67 = vtrnq_u16(r6, r7);
+    /* Round 1: interleave adjacent u16 pairs (d-register, 1 cycle) */
+    uint16x4x2_t q01 = vtrn_u16(r0, r1);
+    uint16x4x2_t q23 = vtrn_u16(r2, r3);
 
-    /* Round 2: interleave 2×2 blocks via u32 reinterpret */
-    uint32x4x2_t q0123e = vtrnq_u32(vreinterpretq_u32_u16(q01.val[0]),
-                                     vreinterpretq_u32_u16(q23.val[0]));
-    uint32x4x2_t q0123o = vtrnq_u32(vreinterpretq_u32_u16(q01.val[1]),
-                                     vreinterpretq_u32_u16(q23.val[1]));
-    uint32x4x2_t q4567e = vtrnq_u32(vreinterpretq_u32_u16(q45.val[0]),
-                                     vreinterpretq_u32_u16(q67.val[0]));
-    uint32x4x2_t q4567o = vtrnq_u32(vreinterpretq_u32_u16(q45.val[1]),
-                                     vreinterpretq_u32_u16(q67.val[1]));
+    /* Round 2: interleave u32 pairs to complete the transpose */
+    uint32x2x2_t q0123e = vtrn_u32(vreinterpret_u32_u16(q01.val[0]),
+                                    vreinterpret_u32_u16(q23.val[0]));
+    uint32x2x2_t q0123o = vtrn_u32(vreinterpret_u32_u16(q01.val[1]),
+                                    vreinterpret_u32_u16(q23.val[1]));
 
-    /* Round 3: combine low/high halves across the 4×4 boundary.
-     * (vtrnq_u64 is AArch64 only; use vcombine+vget_low/high on AArch32) */
-#define LHCOMBINE(a, b) \
-    vcombine_u16(vget_low_u16(vreinterpretq_u16_u32(a)), \
-                 vget_low_u16(vreinterpretq_u16_u32(b)))
-#define HHCOMBINE(a, b) \
-    vcombine_u16(vget_high_u16(vreinterpretq_u16_u32(a)), \
-                 vget_high_u16(vreinterpretq_u16_u32(b)))
-
-    uint16x8_t o0 = LHCOMBINE(q0123e.val[0], q4567e.val[0]);
-    uint16x8_t o1 = LHCOMBINE(q0123o.val[0], q4567o.val[0]);
-    uint16x8_t o2 = LHCOMBINE(q0123e.val[1], q4567e.val[1]);
-    uint16x8_t o3 = LHCOMBINE(q0123o.val[1], q4567o.val[1]);
-    uint16x8_t o4 = HHCOMBINE(q0123e.val[0], q4567e.val[0]);
-    uint16x8_t o5 = HHCOMBINE(q0123o.val[0], q4567o.val[0]);
-    uint16x8_t o6 = HHCOMBINE(q0123e.val[1], q4567e.val[1]);
-    uint16x8_t o7 = HHCOMBINE(q0123o.val[1], q4567o.val[1]);
-
-#undef LHCOMBINE
-#undef HHCOMBINE
-
-    vst1q_u16(dst + 0 * dst_stride, o0);
-    vst1q_u16(dst + 1 * dst_stride, o1);
-    vst1q_u16(dst + 2 * dst_stride, o2);
-    vst1q_u16(dst + 3 * dst_stride, o3);
-    vst1q_u16(dst + 4 * dst_stride, o4);
-    vst1q_u16(dst + 5 * dst_stride, o5);
-    vst1q_u16(dst + 6 * dst_stride, o6);
-    vst1q_u16(dst + 7 * dst_stride, o7);
+    vst1_u16(dst + 0 * dst_stride, vreinterpret_u16_u32(q0123e.val[0]));
+    vst1_u16(dst + 1 * dst_stride, vreinterpret_u16_u32(q0123o.val[0]));
+    vst1_u16(dst + 2 * dst_stride, vreinterpret_u16_u32(q0123e.val[1]));
+    vst1_u16(dst + 3 * dst_stride, vreinterpret_u16_u32(q0123o.val[1]));
 }
 
 /*
  * blit_transposed — rotate a landscape RGB565 buffer 90° CW into a portrait
- * framebuffer using tiled 8×8 NEON transposes.
- *
- * src:        row-major [src_height][src_width]   (e.g. 240 rows × 320 cols)
- * dst:        framebuffer, row-major portrait      (e.g. 320 rows × 240 cols)
+ * framebuffer using tiled 4×4 d-register NEON transposes.
  *
  * Pixel mapping:
  *   src(lx, ly)  →  dst[(src_width - 1 - lx) * src_height + ly]
  *
- * For a 320×240 source writing into a 240×320 framebuffer:
+ * For 320×240 source → 240×320 framebuffer:
  *   dst[(319 - lx) * 240 + ly]
- *
- * Both src_width and src_height must be multiples of 8.
  */
 void blit_transposed(const uint16_t* src, uint16_t* dst,
                      int src_width, int src_height)
 {
-    for (int ty = 0; ty < src_height; ty += 8) {
-        for (int tx = 0; tx < src_width; tx += 8) {
-            const uint16_t* s = src + ty * src_width + tx;
+    /* Source reads stride across rows by src_width elements (640 bytes),
+     * which the A7's hardware prefetcher won't detect. We prefetch one
+     * full tile-row ahead (4 rows × src_width elements). */
+    const int prefetch_dist = 4 * src_width;
 
-            /* dst base for this tile: (src_width-1-tx)*src_height + ty
-             * dst_stride: step when tx increases by 1 = -src_height
-             * (columns run in reverse order in the framebuffer) */
+    for (int ty = 0; ty < src_height; ty += 4) {
+        const uint16_t* row = src + ty * src_width;
+
+        for (int tx = 0; tx < src_width; tx += 4) {
+            const uint16_t* s = row + tx;
+
+            /* Prefetch the 4 source rows of the next tile-row.
+             * Each covers 8 bytes (4×uint16), well within one cache line,
+             * so one __builtin_prefetch per row is sufficient. */
+            __builtin_prefetch(s + 0 * src_width + prefetch_dist, 0, 1);
+            __builtin_prefetch(s + 1 * src_width + prefetch_dist, 0, 1);
+            __builtin_prefetch(s + 2 * src_width + prefetch_dist, 0, 1);
+            __builtin_prefetch(s + 3 * src_width + prefetch_dist, 0, 1);
+
             uint16_t* d = dst + (src_width - 1 - tx) * src_height + ty;
-
-            transpose_8x8(s, src_width, d, -src_height);
+            transpose_4x4(s, src_width, d, -src_height);
         }
     }
 }
