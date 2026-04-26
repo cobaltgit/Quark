@@ -2,29 +2,38 @@ import std/[os, posix, strutils]
 import nimPNG
 
 import common/[fb, process]
-import common/ffi/stb_truetype
+import common/ffi/[stb_truetype, neon_blit]
 
 const
-  ScreenWidth = 320
+  ScreenWidth  = 320
   ScreenHeight = 240
 
   DefaultBackground* = "/mnt/SDCARD/System/res/quarkbg.png"
-  DefaultFont* = "/mnt/SDCARD/System/res/TwCenMT.ttf"
-  FontSize = 24.0
+  DefaultFont*       = "/mnt/SDCARD/System/res/TwCenMT.ttf"
+  FontSize           = 24.0
 
-{.push optimization:speed, warnings:off.}
+{.push optimization: speed, warnings: off.}
 
 var childPid: Pid = -1
 
+var blitTmp: array[FbPixels, uint16]
+
 proc toRGB565(r, g, b: uint8): uint16 {.inline.} =
-  (uint16(EightToFive[r]) shl 11) or
-  (uint16(EightToSix[g]) shl 5) or
-  uint16(EightToFive[b])
+  (uint16(r shr 3) shl 11) or
+  (uint16(g shr 2) shl 5)  or
+   uint16(b shr 3)
 
 proc fromRGB565(pixel: uint16, r, g, b: var uint8) {.inline.} =
   r = FiveToEight[(pixel shr 11) and 0x1F]
-  g = SixToEight[(pixel shr 5) and 0x3F]
+  g = SixToEight[(pixel shr  5) and 0x3F]
   b = FiveToEight[pixel and 0x1F]
+
+proc blendRGB565(fg, bg: uint16, alpha: uint32): uint16 {.inline.} =
+  let inv = 256'u32 - alpha
+  let r = (uint32(fg shr 11) * alpha + uint32(bg shr 11) * inv) shr 8
+  let g = ((uint32(fg) and 0x07E0'u32) * alpha + (uint32(bg) and 0x07E0'u32) * inv) shr 8
+  let b = (uint32(fg and 0x1F'u16) * alpha + uint32(bg and 0x1F'u16) * inv) shr 8
+  uint16((r shl 11) or (g and 0x07E0'u32) or b)
 
 proc loadFont(path: string): seq[byte] =
   let f = open(path, fmRead)
@@ -37,21 +46,21 @@ proc measureText(font: ptr stbtt_fontinfo, text: string, scale: cfloat): int =
   var x: cint = 0
   for i, ch in text:
     var advanceWidth, leftSideBearing: cint
-    stbtt_GetCodepointHMetrics(font, cint(ch), addr advanceWidth, addr leftSideBearing)
+    stbtt_GetCodepointHMetrics(font, cint(ch), addr advanceWidth,
+                               addr leftSideBearing)
     x += advanceWidth
     if i < text.len - 1:
-      let kern = stbtt_GetCodepointKernAdvance(font, cint(ch), cint(text[i+1]))
-      x += kern
+      x += stbtt_GetCodepointKernAdvance(font, cint(ch), cint(text[i + 1]))
   result = int(cfloat(x) * scale)
 
-proc wrapText(text: string, font: ptr stbtt_fontinfo, scale: cfloat, maxWidth: int): seq[string] =
+proc wrapText(text: string, font: ptr stbtt_fontinfo, scale: cfloat,
+              maxWidth: int): seq[string] =
   result = @[]
   var currentLine = ""
   var currentWidth = 0
 
   for word in text.split(' '):
     let wordWidth = measureText(font, word & " ", scale)
-
     if currentWidth + wordWidth > maxWidth and currentLine.len > 0:
       result.add(currentLine.strip())
       currentLine = word & " "
@@ -63,19 +72,17 @@ proc wrapText(text: string, font: ptr stbtt_fontinfo, scale: cfloat, maxWidth: i
   if currentLine.len > 0:
     result.add(currentLine.strip())
 
-proc renderTextLine(fb: ptr UncheckedArray[uint16], font: ptr stbtt_fontinfo,
-                    text: string, y: int, pixelHeight: float, color: uint16) =
+proc renderTextLine(fb: ptr UncheckedArray[uint16],
+                    font: ptr stbtt_fontinfo,
+                    text: string, y: int,
+                    pixelHeight: float, color: uint16) =
   let scale = stbtt_ScaleForPixelHeight(font, cfloat(pixelHeight))
-
   var ascent, descent, lineGap: cint
   stbtt_GetFontVMetrics(font, addr ascent, addr descent, addr lineGap)
 
   let textWidth = measureText(font, text, scale)
   var x = (ScreenWidth - textWidth) div 2
-  let baseline = y + int(cfloat(ascent) * scale)
-
-  var cr, cg, cb: uint8
-  fromRGB565(color, cr, cg, cb)
+  let baseline  = y + int(cfloat(ascent) * scale)
 
   var bitmapBuf = newSeqUninit[byte](64 * 64)
 
@@ -105,31 +112,26 @@ proc renderTextLine(fb: ptr UncheckedArray[uint16], font: ptr stbtt_fontinfo,
         let fbBase = FbXBase[px]
 
         for by in 0..<h:
-          let alpha = bitmapBuf[by * w + bx]
+          let alpha = uint32(bitmapBuf[by * w + bx])
           if alpha == 0: continue
           let py = charY + by
           if py < 0 or py >= ScreenHeight: continue
 
-          if alpha == 255:
-            fb[fbBase + py] = color
+          let idx = fbBase + uint32(py)
+          if alpha >= 255:
+            fb[idx] = color
           else:
-            let bgPixel = fb[fbBase + py]
-            var bgR, bgG, bgB: uint8
-            fromRGB565(bgPixel, bgR, bgG, bgB)
-            let inv = 255'u32 - uint32(alpha)
-            let newR = uint8((uint32(cr) * uint32(alpha) + uint32(bgR) * inv) div 255)
-            let newG = uint8((uint32(cg) * uint32(alpha) + uint32(bgG) * inv) div 255)
-            let newB = uint8((uint32(cb) * uint32(alpha) + uint32(bgB) * inv) div 255)
-            fb[fbBase + py] = toRGB565(newR, newG, newB)
+            fb[idx] = blendRGB565(color, fb[idx], alpha)
       {.pop.}
 
     var advanceWidth, leftSideBearing: cint
-    stbtt_GetCodepointHMetrics(font, cint(ch), addr advanceWidth, addr leftSideBearing)
+    stbtt_GetCodepointHMetrics(font, cint(ch), addr advanceWidth,
+                               addr leftSideBearing)
     x += int(cfloat(advanceWidth) * scale)
 
     if i < text.len - 1:
-      let kern = stbtt_GetCodepointKernAdvance(font, cint(ch), cint(text[i+1]))
-      x += int(cfloat(kern) * scale)
+      x += int(cfloat(stbtt_GetCodepointKernAdvance(
+                        font, cint(ch), cint(text[i + 1]))) * scale)
 
 proc display*(text: string,
               backgroundPath: string = DefaultBackground,
@@ -156,23 +158,27 @@ proc display*(text: string,
   let fb = cast[ptr UncheckedArray[uint16]](fbMap)
 
   if not fileExists(backgroundPath):
-    raise newException(IOError, "display: background file not found: " & backgroundPath)
+    raise newException(IOError,
+      "display: background file not found: " & backgroundPath)
 
   let png = loadPNG32(backgroundPath)
 
   zeroMem(fbMap, FbSize)
 
-  var srcIdx = 0
-  for ly in 0..<min(png.height, ScreenHeight):
-    for lx in 0..<min(png.width, ScreenWidth):
-      let r = png.data[srcIdx]
-      let g = png.data[srcIdx + 1]
-      let b = png.data[srcIdx + 2]
-      srcIdx += 4
-      fb[FbXBase[lx] + ly] = toRGB565(r.uint8, g.uint8, b.uint8)
+  # commence claude's NEON fuckery
+  rgba_to_rgb565(
+    cast[ptr UncheckedArray[uint8]](unsafeAddr png.data[0]),
+    cast[ptr UncheckedArray[uint16]](addr blitTmp[0]),
+    cint(min(png.width * png.height, FbPixels)))
+
+  blit_transposed(
+    cast[ptr UncheckedArray[uint16]](addr blitTmp[0]),
+    cast[ptr UncheckedArray[uint16]](fbMap),
+    cint(ScreenWidth), cint(ScreenHeight))
 
   if not fileExists(fontPath):
-    raise newException(IOError, "display: font file not found: " & fontPath)
+    raise newException(IOError,
+      "display: font file not found: " & fontPath)
 
   let fontData = loadFont(fontPath)
   var fontInfo: stbtt_fontinfo
@@ -182,13 +188,12 @@ proc display*(text: string,
 
   let scale = stbtt_ScaleForPixelHeight(addr fontInfo, cfloat(FontSize))
   let lines = wrapText(text, addr fontInfo, scale, ScreenWidth - 40)
-
   let lineHeight = int(FontSize * 1.2)
   var startY = (ScreenHeight - lines.len * lineHeight) div 2
 
   for line in lines:
     renderTextLine(fb, addr fontInfo, line, startY, FontSize,
-                    toRGB565(255, 255, 255))
+                   toRGB565(255, 255, 255))
     startY += lineHeight
 
   if duration == 0:
@@ -216,7 +221,7 @@ proc showUsage(progName: string) =
   stderr.writeLine("  -b  Background PNG image (default: quarkbg.png)")
   stderr.writeLine("  -d  Display duration in milliseconds (default: 0 = forever)")
   stderr.writeLine("  -f  Font file path (default: TwCenMT.ttf)")
-  stderr.writeLine("  -p  Don't fork into the background (only applies if duration is 0)")
+  stderr.writeLine("  -p  Don't fork into background (only applies if duration is 0)")
 
 proc main() =
   var
@@ -256,10 +261,10 @@ proc main() =
         if i + 1 <= paramCount():
           let durationStr = paramStr(i + 1).strip()
           if durationStr.len > 0:
-            try:
-              duration = parseInt(durationStr)
+            try: duration = parseInt(durationStr)
             except ValueError:
-              stderr.writeLine("display: invalid duration value: '" & durationStr & "'"); quit(1)
+              stderr.writeLine("display: invalid duration: '" & durationStr & "'")
+              quit(1)
           inc i
         else:
           stderr.writeLine("display: -d requires a duration argument")
