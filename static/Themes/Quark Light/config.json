@@ -1,0 +1,24 @@
+{
+    "name":"Quark Light",
+    "font":"Gill Sans MT Bold-95W.ttf",
+    "fontascii":"BPreplayBold.otf",
+    "fontsize":{
+        "title":18,
+        "statbar":17,
+        "list":16
+    },
+    "fontcolor":{
+        "title":"#000000",
+        "shadow":"#FFFFFF",
+        "statbar":"#000000",
+        "list":"#000000",
+        "listsel":"#FFFFFF",
+        "iconlist":"#000000",
+        "iconlistsel":"#6060FF",
+        "notify":"#60FF60",
+        "popup":"#6060FF",
+        "popupsel":"#FF6060",
+        "highlight":"#000000",
+        "subtext":"#7f7f7f"
+    }
+}

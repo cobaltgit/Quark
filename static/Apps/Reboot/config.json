@@ -1,0 +1,9 @@
+{
+"package":"com.trimui.reboot",
+"label":"Reboot",
+"icon":"reboot.png",
+"iconsmall":"reboot.png",
+"iconlist":"reboot.png",
+"launch":"launch.sh",
+"description":"Reboot handheld"
+}

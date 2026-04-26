@@ -1,0 +1,134 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build-cores:
+    uses: ./.github/workflows/build-cores.yml
+
+  release:
+    runs-on: ubuntu-latest
+    needs: build-cores
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 0
+
+      - name: Extract version from tag
+        id: version
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          echo "Version: $VERSION"
+
+      - name: Set up Nim
+        uses: jiro4989/setup-nim-action@v2
+        with:
+          nim-version: "2.2.8"
+
+      - name: Cache Nim packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.nimble
+            ~/.cache/nim
+          key: ${{ runner.os }}-nimble-${{ hashFiles('*.nimble') }}
+          restore-keys: |
+            ${{ runner.os }}-nimble-
+
+      - name: Install Zig
+        uses: goto-bus-stop/setup-zig@v2
+        with:
+          version: 0.15.2
+
+      - name: Cache Zig
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.cache/zig
+            ${{ github.workspace }}/zig-cache
+          key: ${{ runner.os }}-zig-0.15.2-${{ hashFiles('**/*.zig', 'build.zig', 'build.zig.zon') }}
+          restore-keys: |
+            ${{ runner.os }}-zig-0.15.2-
+
+      - name: Install Rust
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: armv7-unknown-linux-musleabihf
+
+      - name: Cache Cargo
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.cargo/bin/
+            ~/.cargo/registry/index/
+            ~/.cargo/registry/cache/
+            ~/.cargo/git/db/
+            target/
+          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock', '**/Cargo.toml') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install cmake binutils-arm-linux-gnueabihf openssh-client -y
+
+      - name: Install cargo-zigbuild
+        run: |
+          if ! command -v cargo-zigbuild &> /dev/null; then
+            cargo install cargo-zigbuild
+          fi
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+
+      - name: Install Nim zigcc wrapper
+        run: |
+          if ! nimble path zigcc &> /dev/null 2>&1; then
+            nimble install zigcc -y
+          fi
+
+      - name: Download RetroArch cores
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ needs.build-cores.outputs.artifact-name }}
+          path: retroarch-cores
+
+      - name: Build project
+        run: nimble full -y
+
+      - name: Generate release checksums
+        run: |
+          sha256sum Quark-v${{ steps.version.outputs.version }}-BASE.zip > Quark-v${{ steps.version.outputs.version }}-BASE.zip.sha256
+          sha256sum Quark-v${{ steps.version.outputs.version }}-FULL.zip > Quark-v${{ steps.version.outputs.version }}-FULL.zip.sha256
+
+      - name: Create draft release and upload assets
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Quark ${{ github.ref_name }}
+          draft: true
+          prerelease: false
+          files: |
+            Quark-v${{ steps.version.outputs.version }}-BASE.zip
+            Quark-v${{ steps.version.outputs.version }}-BASE.zip.sha256
+            Quark-v${{ steps.version.outputs.version }}-FULL.zip
+            Quark-v${{ steps.version.outputs.version }}-FULL.zip.sha256
+            Quark-v${{ steps.version.outputs.version }}-Updater.zip
+
+      - name: Upload via SFTP
+        env:
+          SFTP_KEY: ${{ secrets.SFTP_KEY }}
+        run: |
+          echo "$SFTP_KEY" > /tmp/sftp_key
+          chmod 600 /tmp/sftp_key
+          sftp -o StrictHostKeyChecking=accept-new -i /tmp/sftp_key debian@q.sartor.vip <<EOF
+          put Quark-v${{ steps.version.outputs.version }}-Updater.zip /var/www/qstore/store/packages/vip.sartor.q.stable.zip
+          bye
+          EOF
+          rm /tmp/sftp_key

@@ -1,0 +1,55 @@
+#!/bin/sh
+
+. /mnt/SDCARD/System/scripts/helpers.sh
+
+QUICKSAVE_CMD_TO_RUN="/mnt/SDCARD/Saves/quicksave_cmd_to_run.sh"
+SAVED_MAINUI_STATE="/mnt/SDCARD/Saves/quicksave_mainui_state.json"
+BOOT_VIDEO="$THEME_PATH/bootvideo.mp4"
+
+start_mainui() {
+    cycle_usb_audio
+
+    if [ -f "/tmp/.play_bootvideo" ] && [ -f "$BOOT_VIDEO" ]; then
+        FFPLAY_DIR="/mnt/SDCARD/Emus/MEDIA"
+
+        echo 1 > /tmp/stay_awake
+        evtest --grab /dev/input/event0 & # disable controls
+        EVTEST_PID="$!"
+
+        LD_LIBRARY_PATH="$FFPLAY_DIR/lib:$LD_LIBRARY_PATH" $FFPLAY_DIR/ffplay -autoexit -x 320 -y 240 -vf "transpose=2" -fs -i "$BOOT_VIDEO" >/dev/null 2>&1
+
+        kill -9 $EVTEST_PID # re-enable controls
+        rm -f /tmp/stay_awake /tmp/.play_bootvideo
+
+        cycle_usb_audio
+    fi
+
+    cd /usr/trimui/bin
+    exec /mnt/SDCARD/System/bin/MainUI # hand over to MainUI as normal
+}
+
+cycle_usb_audio () {
+    {
+        echo "2-1" > /sys/bus/usb/drivers/usb/unbind # "detach" the USB-C audio device
+        sleep 1
+        echo "2-1" > /sys/bus/usb/drivers/usb/bind # re-attach USB-C audio after MainUI has a chance to initialise the audio subsystem
+    } &
+}
+
+if [ -f "/tmp/.quicksave" ]; then
+    killall keymon trimui_btmanager quark_hotkeyd sysjson_monitor &
+    set_cpuclock --mode smart --min-freq 60000 --max-freq 60000 # put the CPU into a low power state
+    exec display -p -t "It's now safe to turn off your Smart"
+else
+    if [ -f "$QUICKSAVE_CMD_TO_RUN" ]; then
+        rm -f /tmp/.play_bootvideo
+        mv "$QUICKSAVE_CMD_TO_RUN" /tmp/cmd_to_run.sh
+        mv "$SAVED_MAINUI_STATE" /tmp/state.json
+        for led in 1 2 3; do
+            echo "none" > /sys/devices/platform/sunxi-led/leds/led$led/trigger
+        done
+        exec sh -c "/tmp/cmd_to_run.sh; rm -f /tmp/cmd_to_run.sh"
+    fi
+
+    start_mainui
+fi

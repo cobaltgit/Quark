@@ -1,0 +1,29 @@
+{
+  "label": "SNES",
+  "icon": "icon.png",
+  "launch": "../.emu_setup/launch_emu.sh",
+  "rompath": "../../Roms/SFC",
+  "imgpath": "../../Roms/SFC/Imgs",
+  "useswap": 0,
+  "shortname": 0,
+  "hidebios": 0,
+  "extlist": "smc|fig|sfc|gd3|gd7|dx2|bsx|swc|zip",
+  "launchlist": [
+    {
+      "name": "Core: Chimera",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/core_switch.sh"
+    },
+    {
+      "name": "CPU: Smart",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/cpu_switch.sh"
+    },
+    {
+      "name": "Save override",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/save_override.sh"
+    },
+    {
+      "name": "Delete override",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/del_override.sh"
+    }
+  ]
+}

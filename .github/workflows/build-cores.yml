@@ -1,0 +1,70 @@
+name: Build RetroArch cores
+
+on:
+  workflow_call:
+    outputs:
+      artifact-name:
+        description: "Name of the uploaded cores artifact"
+        value: ${{ jobs.build-cores.outputs.artifact-name }}
+  workflow_dispatch:
+
+jobs:
+  build-cores:
+    runs-on: ubuntu-latest
+    outputs:
+      artifact-name: retroarch-cores-${{ github.sha }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - name: Read core list
+        id: corelist
+        run: |
+          if [ ! -f "scripts/cores.txt" ]; then
+            echo "scripts/cores.txt not found!"
+            exit 1
+          fi
+          CORES=$(grep -v '^\s*#' scripts/cores.txt | grep -v '^\s*$' | tr '\n' ' ' | xargs)
+          echo "cores=$CORES" >> $GITHUB_OUTPUT
+          echo "Building cores: $CORES"
+
+      - name: Restore ccache
+        uses: actions/cache@v5
+        with:
+          path: ~/.ccache-retroarch
+          key: ccache-retroarch-${{ runner.os }}-${{ github.sha }}
+          restore-keys: |
+            ccache-retroarch-${{ runner.os }}-
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Pull builder image
+        run: docker pull ghcr.io/cobaltgit/quark-core-builder:latest
+
+      - name: Build cores
+        run: |
+          mkdir -p output
+          docker run --rm \
+            -e CORES="${{ steps.corelist.outputs.cores }}" \
+            -e CCACHE_DIR=/ccache \
+            -v ${{ github.workspace }}/output:/output \
+            -v $HOME/.ccache-retroarch:/ccache \
+            ghcr.io/cobaltgit/quark-core-builder:latest
+
+      - name: Print ccache stats
+        run: |
+          docker run --rm \
+            --entrypoint ccache \
+            -v $HOME/.ccache-retroarch:/ccache \
+            -e CCACHE_DIR=/ccache \
+            ghcr.io/cobaltgit/quark-core-builder:latest \
+            --show-stats
+
+      - name: Upload cores artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: retroarch-cores-${{ github.sha }}
+          path: output/
+          retention-days: 3

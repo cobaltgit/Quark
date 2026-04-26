@@ -1,7 +1,0 @@
-{
-"label":"Update BootLogo",
-"icon":"icon.png",
-"iconsel":"icon.png",
-"launch":"launch.sh",
-"description":"Change the boot logo"
-}

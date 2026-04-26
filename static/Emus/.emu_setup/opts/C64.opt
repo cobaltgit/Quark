@@ -1,0 +1,5 @@
+#!/bin/sh
+
+export CORE="vice_x64"
+export CPU_MODE="smart"
+export CPU_MIN_FREQ=648000

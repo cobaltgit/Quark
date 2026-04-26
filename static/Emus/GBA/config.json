@@ -1,0 +1,29 @@
+{
+  "label": "GAMEBOY ADVANCE",
+  "icon": "icon.png",
+  "launch": "../.emu_setup/launch_emu.sh",
+  "rompath": "../../Roms/GBA",
+  "imgpath": "../../Roms/GBA/Imgs",
+  "useswap": 0,
+  "shortname": 0,
+  "hidebios": 1,
+  "extlist": "gba|agb|gbz|zip",
+  "launchlist": [
+    {
+      "name": "CPU: Smart",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/cpu_switch.sh"
+    },
+    {
+      "name": "Core: gpSP",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/core_switch.sh"
+    },
+    {
+      "name": "Save override",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/save_override.sh"
+    },
+    {
+      "name": "Delete override",
+      "launch": "/mnt/SDCARD/Emus/.emu_setup/del_override.sh"
+    }
+  ]
+}

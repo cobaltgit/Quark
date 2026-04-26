@@ -1,0 +1,11 @@
+{
+  "label": "E-BOOKS",
+  "icon": "icon.png",
+  "launch": "../.emu_setup/launch_emu.sh",
+  "rompath": "../../Roms/EBOOKS",
+  "imgpath": "../../Roms/EBOOKS/Imgs",
+  "useswap": 0,
+  "shortname": 0,
+  "hidebios": 0,
+  "extlist": "epub|txt",
+}

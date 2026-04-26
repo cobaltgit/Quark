@@ -1,0 +1,23 @@
+{
+	"46":	"Bestätigen",
+	"88":	"Öffnen",
+	"89":	"Zurück",
+	"90":	"Durchsuchen",
+	"91":	"Menü",
+	"92":	"Fortfahren",
+	"93":	"Speichern",
+	"94":	"Laden",
+	"95":	"Lautstärke",
+	"96":	"Spiel verlassen",
+	"97":	"Speicherpunkt %d/%d",
+	"98":	"Leer",
+	"99":	"Kein Bild",
+	"100":	"Laden fehlgeschlagen",
+	"101":	"Speichern fehlgeschlagen",
+	"102":	"Slot%d gespeichert",
+	"103":  "Vollbild",
+	"104":  "Öffnen",
+	"105":  "Schließen",
+	"118":  "Spiel am Netz",
+	"126":  "Erweitertes Menü"
+}

@@ -7,24 +7,32 @@ Installation is as simple as extracting the [latest release](https://github.com/
 * RetroArch cores updated to their latest versions from source
 * CPU profiles configured for best performance/battery life balance
 * RetroArch overlays for handheld systems
-* Support for network services, including Syncthing, SSH and file transfer over SFTP or HTTP!
+* Network services, including Syncthing, SSH and file transfer over SFTP or HTTP!
+* Support for native PICO-8 with Splore
 
 ## Hotkeys
 
 ### Global
 
+**Stock hotkeys**
+
 * SELECT + L/R: Volume control
 * START + L/R: Brightness control
 * MENU + L/R: L2/R2
-* SELECT + MENU + R: screenshot (does not work in RetroArch, use SELECT + A instead in this case)
-* SELECT + START held for 10 seconds: reboot
+
+**Additional hotkeys added to Quark**
+
+* SELECT + MENU + R: framebuffer screenshot (does not work in RetroArch, use SELECT + A instead in this case)
+* SELECT + MENU + L: quicksave, will automatically load on reboot (RetroArch only)
+* START + MENU + L: kills the current application
+* SELECT + START held for 10 seconds: reboot system
 
 ### RetroArch
 
 * SELECT + B: exit to MainUI
 * SELECT + A: take screenshot (saves in `Saves/screenshots`)
 * SELECT + Y: toggle frame rate display
-* SELECT + X: open RA menu
+* SELECT + X: open RA menu (alternative to MENU)
 * SELECT + D-Pad Down: slow-motion
 * SELECT + D-Pad Up: fast-forward
 * SELECT + D-Pad Right: save state in current slot
@@ -52,10 +60,11 @@ Below is a list of systems that Quark supports, along with the emulator core the
 * EasyRPG
 * Nintendo Entertainment System (FCEUmm / Nestopia)
 * Nintendo Family Computer Disk System (FCEUmm / Nestopia)
-* Nintendo Game Boy / Game Boy Color (Gambatte)
+* Nintendo Game Boy / Game Boy Color (Gambatte / mGBA)
 * Nintendo Game Boy Advance (gpSP / mGBA)
 * Nintendo/St.GIGA Satellaview (Snes9x)
 * Sega Game Gear (PicoDrive / Genesis Plus GX)
+* [Game Tank](https://gametank.zone/) ([gametank_libretro](https://github.com/dwbrite/gametank_libretro))
 * MADrigal's Simulators (GW)
 * Intellivision (FreeIntv)
 * Atari Lynx (Handy)
@@ -89,6 +98,31 @@ Below is a list of systems that Quark supports, along with the emulator core the
 * Sharp X68000 (PX68K)
 * Sinclair ZX Spectrum (FUSE)
 
+## Development
+
+### Checklist
+
+What you'll need for Quark development:
+	
+* [Nim](https://nim-lang.org/) (some core components)
+	* [zigcc](https://github.com/enthus1ast/zigcc) (for cross-compiling core components)
+* [Zig](https://ziglang.org/) (for all cross-compilation)
+* [Rust](https://rust-lang.org/) (for compiling dufs)
+	* [cargo-zigbuild](https://github.com/rust-cross/cargo-zigbuild) (for dufs cross-compilation)
+* [autoconf](https://www.gnu.org/software/autoconf/) and [automake](https://www.gnu.org/software/automake/)
+* [GNU make](https://www.gnu.org/software/make/)
+* [GNU binutils](https://www.gnu.org/software/binutils) (for cross `strip`)
+* `zip`, `tar` CLI tools
+
+### Building
+
+```sh
+$ nimble base # build base zip
+$ nimble updater # build base + update zips 
+$ nimble full # build base + full + update zips (for releases)
+$ NIGHTLY=1 nimble full # build base + full + update zips, git hash displays as version (for nightly workflow)
+```
+
 ## Known Issues
 
 * Sega CD games have no CD audio playback when using `.chd` format games using the PicoDrive core. Either revert to an older version of PicoDrive or use the Genesis Plus GX core to remedy this.
@@ -98,7 +132,7 @@ Below is a list of systems that Quark supports, along with the emulator core the
 
 ## Licence
 
-This project is licenced under [CC-BY-SA-4.0](https://creativecommons.org/licenses/by-sa/4.0/deed.en)
+This project is licenced under the [GNU General Public License, version 3.0](https://www.gnu.org/licenses/gpl-3.0.txt)
 
 ## Credits
 

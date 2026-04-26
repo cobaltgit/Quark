@@ -1,0 +1,20 @@
+{
+	"vol":	15,
+	"keymap":	0,
+	"mute":	1,
+	"bgmvol":	0,
+	"brightness":	5,
+	"language":	"en.lang",
+	"theme":	"/mnt/SDCARD/Themes/Quark/",
+	"hostap":	0,
+	"netplay":	0,
+	"wifi":	0,
+	"cpufreq":	0,
+	"ledswitch":	0,
+	"menustyle":	0,
+	"storeurl":	"q.sartor.vip",
+	"bluetooth":	0,
+	"l2r2combokey":	1,
+	"menuforcesave":	0,
+	"screenoffdelay":	5
+}
