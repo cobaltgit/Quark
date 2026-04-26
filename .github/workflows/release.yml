@@ -7,7 +7,7 @@ on:
 
 jobs:
   build-cores:
-    uses: ./.github/workflows/retroarch-build.yml
+    uses: ./.github/workflows/build-cores.yml
 
   release:
     runs-on: ubuntu-latest
