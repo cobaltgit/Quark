@@ -216,8 +216,7 @@ proc display*(text: string,
 {.pop.}
 
 proc showUsage(progName: string) =
-  stderr.writeLine("Usage: " & progName &
-    " -t \"text\" [-b background.png] [-d duration_ms] [-f font.ttf]")
+  stderr.writeLine("Usage: " & progName & " -t \"text\" [-b background.png] [-d duration_ms] [-f font.ttf]")
   stderr.writeLine("  -t  Text to display (required)")
   stderr.writeLine("  -b  Background PNG image (default: quarkbg.png)")
   stderr.writeLine("  -d  Display duration in milliseconds (default: 0 = forever)")
@@ -243,7 +242,8 @@ proc main() =
       case option
       of "t":
         if i + 1 <= paramCount():
-          text = paramStr(i + 1); hasText = true
+          text = paramStr(i + 1)
+          hasText = true
           inc i
         else:
           stderr.writeLine("display: -t requires a text argument")
@@ -259,9 +259,9 @@ proc main() =
           quit(1)
       of "d":
         if i + 1 <= paramCount():
-          let s = paramStr(i + 1).strip()
-          if s.len > 0:
-            try: duration = parseInt(s)
+          let durationStr = paramStr(i + 1).strip()
+          if durationStr.len > 0:
+            try: duration = parseInt(durationStr)
             except ValueError:
               stderr.writeLine("display: invalid duration: '" & s & "'")
               quit(1)
@@ -286,7 +286,8 @@ proc main() =
         quit(1)
     else:
       if not hasText:
-        text = param; hasText = true
+        text = param
+        hasText = true
     inc i
 
   if not hasText or text.len == 0:
