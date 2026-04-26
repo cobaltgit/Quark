@@ -4,7 +4,7 @@
 
 ARCHIVES_FOLDER="/mnt/SDCARD/System/archives"
 ARCHIVES="$(find "$ARCHIVES_FOLDER" -type f -iname "*.zip")"
-ARCHIVE_COUNT="$(echo "$ARCHIVES" | wc -l)"
+ARCHIVE_COUNT="$(printf "$ARCHIVES" | wc -l)"
 ARCHIVE_UNPACK_LOG="/mnt/SDCARD/System/log/archive_unpack.log"
 
 log_message "Unpacker: $ARCHIVE_COUNT archives found" "$ARCHIVE_UNPACK_LOG"
