@@ -263,7 +263,7 @@ proc main() =
           if durationStr.len > 0:
             try: duration = parseInt(durationStr)
             except ValueError:
-              stderr.writeLine("display: invalid duration: '" & s & "'")
+              stderr.writeLine("display: invalid duration: '" & durationStr & "'")
               quit(1)
           inc i
         else:
