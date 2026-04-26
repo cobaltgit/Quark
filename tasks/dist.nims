@@ -91,7 +91,7 @@ task full, "Prepare base, full and updater zips for release":
     let categoryPath = Root & "/modules/gluons/" & category
     if dirExists(categoryPath):
       for d in listDirs(categoryPath):
-        let gluonPath = &"{categoryPath}/{d}/mnt/SDCARD"
+        let gluonPath = &"{d}/mnt/SDCARD"
         if dirExists(gluonPath):
           cd(gluonPath)
           exec &"zip -9ur {Root}/{fullZip} * -x '*.gitkeep'"
