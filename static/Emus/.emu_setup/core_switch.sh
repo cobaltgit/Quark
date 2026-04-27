@@ -45,6 +45,12 @@ case "$EMU" in
             "fake08") NEW_CORE="native" DISPLAY="Core: Native" ;;
         esac
         ;;
+    "PS")
+        case "$CORE" in
+            "pcsx_rearmed-sa") NEW_CORE="pcsx_rearmed" DISPLAY="Core: Libretro" ;;
+            "pcsx_rearmed") NEW_CORE="pcsx_rearmed-sa" DISPLAY="Core: Standalone" ;;
+        esac
+        ;;
     "SFC")
         case "$CORE" in
             "chimerasnes") NEW_CORE="snes9x2005_plus" DISPLAY="Core: Snes9x-05+" ;;

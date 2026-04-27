@@ -110,6 +110,18 @@ run_ffplay() {
     rm -f /tmp/stay_awake
 }
 
+run_pcsx() {
+    export HOME="$EMU_DIR"
+
+    PCSX_DIR="$EMU_DIR/pcsx"
+    export LD_LIBRARY_PATH="$PCSX_DIR/lib:$LD_LIBRARY_PATH"
+    export SDL_VIDEO_FBCON_ROTATION="CCW"
+
+    cd "$PCSX_DIR"
+
+    ./pcsx -cdfile "$ROM_FILE" > /mnt/SDCARD/PCSX.log 2>&1
+}
+
 ROM_FILE="$(readlink -f "$1")"
 
 if [ "$CPU_MODE" = "smart" ]; then
@@ -129,6 +141,12 @@ case "$EMU" in
     "PORTS") run_port ;;
     "PICO8") run_pico8 ;;
     "MEDIA"|"MP3") run_ffplay ;;
+    "PS")
+        case "$CORE" in
+            "pcsx_rearmed-sa") run_pcsx ;;
+            "pcsx_rearmed") run_retroarch ;;
+        esac
+        ;;
     *) run_retroarch ;;
 esac
 
