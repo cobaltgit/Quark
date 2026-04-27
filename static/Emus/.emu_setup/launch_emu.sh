@@ -119,7 +119,7 @@ run_pcsx() {
 
     cd "$PCSX_DIR"
 
-    ./pcsx -cdfile "$ROM_FILE" > /mnt/SDCARD/PCSX.log 2>&1
+    ./pcsx -cdfile "$ROM_FILE"
 }
 
 ROM_FILE="$(readlink -f "$1")"
