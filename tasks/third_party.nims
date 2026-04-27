@@ -106,7 +106,7 @@ task dufs, "Build dufs with cargo zigbuild":
   exec "cargo zigbuild --target armv7-unknown-linux-musleabihf --release"
 
 task thirdparty, "Build all third-party software":
-  for t in @["jq", "evtest", "dropbear", "gesftpserver", "dufs", "syncthing"]:
+  for t in @["jq", "evtest", "dropbear", "gesftpserver", "dufs", "syncthing", "buildPcsx"]:
     exec &"nimble {t} --verbose"
 
 task buildCores, "Build RetroArch cores using Docker":
@@ -125,10 +125,12 @@ task buildCores, "Build RetroArch cores using Docker":
 
   echo "Building cores: " & coreList
 
-  mkDir("dist/RetroArch/.retroarch/cores")
-  mkDir("dist/RetroArch/.retroarch/core_info")
+  if not dirExists("dist/RetroArch/.retroarch/cores"):
+    mkDir("dist/RetroArch/.retroarch/cores")
+  if not dirExists("dist/RetroArch/.retroarch/core_info"):
+    mkDir("dist/RetroArch/.retroarch/core_info")
 
-  let ccacheDir = getHomeDir() / ".ccache-retroarch"
+  let ccacheDir = getHomeDir() / ".ccache-quark"
   mkDir(ccacheDir)
 
   try:
@@ -142,3 +144,26 @@ task buildCores, "Build RetroArch cores using Docker":
     quit(1)
 
   echo "Cores built successfully"
+
+task buildPcsx, "Build PCSX ReARMed standalone using Docker":
+  if findExe("docker") == "":
+    echo "error: docker not found"
+    quit(1)
+
+  if not dirExists("dist/Emus/PS/pcsx"):
+    mkDir("dist/Emus/PS/pcsx")
+
+  let ccacheDir = getHomeDir() / ".ccache-quark"
+  mkDir(ccacheDir)
+
+  try:
+    exec "docker run --rm" &
+      " -e CORES=\"pcsx-sa\"" &
+      " -v \"$(pwd)/dist/Emus/PS/pcsx\":/output/pcsx" &
+      " -v \"" & ccacheDir & "\":/ccache" &
+      " ghcr.io/cobaltgit/quark-core-builder:latest"
+  except OSError as e:
+    echo "error: PCSX build failed"
+    quit(1)
+
+  echo "PCSX built successfully"
