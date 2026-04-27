@@ -136,14 +136,19 @@ fi
 
 case "$EMU" in
     "EBOOKS") run_ebook ;;
-    "MP3") run_mp3 ;;
-    "OPENBOR") run_openbor ;;
-    "PORTS") run_port ;;
-    "PICO8") run_pico8 ;;
     "MEDIA"|"MP3") run_ffplay ;;
+    "OPENBOR") run_openbor ;;
+    "PICO8") run_pico8 ;;
+    "PORTS") run_port ;;
     "PS")
         case "$CORE" in
-            "pcsx_rearmed-sa") run_pcsx ;;
+            "pcsx_rearmed-sa")
+                if [ "${ROM_FILE##*.}" = "m3u" ]; then
+                    display -d 1500 -t "PCSX standalone does not support reading M3U files."
+                    exit 1
+                fi
+                run_pcsx
+                ;;
             "pcsx_rearmed") run_retroarch ;;
         esac
         ;;
