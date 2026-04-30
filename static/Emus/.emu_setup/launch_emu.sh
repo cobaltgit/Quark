@@ -132,7 +132,7 @@ case "$CPU_MODE" in
             set_cpuclock --mode smart --min-freq $CPU_MIN_FREQ
         } &
         ;;
-    performance|maximum)
+    performance|maximum|overclock)
         set_cpuclock --mode "$CPU_MODE"
         ;;
     turbo|overdrive|unstable)

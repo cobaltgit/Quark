@@ -17,7 +17,7 @@ case "$CPU_MODE" in
         NEW_MODE="maximum"
         NEW_DISPLAY="Max"
         ;;
-    "maximum")
+    "maximum"|"overclock")
         NEW_MODE="turbo"
 		NEW_DISPLAY="Turbo"
         ;;
