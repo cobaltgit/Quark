@@ -14,8 +14,12 @@ case "$CPU_MODE" in
         NEW_DISPLAY="Perf"
         ;;
     "performance")
+        NEW_MODE="maximum"
+        NEW_DISPLAY="Max"
+        ;;
+    "maximum")
         NEW_MODE="overclock"
-        NEW_DISPLAY="Overclock"
+		NEW_DISPLAY="Overclock"
         ;;
     "overclock")
         NEW_MODE="smart"
@@ -26,4 +30,8 @@ esac
 sed -i "s|\"CPU:.*\"|\"CPU: $NEW_DISPLAY\"|g" "$CONFIG"
 sed -i "s|CPU_MODE=.*|CPU_MODE=\"$NEW_MODE\"|g" "$OPT"
 
-display -d 1000 -t "CPU mode for $EMU set to $NEW_MODE."
+if [ "$NEW_MODE" = "overclock" ]; then
+    display -d 1000 -t "CPU mode for $EMU set to $NEW_MODE. Please be aware of potential instability that may occur."
+else
+    display -d 1000 -t "CPU mode for $EMU set to $NEW_MODE."
+fi
