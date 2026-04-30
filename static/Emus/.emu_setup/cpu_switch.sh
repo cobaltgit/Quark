@@ -18,20 +18,31 @@ case "$CPU_MODE" in
         NEW_DISPLAY="Max"
         ;;
     "maximum")
-        NEW_MODE="overclock"
-		NEW_DISPLAY="Overclock"
+        NEW_MODE="turbo"
+		NEW_DISPLAY="Turbo"
         ;;
-    "overclock")
+    "turbo")
+        NEW_MODE="overdrive"
+		NEW_DISPLAY="Overdrive"
+        ;;
+    "overdrive")
+        NEW_MODE="unstable"
+    	NEW_DISPLAY="Unstable"
+        ;;
+    "unstable")
         NEW_MODE="smart"
-		NEW_DISPLAY="Smart"
+        NEW_DISPLAY="Smart"
         ;;
 esac
 
 sed -i "s|\"CPU:.*\"|\"CPU: $NEW_DISPLAY\"|g" "$CONFIG"
 sed -i "s|CPU_MODE=.*|CPU_MODE=\"$NEW_MODE\"|g" "$OPT"
 
-if [ "$NEW_MODE" = "overclock" ]; then
-    display -d 1000 -t "CPU mode for $EMU set to $NEW_MODE. Please be aware of potential instability that may occur."
-else
-    display -d 1000 -t "CPU mode for $EMU set to $NEW_MODE."
-fi
+case "$NEW_MODE" in
+    turbo|overdrive|unstable)
+        display -d 1000 -t "CPU mode for $EMU set to $NEW_MODE. This is potentially unstable and will result in reduced battery life."
+        ;;
+    *)
+        display -d 1000 -t "CPU mode for $EMU set to $NEW_MODE."
+        ;;
+esac
