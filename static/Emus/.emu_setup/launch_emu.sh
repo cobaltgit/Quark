@@ -124,15 +124,25 @@ run_pcsx() {
 
 ROM_FILE="$(readlink -f "$1")"
 
-if [ "$CPU_MODE" = "smart" ]; then
-    { # speed up game launch
-        set_cpuclock --mode performance
-        sleep 5
-        set_cpuclock --mode smart --min-freq $CPU_MIN_FREQ
-    } &
-else
-    set_cpuclock --mode "$CPU_MODE"
-fi
+case "$CPU_MODE" in
+    smart)
+        { # speed up game launch
+            set_cpuclock --mode performance
+            sleep 5
+            set_cpuclock --mode smart --min-freq $CPU_MIN_FREQ
+        } &
+        ;;
+    performance|maximum)
+        set_cpuclock --mode "$CPU_MODE"
+        ;;
+    turbo|overdrive|unstable)
+        { # crash prevention
+            set_cpuclock --mode maximum
+            sleep 5
+            set_cpuclock --mode "$CPU_MODE"
+        } &
+        ;;
+esac
 
 case "$EMU" in
     "EBOOKS") run_ebook ;;
