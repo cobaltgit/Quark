@@ -3,6 +3,8 @@ import std/[posix, times, options, monotimes]
 import ../common/evdev
 import handlers
 
+from ../common/fb import FbSize
+
 const
   InputDev = "/dev/input/event0"
 
@@ -96,27 +98,42 @@ proc shouldFire(self: var HotkeyEvent, chordDown: bool): bool =
       return false
 
 proc main() =
-  let fd = posix.open(InputDev, O_RDONLY or O_NONBLOCK)
-  if fd < 0:
-    stderr.writeLine "Failed to open input device"
+  let fbFd = open("/dev/fb0", O_RDONLY)
+  if fbFd < 0:
+    stderr.writeLine "failed to open framebuffer"
     quit(1)
 
-  defer: discard close(fd)
+  let fbMap = mmap(nil, FbSize, PROT_READ, MAP_SHARED, fbFd, 0)
+  if fbMap == MAP_FAILED:
+    discard close(fbFd)
+    stderr.writeLine "failed to mmap framebuffer"
+    quit(1)
+
+  defer:
+    discard munmap(fbMap, FbSize)
+    discard close(fbFd)
+
+  let evFd = posix.open(InputDev, O_RDONLY or O_NONBLOCK)
+  if evFd < 0:
+    stderr.writeLine "failed to open " & InputDev
+    quit(1)
+
+  defer: discard close(evFd)
 
   var pressedKeys = newKeyBitSet()
 
   var hotkeys = @[
-    newPressHotkey(@[KeyCode.KEY_RIGHTCTRL, KeyCode.KEY_PAGEDOWN], screenshotHandler),
+    newPressHotkey(@[KeyCode.KEY_RIGHTCTRL, KeyCode.KEY_PAGEDOWN], proc() = screenshotHandler(fbMap)),
     newPressHotkey(@[KeyCode.KEY_RIGHTCTRL, KeyCode.KEY_PAGEUP], quicksaveHandler),
     newPressHotkey(@[KeyCode.KEY_ENTER, KeyCode.KEY_PAGEUP], killHandler),
     newHoldHotkey(@[KeyCode.KEY_RIGHTCTRL, KeyCode.KEY_ENTER], initDuration(seconds = 10), rebootHandler),
   ]
 
   while true:
-    if pollReadable(fd, 250):
+    if pollReadable(evFd, 250):
       var event: InputEvent
       while true:
-        let bytesRead = read(fd, addr event, sizeof(InputEvent))
+        let bytesRead = read(evFd, addr event, sizeof(InputEvent))
         if bytesRead != sizeof(InputEvent):
           break
 

@@ -1,16 +1,16 @@
 import std/[os, osproc, posix, sets, strformat, strutils, times]
 import ../common/[fb, led, process, reboot]
 
-proc screenshotHandler*() =
+proc screenshotHandler*(fbMap: pointer) =
   setLedTrigger(LedColour.Green, LedTrigger.On)
   let now = now()
   let filename = &"/mnt/SDCARD/Saves/screenshots/Screenshot_{now.year:04}{ord(now.month):02}{now.monthday:02}_{now.hour:02}{now.minute:02}{now.second:02}.png"
-  
+
   try:
-    fbscreenshot(filename)
+    fbscreenshot(fbMap, filename)
   except:
     discard
-  
+
   setLedTrigger(LedColour.Green, LedTrigger.Off)
 
 proc quicksaveHandler*() =
@@ -18,7 +18,7 @@ proc quicksaveHandler*() =
 
 proc killHandler*() =
   var cmdPid = -1
-  
+
   for kind, path in walkDir("/proc"):
     if kind == pcDir:
       let name = path.extractFilename()
@@ -37,7 +37,7 @@ proc killHandler*() =
     var tree = initHashSet[int]()
     tree.incl(cmdPid)
     getProcessChildren(cmdPid, tree)
-    
+
     for pid in tree:
       discard kill(Pid(pid), SIGTERM)
 

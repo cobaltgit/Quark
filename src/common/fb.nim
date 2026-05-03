@@ -44,16 +44,8 @@ proc fbclear*() =
 
   zeroMem(fbMap, FbSize)
 
-proc fbscreenshot*(output: string) =
-  let fbFile = system.open("/dev/fb0", fmRead)
-  defer: fbFile.close()
-
-  var fbData: array[FbSize, uint8]
-  let bytesRead = fbFile.readBuffer(addr fbData[0], fbData.len)
-
-  if bytesRead != fbData.len:
-    raise newException(IOError, "Failed to read complete framebuffer data")
-
+proc fbscreenshot*(fbMap: pointer, output: string) =
+  let fbData = cast[ptr UncheckedArray[uint8]](fbMap)
   var rotatedPixels = newSeqUninit[uint8](FbPixels * 4)
 
   for x in 0..<FbWidth:
