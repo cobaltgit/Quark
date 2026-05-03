@@ -12,7 +12,7 @@ export THEME_PATH="$(awk -F'"' '/"theme":/ {print $4}' "/mnt/UDISK/system.json" 
 # - maximum: constant 1536mhz frequency, best suited for harder to run games (i.e. SNES SuperFX or 3D PSX)
 # - turbo: constant 1632mhz frequency, best suited for the most demanding games. CAUTION: this may cause instability!
 # - overdrive: constant 1728mhz frequency, best suited for the most demanding games. CAUTION: this may cause instability!
-# - unstable: constant 1824mhz frequency, best suited for the most demanding games. CAUTION: this may cause instability!
+# - unstable: constant 1872mhz frequency, best suited for the most demanding games. CAUTION: this may cause instability!
 set_cpuclock() {
     chmod a+w /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
     chmod a+w /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq
@@ -56,7 +56,7 @@ set_cpuclock() {
             ;;
         "unstable")
             echo performance > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
-            devmem 0x01C20000 32 0x80001230 # ditto (1824MHz)
+            devmem 0x01C20000 32 0x80001920 # ditto (1872MHz)
             ;;
     esac
 
