@@ -11,14 +11,6 @@ requires "nimPNG >= 0.3.1"
 
 const Root = getCurrentDir()
 const BinDir = Root / "dist" / "System" / "bin"
-const Bins = {
-  "fbscreenshot.nim": "fbscreenshot",
-  "quark_hotkeyd/main.nim": "quark_hotkeyd",
-  "sysjson_monitor/main.nim": "sysjson_monitor",
-  "mainui_game_picker.nim": "mainui_game_picker",
-  "bootlogo.nim": "bootlogo",
-  "display.nim": "display",
-}.toTable()
 const Threads = gorge("nproc")
 
 # Import task files
@@ -26,9 +18,22 @@ include "tasks/third_party.nims"
 include "tasks/dist.nims"
 include "tasks/locale.nims"
 
-task buildBins, "Build binaries":
-    for src, output in Bins:
-        selfExec &"c -o:{BinDir}/{output} {srcDir}/{src}"
+task buildBins, "Build Quark binaries":
+    for kind, path in walkDir(srcDir):
+        case kind
+        of pcFile:
+            let parts = splitFile(path)
+            if parts.ext == ".nim"
+                echo fmt"compiling {parts.dir}/{parts.name}{parts.ext} to binary {BinDir}/{parts.name}"
+                selfExec fmt"c -o:{BinDir}/{parts.name} {parts.dir}/{parts.name}{parts.ext}"
+        of pcDir:
+            let entryPath = path / "main.nim"
+            if fileExists(entryPath):
+                let binName = entryPath.parentDir().lastPathPart()
+                echo fmt"compiling {entryPath} to binary {BinDir}/{binName}"
+                selfExec fmt"c -o:{BinDir}/{binName} {entryPath}"
+        else:
+            discard
 
 task cleanup, "Cleanup all":
   exec "nimble clean"
