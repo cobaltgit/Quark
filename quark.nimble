@@ -23,7 +23,7 @@ task buildBins, "Build Quark binaries":
         case kind
         of pcFile:
             let parts = splitFile(path)
-            if parts.ext == ".nim"
+            if parts.ext == ".nim":
                 echo fmt"compiling {parts.dir}/{parts.name}{parts.ext} to binary {BinDir}/{parts.name}"
                 selfExec fmt"c -o:{BinDir}/{parts.name} {parts.dir}/{parts.name}{parts.ext}"
         of pcDir:
