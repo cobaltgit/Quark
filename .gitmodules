@@ -1,3 +1,6 @@
+[submodule "modules/third-party/stb"]
+	path = modules/third-party/stb
+	url = https://github.com/nothings/stb
 [submodule "third-party/dropbear"]
 	path = modules/third-party/dropbear
 	url = https://github.com/mkj/dropbear

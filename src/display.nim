@@ -2,7 +2,8 @@ import std/[os, posix, strutils]
 import nimPNG
 
 import common/[fb, process]
-import common/ffi/[stb_truetype, neon_blit]
+import common/ffi/neon_blit
+import common/ffi/stb/[stb_image, stb_truetype]
 
 const
   ScreenWidth  = 320
@@ -161,15 +162,24 @@ proc display*(text: string,
     raise newException(IOError,
       "display: background file not found: " & backgroundPath)
 
-  let png = loadPNG32(backgroundPath)
+  var width, height, channels: cint
+  let background = cast[ptr UncheckedArray[uint8]](stbi_load(
+    backgroundPath,
+    addr width,
+    addr height,
+    addr channels,
+    4
+  ))
 
   zeroMem(fbMap, FbSize)
 
   # commence claude's NEON fuckery
   rgba_to_rgb565(
-    cast[ptr UncheckedArray[uint8]](unsafeAddr png.data[0]),
+    background,
     cast[ptr UncheckedArray[uint16]](addr blitTmp[0]),
-    cint(min(png.width * png.height, FbPixels)))
+    cint(min(width * height, FbPixels)))
+
+  stbi_image_free(background)
 
   blit_transposed(
     cast[ptr UncheckedArray[uint16]](addr blitTmp[0]),
