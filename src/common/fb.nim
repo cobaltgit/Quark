@@ -1,5 +1,5 @@
 import std/posix
-import nimPNG
+import ffi/stb/stb_image
 
 const
   FbWidth* = 240
@@ -66,4 +66,11 @@ proc fbscreenshot*(fbMap: pointer, output: string) =
       rotatedPixels[dstIdx + 2] = FiveToEight[b]
       rotatedPixels[dstIdx + 3] = 255
 
-  discard savePNG32(output, rotatedPixels, FbHeight, FbWidth)
+  discard stbi_write_png(
+    cstring(output),
+    cint(FbHeight),
+    cint(FbWidth),
+    cint(4),
+    addr rotatedPixels[0],
+    cint(FbHeight * 4)
+  )

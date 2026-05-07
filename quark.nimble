@@ -7,7 +7,6 @@ license        = "GPL-3.0"
 srcDir         = "src"
 
 requires "nim >= 2.0.0"
-requires "nimPNG >= 0.3.1"
 
 const Root = getCurrentDir()
 const BinDir = Root / "dist" / "System" / "bin"
