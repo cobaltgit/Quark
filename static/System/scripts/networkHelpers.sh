@@ -22,7 +22,6 @@ setup_syncthing() {
         syncthing generate \
             --gui-user=quark \
             --gui-password=quark \
-            --no-default-folder \
             --home="$SYNCTHING_CONF_DIR" > "$SYNCTHING_LOG_DIR/generate.log" 2>&1 &
         sleep 5
 
