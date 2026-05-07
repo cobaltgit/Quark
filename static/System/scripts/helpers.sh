@@ -48,14 +48,17 @@ set_cpuclock() {
             ;;
         "turbo")
             echo performance > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+            echo 1536000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq # set max freq to 1536MHz to prevent crash
             devmem 0x01C20000 32 0x80001030 # direct PLL_CPUX register manipulation
             ;;
         "overdrive")
             echo performance > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+            echo 1536000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
             devmem 0x01C20000 32 0x80001130 # ditto (1728MHz)
             ;;
         "unstable")
             echo performance > /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor
+            echo 1536000 > /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq
             devmem 0x01C20000 32 0x80001230 # ditto (1824MHz)
             ;;
     esac
