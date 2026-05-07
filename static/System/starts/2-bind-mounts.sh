@@ -17,8 +17,6 @@ BTN_SOUND_APP="/mnt/SDCARD/Apps/BtnSoundToggle"
     mount -o bind "$SDCARD_TRIMUI_DIR/res/lang" "$EMMC_TRIMUI_DIR/res/lang"
 
     mount -o bind "/mnt/SDCARD/System/etc/resolv.conf" "/etc/resolv.conf"
-    mount -o bind "/mnt/SDCARD/System/etc/passwd" "/etc/passwd"
-    mount -o bind "/mnt/SDCARD/System/etc/shadow" "/etc/shadow"
 
     # guest profile saves, favourites and recents lists
     if [ $(get_setting "user" "guest") = "true" ]; then
