@@ -1,6 +1,6 @@
 import std/[os, strformat]
 
-version        = "1.7.0"
+version        = "1.7.1"
 author         = "cobaltgit"
 description    = "Quark stock mod for TrimUI Smart"
 license        = "GPL-3.0"
