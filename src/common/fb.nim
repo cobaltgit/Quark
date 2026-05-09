@@ -45,26 +45,21 @@ proc fbclear*() =
   zeroMem(fbMap, FbSize)
 
 proc fbscreenshot*(fbMap: pointer, output: string) =
-  let fbData = cast[ptr UncheckedArray[uint8]](fbMap)
-  var rotatedPixels = newSeqUninit[uint8](FbPixels * 4)
+  let fbData = cast[ptr UncheckedArray[uint16]](fbMap)
+  var rotatedPixels = newSeqUninit[uint32](FbPixels)
 
   for x in 0..<FbWidth:
     let colBase = x * FbHeight
     var srcBase = x * 2
 
     for y in 0..<FbHeight:
-      let pixel = uint16(fbData[srcBase]) or (uint16(fbData[srcBase + 1]) shl 8)
+      let pixel = fbData[srcBase]
       srcBase += FbWidth * 2
 
-      let r = (pixel shr 11) and 0x1F
-      let g = (pixel shr 5) and 0x3F
-      let b = pixel and 0x1F
-
-      let dstIdx = (colBase + FbHeight - 1 - y) * 4
-      rotatedPixels[dstIdx] = FiveToEight[r]
-      rotatedPixels[dstIdx + 1] = SixToEight[g]
-      rotatedPixels[dstIdx + 2] = FiveToEight[b]
-      rotatedPixels[dstIdx + 3] = 255
+      rotatedPixels[colBase + FbHeight - 1 - y] = uint32(FiveToEight[(pixel shr 11) and 0x1F]) or
+        (uint32(SixToEight[(pixel shr 5) and 0x3F]) shl 8) or
+        (uint32(FiveToEight[pixel and 0x1F]) shl 16) or
+        0xFF000000'u32
 
   discard stbi_write_png(
     cstring(output),
