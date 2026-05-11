@@ -41,13 +41,8 @@ proc set(self: var KeyBitSet, code: KeyCode, down: bool) {.inline.} =
   let idx = uint16(code.ord) shr 6
   let mask = 1'u64 shl (uint16(code.ord) and 63)
 
-  if idx >= uint16(self.bits.len):
-    return
-
-  if down:
-    self.bits[idx] = self.bits[idx] or mask
-  else:
-    self.bits[idx] = self.bits[idx] and (not mask)
+  if idx < uint16(self.bits.len):
+    self.bits[idx] = (self.bits[idx] and not mask) or (uint64(down) and mask)
 
 proc get(self: KeyBitSet, code: KeyCode): bool {.inline.} =
   let idx = uint16(code.ord) shr 6
