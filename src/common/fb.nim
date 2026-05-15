@@ -50,11 +50,11 @@ proc fbscreenshot*(fbMap: pointer, output: string) =
 
   for x in 0..<FbWidth:
     let colBase = x * FbHeight
-    var srcBase = x * 2
+    var srcBase = x
 
     for y in 0..<FbHeight:
       let pixel = fbData[srcBase]
-      srcBase += FbWidth * 2
+      srcBase += FbWidth
 
       rotatedPixels[colBase + FbHeight - 1 - y] = uint32(FiveToEight[(pixel shr 11) and 0x1F]) or
         (uint32(SixToEight[(pixel shr 5) and 0x3F]) shl 8) or
