@@ -1,5 +1,4 @@
 import std/[os, posix, strutils]
-import nimPNG
 
 import common/[fb, process]
 import common/ffi/neon_blit
