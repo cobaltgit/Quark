@@ -10,7 +10,7 @@ const
 
 type
   KeyBitSet = object
-    bits: array[12, uint64]
+    bits: array[24, uint32]
 
   TriggerKind = enum
     tkPress
@@ -35,11 +35,11 @@ type
     state: HotkeyState
 
 proc newKeyBitSet(): KeyBitSet =
-  result.bits = default(array[12, uint64])
+  result.bits = default(array[24, uint32])
 
 proc set(self: var KeyBitSet, code: KeyCode, down: bool) {.inline.} =
-  let idx = uint16(code.ord) shr 6
-  let mask = 1'u64 shl (uint16(code.ord) and 63)
+  let idx = uint16(code.ord) shr 5
+  let mask = 1'u32 shl (uint16(code.ord) and 31)
 
   if idx >= uint16(self.bits.len):
     return
@@ -50,8 +50,8 @@ proc set(self: var KeyBitSet, code: KeyCode, down: bool) {.inline.} =
     self.bits[idx] = self.bits[idx] and (not mask)
 
 proc get(self: KeyBitSet, code: KeyCode): bool {.inline.} =
-  let idx = uint16(code.ord) shr 6
-  let bit = uint16(code.ord) and 63
+  let idx = uint16(code.ord) shr 5
+  let bit = uint16(code.ord) and 31
 
   if idx >= uint16(self.bits.len):
     return false
