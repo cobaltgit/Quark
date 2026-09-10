@@ -23,7 +23,6 @@ gw
 handy
 hatari
 km_mame2003_xtreme_amped
-libgametank
 mame2003_plus
 mednafen_ngp
 mednafen_supergrafx
