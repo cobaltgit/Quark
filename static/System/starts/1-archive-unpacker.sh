@@ -17,5 +17,3 @@ find "$ARCHIVES_FOLDER" -type f -iname "*.zip" | while read -r archive; do
         rm -f "$archive"
     fi
 done > "$ARCHIVE_UNPACK_LOG" 2>&1
-
-display -d 1000 -t "Archive unpacking complete"
