@@ -1,5 +1,6 @@
 a5200
 ardens
+armgba
 atari800
 bluemsx
 cap32
