@@ -11,7 +11,8 @@ OPT="/mnt/SDCARD/Emus/.emu_setup/opts/${EMU}.opt"
 case "$EMU" in
     "FC"|"FDS")
         case "$CORE" in
-            "fceumm") NEW_CORE="nestopia" DISPLAY="Core: Nestopia" ;;
+            "fceumm") NEW_CORE="armnes" DISPLAY="Core: armNES" ;;
+            "armnes") NEW_CORE="nestopia" DISPLAY="Core: Nestopia" ;;
             "nestopia") NEW_CORE="fceumm" DISPLAY="Core: FCEUmm" ;;
         esac
         ;;
